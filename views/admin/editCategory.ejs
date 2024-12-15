@@ -1,0 +1,123 @@
+<%- include("../../views/partials/admin/header") %>
+
+
+    <div class="container">
+        <!-- Edit Category Modal -->
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Edit Category Modal -->
+                    <div class="modal fade" id="editCategoryModal" tabindex="-1"
+                        aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editCategoryForm">
+                                        <input type="hidden" id="editCategoryId" name="id">
+                                        <div class="mb-3">
+                                            <label for="editCategoryTitle" class="form-label">Title</label>
+                                            <input type="text" class="form-control" id="editCategoryTitle" name="name"
+                                                required>
+                                            <div id="editNameError" class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editCategoryDescription" class="form-label">Description</label>
+                                            <div class="form-control p-0 pt-1">
+                                                <div class="comment-editor border-0 ql-container ql-snow"
+                                                    id="editDescriptionId">
+                                                    <div class="ql-editor ql-blank" data-gramm="false"
+                                                        contenteditable="true" data-placeholder="Write a Comment...">
+                                                        <p><br></p>
+                                                    </div>
+                                                    <div class="ql-clipboard" contenteditable="true" tabindex="-1">
+                                                    </div>
+                                                    <div class="ql-tooltip ql-hidden">
+                                                        <a class="ql-preview" rel="noopener noreferrer" target="_blank"
+                                                            href="about:blank"></a>
+                                                        <input type="text" data-formula="e=mc^2"
+                                                            data-link="https://quilljs.com" data-video="Embed URL">
+                                                        <a class="ql-action"></a>
+                                                        <a class="ql-remove"></a>
+                                                    </div>
+                                                </div>
+                                                <div id="editDescriptionError" class="invalid-feedback"></div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editCategoryStatus" class="form-label">Status</label>
+                                            <select class="form-select" id="editCategoryStatus" name="status" required>
+                                                <option value="active">Active</option>
+                                                <option value="inactive">Inactive</option>
+                                            </select>
+                                            <div id="editStatusError" class="invalid-feedback"></div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" id="saveEditedCategory">Save
+                                        Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+
+    <script>
+        // Function to populate the edit modal with category data
+        function showEditModal(categoryId) {
+            fetch(`/admin/categories/${categoryId}`)
+                .then(response => response.json())
+                .then(category => {
+                    document.getElementById('editCategoryId').value = category._id;
+                    document.getElementById('editCategoryTitle').value = category.name;
+                    const editQuill = new Quill('#editDescriptionId', { theme: 'snow' });
+                    editQuill.setText(category.description);
+                    document.getElementById('editCategoryStatus').value = category.status;
+                    $('#editCategoryModal').modal('show');
+                })
+                .catch(error => {
+                    console.error('Error fetching category:', error);
+                });
+        }
+
+
+        // Function to handle the save button click in the edit modal
+        document.getElementById('saveEditedCategory').addEventListener('click', () => {
+            const id = document.getElementById('editCategoryId').value;
+            const name = document.getElementById('editCategoryTitle').value.trim();
+            const description = document.querySelector('#editDescriptionId .ql-editor').innerHTML.trim();
+            const status = document.getElementById('editCategoryStatus').value;
+
+            fetch('/admin/editCategory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id, name, description, status })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    $('#editCategoryModal').modal('hide');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error editing category:', error);
+                });
+        });
+    </script>

@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+
+
+
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr"
+  data-theme="theme-default" data-assets-path="/dashboard-assets/" data-template="vertical-menu-template"
+  data-style="light">
+
+
+<!-- Mirrored from demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-category-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Jun 2024 05:50:32 GMT -->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+  <title>eCommerce Category List - Apps | Materio - Bootstrap Material Design Admin Template</title>
+
+
+  <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
+  <meta name="keywords"
+    content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+  <!-- Canonical SEO -->
+  <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
+
+
+  <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          '../../../../www.googletagmanager.com/gtm5445.html?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-5DDHKGP');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon"
+    href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap"
+    rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/remixicon/remixicon.css" />
+  <link rel="stylesheet" href="/dashboard-assets/vendor/fonts/flag-icons.css" />
+
+  <!-- Menu waves for no-customizer fix -->
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/node-waves/node-waves.css" />
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="/dashboard-assets/vendor/css/rtl/theme-default.css"
+    class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="/dashboard-assets/css/demo.css" />
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/typeahead-js/typeahead.css" />
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css">
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/select2/select2.css">
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/%40form-validation/form-validation.css">
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/quill/typography.css">
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/quill/katex.css">
+  <link rel="stylesheet" href="/dashboard-assets/vendor/libs/quill/editor.css">
+
+  <!-- Page CSS -->
+
+  <link rel="stylesheet" href="/dashboard-assets/vendor/css/pages/app-ecommerce.css">
+
+  <!-- Helpers -->
+  <script src="/dashboard-assets/vendor/js/helpers.js"></script>
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+  <script src="/dashboard-assets/vendor/js/template-customizer.js"></script>
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="/dashboard-assets/js/config.js"></script>
+
+
+  <style>
+    /* Fix Quill editor height and borders */
+.ql-container {
+    height: calc(100% - 42px); /* Subtract toolbar height */
+}
+
+.ql-toolbar {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.ql-container {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/* Error message styling */
+.invalid-feedback {
+    display: none;
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: 0.25rem;
+}
+
+/* Show error messages when needed */
+.was-validated .form-control:invalid ~ .invalid-feedback,
+.was-validated .form-select:invalid ~ .invalid-feedback,
+.form-control.is-invalid ~ .invalid-feedback,
+.form-select.is-invalid ~ .invalid-feedback {
+    display: block;
+}
+  </style>
+
+</head>
+
+<body>
+
+
+  <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0"
+      style="display: none; visibility: hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar  ">
+    <div class="layout-container">
+
+
+
+
+
+
+
+      <!-- Menu -->
+
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+
+
+        <div class="app-brand demo ">
+          <a href="index.html" class="app-brand-link">
+            <span class="app-brand-logo demo me-1">
+              <span style="color:var(--bs-primary);">
+                <svg width="30" height="24" viewBox="0 0 250 196" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M12.3002 1.25469L56.655 28.6432C59.0349 30.1128 60.4839 32.711 60.4839 35.5089V160.63C60.4839 163.468 58.9941 166.097 56.5603 167.553L12.2055 194.107C8.3836 196.395 3.43136 195.15 1.14435 191.327C0.395485 190.075 0 188.643 0 187.184V8.12039C0 3.66447 3.61061 0.0522461 8.06452 0.0522461C9.56056 0.0522461 11.0271 0.468577 12.3002 1.25469Z"
+                    fill="currentColor" />
+                  <path opacity="0.077704" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M0 65.2656L60.4839 99.9629V133.979L0 65.2656Z" fill="black" />
+                  <path opacity="0.077704" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M0 65.2656L60.4839 99.0795V119.859L0 65.2656Z" fill="black" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M237.71 1.22393L193.355 28.5207C190.97 29.9889 189.516 32.5905 189.516 35.3927V160.631C189.516 163.469 191.006 166.098 193.44 167.555L237.794 194.108C241.616 196.396 246.569 195.151 248.856 191.328C249.605 190.076 250 188.644 250 187.185V8.09597C250 3.64006 246.389 0.027832 241.935 0.027832C240.444 0.027832 238.981 0.441882 237.71 1.22393Z"
+                    fill="currentColor" />
+                  <path opacity="0.077704" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M250 65.2656L189.516 99.8897V135.006L250 65.2656Z" fill="black" />
+                  <path opacity="0.077704" fill-rule="evenodd" clip-rule="evenodd"
+                    d="M250 65.2656L189.516 99.0497V120.886L250 65.2656Z" fill="black" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M12.2787 1.18923L125 70.3075V136.87L0 65.2465V8.06814C0 3.61223 3.61061 0 8.06452 0C9.552 0 11.0105 0.411583 12.2787 1.18923Z"
+                    fill="currentColor" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M12.2787 1.18923L125 70.3075V136.87L0 65.2465V8.06814C0 3.61223 3.61061 0 8.06452 0C9.552 0 11.0105 0.411583 12.2787 1.18923Z"
+                    fill="white" fill-opacity="0.15" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
+                    fill="currentColor" />
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
+                    fill="white" fill-opacity="0.3" />
+                </svg>
+              </span>
+            </span>
+            <span class="app-brand-text demo menu-text fw-semibold ms-2">Materio</span>
+          </a>
+
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+            <i class="menu-toggle-icon d-xl-block align-middle"></i>
+          </a>
+        </div>
+
+        <div class="menu-inner-shadow"></div>
+
+
+
+        <ul class="menu-inner py-1">
+
+          <!-- e-commerce-app menu start -->
+          <li class="menu-item active open">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
+              <div data-i18n="eCommerce">eCommerce</div>
+            </a>
+            <ul class="menu-sub">
+              <li class="menu-item">
+                <a href="app-ecommerce-dashboard.html" class="menu-link">
+                  <div data-i18n="Dashboard">Dashboard</div>
+                </a>
+              </li>
+              <li class="menu-item active open">
+                <a href="/admin/products" class="menu-link menu-toggle">
+                  <div data-i18n="Products">Products</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="app-ecommerce-product-list.html" class="menu-link">
+                      <div data-i18n="Product List">Product List</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="/admin/addProducts" class="menu-link">
+                      <div data-i18n="Add Product">Add Product</div>
+                    </a>
+                  </li>
+                  <li class="menu-item active">
+                    <a href="/admin/category" class="menu-link">
+                      <div data-i18n="Category List">Category List</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <div data-i18n="Order">Order</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="/admin/adminOrder" class="menu-link">
+                      <div data-i18n="Order List">Order List</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="app-ecommerce-order-details.html" class="menu-link">
+                      <div data-i18n="Order Details">Order Details</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <div data-i18n="Customer">Customer</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="/admin/customers" class="menu-link">
+                      <div data-i18n="All Customers">All Customers</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                      <div data-i18n="Customer Details">Customer Details</div>
+                    </a>
+                    <ul class="menu-sub">
+                      <li class="menu-item">
+                        <a href="app-ecommerce-customer-details-overview.html" class="menu-link">
+                          <div data-i18n="Overview">Overview</div>
+                        </a>
+                      </li>
+                      <li class="menu-item">
+                        <a href="app-ecommerce-customer-details-security.html" class="menu-link">
+                          <div data-i18n="Security">Security</div>
+                        </a>
+                      </li>
+                      <li class="menu-item">
+                        <a href="app-ecommerce-customer-details-billing.html" class="menu-link">
+                          <div data-i18n="Address & Billing">Address & Billing</div>
+                        </a>
+                      </li>
+                      <li class="menu-item">
+                        <a href="app-ecommerce-customer-details-notifications.html" class="menu-link">
+                          <div data-i18n="Notifications">Notifications</div>
+                        </a>
+                      </li>
+
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="menu-item">
+                <a href="app-ecommerce-manage-reviews.html" class="menu-link">
+                  <div data-i18n="Manage Reviews">Manage Reviews</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="app-ecommerce-referral.html" class="menu-link">
+                  <div data-i18n="Referrals">Referrals</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <div data-i18n="Settings">Settings</div>
+                </a>
+                <ul class="menu-sub">
+                  <li class="menu-item">
+                    <a href="app-ecommerce-settings-detail.html" class="menu-link">
+                      <div data-i18n="Store Details">Store Details</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="app-ecommerce-settings-payments.html" class="menu-link">
+                      <div data-i18n="Payments">Payments</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="app-ecommerce-settings-checkout.html" class="menu-link">
+                      <div data-i18n="Checkout">Checkout</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="app-ecommerce-settings-shipping.html" class="menu-link">
+                      <div data-i18n="Shipping & Delivery">Shipping & Delivery</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="app-ecommerce-settings-locations.html" class="menu-link">
+                      <div data-i18n="Locations">Locations</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="app-ecommerce-settings-notifications.html" class="menu-link">
+                      <div data-i18n="Notifications">Notifications</div>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <!-- e-commerce-app menu end -->
+
+
+
+
+      </aside>
+      <!-- / Menu -->
+
+
+
+      <!-- Layout container -->
+      <div class="layout-page">
+
+
+
+
+
+        <!-- Navbar -->
+
+        <nav
+          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+          id="layout-navbar">
+
+
+
+
+
+
+
+
+
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
+            <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+              <i class="ri-menu-fill ri-24px"></i>
+            </a>
+          </div>
+
+
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+
+            <!-- Search -->
+            <div class="navbar-nav align-items-center">
+              <!-- <div class="nav-item navbar-search-wrapper mb-0">
+                <a class="nav-item nav-link search-toggler fw-normal px-0" href="javascript:void(0);">
+                  <i class="ri-search-line ri-22px scaleX-n1-rtl me-1_5"></i>
+                  <span class="d-none d-md-inline-block text-muted ms-1_5">Search (Ctrl+/)</span>
+                </a>
+              </div> -->
+            </div>
+            <!-- /Search -->
+
+
+
+
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+
+
+              <!-- Language -->
+              <li class="nav-item dropdown-language dropdown">
+                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                  href="javascript:void(0);" data-bs-toggle="dropdown">
+                  <i class='ri-translate-2 ri-22px'></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end py-2">
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-language="en" data-text-direction="ltr">
+                      <span class="align-middle">English</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-language="fr" data-text-direction="ltr">
+                      <span class="align-middle">French</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-language="ar" data-text-direction="rtl">
+                      <span class="align-middle">Arabic</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-language="de" data-text-direction="ltr">
+                      <span class="align-middle">German</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!--/ Language -->
+
+              <!-- Style Switcher -->
+              <li class="nav-item dropdown-style-switcher dropdown">
+                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                  href="javascript:void(0);" data-bs-toggle="dropdown">
+                  <i class='ri-22px'></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                      <span class="align-middle"><i class='ri-sun-line ri-22px me-3'></i>Light</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                      <span class="align-middle"><i class="ri-moon-clear-line ri-22px me-3"></i>Dark</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                      <span class="align-middle"><i class="ri-computer-line ri-22px me-3"></i>System</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- / Style Switcher-->
+
+              <!-- Quick links  -->
+              <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown">
+                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                  href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                  aria-expanded="false">
+                  <i class='ri-star-smile-line ri-22px'></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end py-0">
+                  <div class="dropdown-menu-header border-bottom py-50">
+                    <div class="dropdown-header d-flex align-items-center py-2">
+                      <h6 class="mb-0 me-auto">Shortcuts</h6>
+                      <a href="javascript:void(0)"
+                        class="btn btn-text-secondary rounded-pill btn-icon dropdown-shortcuts-add"
+                        data-bs-toggle="tooltip" data-bs-placement="top" title="Add shortcuts"><i
+                          class="ri-layout-grid-line ri-24px text-heading"></i></a>
+                    </div>
+                  </div>
+                  <div class="dropdown-shortcuts-list scrollable-container">
+                    <div class="row row-bordered overflow-visible g-0">
+                      <div class="dropdown-shortcuts-item col">
+                        <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                          <i class="ri-calendar-line ri-26px text-heading"></i>
+                        </span>
+                        <a href="app-calendar.html" class="stretched-link">Calendar</a>
+                        <small>Appointments</small>
+                      </div>
+                      <div class="dropdown-shortcuts-item col">
+                        <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                          <i class="ri-file-text-line ri-26px text-heading"></i>
+                        </span>
+                        <a href="app-invoice-list.html" class="stretched-link">Invoice App</a>
+                        <small>Manage Accounts</small>
+                      </div>
+                    </div>
+                    <div class="row row-bordered overflow-visible g-0">
+                      <div class="dropdown-shortcuts-item col">
+                        <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                          <i class="ri-user-line ri-26px text-heading"></i>
+                        </span>
+                        <a href="app-user-list.html" class="stretched-link">User App</a>
+                        <small>Manage Users</small>
+                      </div>
+                      <div class="dropdown-shortcuts-item col">
+                        <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                          <i class="ri-computer-line ri-26px text-heading"></i>
+                        </span>
+                        <a href="app-access-roles.html" class="stretched-link">Role Management</a>
+                        <small>Permission</small>
+                      </div>
+                    </div>
+                    <div class="row row-bordered overflow-visible g-0">
+                      <div class="dropdown-shortcuts-item col">
+                        <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                          <i class="ri-pie-chart-2-line ri-26px text-heading"></i>
+                        </span>
+                        <a href="index.html" class="stretched-link">Dashboard</a>
+                        <small>Analytics</small>
+                      </div>
+                      <div class="dropdown-shortcuts-item col">
+                        <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                          <i class="ri-settings-4-line ri-26px text-heading"></i>
+                        </span>
+                        <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
+                        <small>Account Settings</small>
+                      </div>
+                    </div>
+                    <div class="row row-bordered overflow-visible g-0">
+                      <div class="dropdown-shortcuts-item col">
+                        <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                          <i class="ri-question-line ri-26px text-heading"></i>
+                        </span>
+                        <a href="pages-faq.html" class="stretched-link">FAQs</a>
+                        <small class="text-muted mb-0">FAQs & Articles</small>
+                      </div>
+                      <div class="dropdown-shortcuts-item col">
+                        <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                          <i class="ri-tv-2-line ri-26px text-heading"></i>
+                        </span>
+                        <a href="modal-examples.html" class="stretched-link">Modals</a>
+                        <small>Useful Popups</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <!-- Quick links -->
+
+              <!-- Notification -->
+              <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
+                <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                  href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                  aria-expanded="false">
+                  <i class="ri-notification-2-line ri-22px"></i>
+                  <span
+                    class="position-absolute top-0 start-50 translate-middle-y badge badge-dot bg-danger mt-2 border"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end py-0">
+                  <li class="dropdown-menu-header border-bottom">
+                    <div class="dropdown-header d-flex align-items-center py-3">
+                      <h6 class="mb-0 me-auto">Notification</h6>
+                      <div class="d-flex align-items-center">
+                        <span class="badge rounded-pill bg-label-primary me-2">8 New</span>
+                        <a href="javascript:void(0)"
+                          class="btn btn-text-secondary rounded-pill btn-icon dropdown-notifications-all"
+                          data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read"><i
+                            class="ri-mail-open-line ri-20px text-body"></i></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="dropdown-notifications-list scrollable-container">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="small mb-1">Congratulation Lettie 🎉</h6>
+                            <small class="mb-1 d-block text-body">Won the monthly best seller gold badge</small>
+                            <small class="text-muted">1h ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <span class="avatar-initial rounded-circle bg-label-danger">CF</span>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1 small">Charles Franklin</h6>
+                            <small class="mb-1 d-block text-body">Accepted your connection</small>
+                            <small class="text-muted">12hr ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <img src="/dashboard-assets/img/avatars/2.png" alt class="w-px-40 h-auto rounded-circle">
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1 small">New Message ✉️</h6>
+                            <small class="mb-1 d-block text-body">You have new message from Natalie</small>
+                            <small class="text-muted">1h ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <span class="avatar-initial rounded-circle bg-label-success"><i
+                                  class="ri-shopping-cart-2-line"></i></span>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1 small">Whoo! You have new order 🛒 </h6>
+                            <small class="mb-1 d-block text-body">ACME Inc. made new order $1,154</small>
+                            <small class="text-muted">1 day ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <img src="/dashboard-assets/img/avatars/9.png" alt class="w-px-40 h-auto rounded-circle">
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1 small">Application has been approved 🚀 </h6>
+                            <small class="mb-1 d-block text-body">Your ABC project application has been
+                              approved.</small>
+                            <small class="text-muted">2 days ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <span class="avatar-initial rounded-circle bg-label-success"><i
+                                  class="ri-pie-chart-2-line"></i></span>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1 small">Monthly report is generated</h6>
+                            <small class="mb-1 d-block text-body">July monthly financial report is generated </small>
+                            <small class="text-muted">3 days ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <img src="/dashboard-assets/img/avatars/5.png" alt class="w-px-40 h-auto rounded-circle">
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1 small">Send connection request</h6>
+                            <small class="mb-1 d-block text-body">Peter sent you connection request</small>
+                            <small class="text-muted">4 days ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <img src="/dashboard-assets/img/avatars/6.png" alt class="w-px-40 h-auto rounded-circle">
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1 small">New message from Jane</h6>
+                            <small class="mb-1 d-block text-body">Your have new message from Jane</small>
+                            <small class="text-muted">5 days ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                              <span class="avatar-initial rounded-circle bg-label-warning"><i
+                                  class="ri-error-warning-line"></i></span>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1 small">CPU is running high</h6>
+                            <small class="mb-1 d-block text-body">CPU Utilization Percent is currently at
+                              88.63%,</small>
+                            <small class="text-muted">5 days ago</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span
+                                class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive"><span
+                                class="ri-close-line"></span></a>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="border-top">
+                    <div class="d-grid p-4">
+                      <a class="btn btn-primary btn-sm d-flex" href="javascript:void(0);">
+                        <small class="align-middle">View all notifications</small>
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!--/ Notification -->
+
+              <!-- User -->
+              <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
+                  <div class="avatar avatar-online">
+                    <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
+                  </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+                  <li>
+                    <a class="dropdown-item" href="pages-account-settings-account.html">
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-2">
+                          <div class="avatar avatar-online">
+                            <img src="/dashboard-assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle">
+                          </div>
+                        </div>
+                        <div class="flex-grow-1">
+                          <h6 class="mb-0 small">John Doe</h6>
+                          <small class="text-muted">Admin</small>
+
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <div class="dropdown-divider"></div>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="pages-profile-user.html">
+                      <i class="ri-user-3-line ri-22px me-2"></i>
+                      <span class="align-middle">My Profile</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="pages-account-settings-account.html">
+                      <i class="ri-settings-4-line ri-22px me-2"></i>
+                      <span class="align-middle">Settings</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="pages-account-settings-billing.html">
+                      <span class="d-flex align-items-center align-middle">
+                        <i class="flex-shrink-0 ri-file-text-line ri-22px me-2"></i>
+                        <span class="flex-grow-1 align-middle">Billing</span>
+                        <span
+                          class="flex-shrink-0 badge badge-center rounded-pill bg-danger h-px-20 d-flex align-items-center justify-content-center">4</span>
+                      </span>
+                    </a>
+                  </li>
+                  <li>
+                    <div class="dropdown-divider"></div>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="pages-pricing.html">
+                      <i class="ri-money-dollar-circle-line ri-22px me-2"></i>
+                      <span class="align-middle">Pricing</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="pages-faq.html">
+                      <i class="ri-question-line ri-22px me-2"></i>
+                      <span class="align-middle">FAQ</span>
+                    </a>
+                  </li>
+                  <li>
+                    <div class="d-grid px-4 pt-2 pb-1">
+                      <a class="btn btn-danger d-flex" href="auth-login-cover.html" target="_blank">
+                        <small class="align-middle">Logout</small>
+                        <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <!--/ User -->
+
+
+
+            </ul>
+          </div>
+
+
+          <!-- Search Small Screens -->
+          <div class="navbar-search-wrapper search-input-wrapper  d-none">
+            <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..."
+              aria-label="Search...">
+            <i class="ri-close-fill search-toggler cursor-pointer"></i>
+          </div>
+
+
+
+        </nav>
+
+        <!-- / Navbar -->
+
+
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+
+          <!-- Content -->
+
+          <div class="content-wrapper">
+
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+
+
+              <div class="app-ecommerce-category">
+                <!-- Category List Table -->
+                <div class="card">
+                  <div class="card-datatable table-responsive">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                      <div class="card-header d-flex rounded-0 flex-wrap py-0 pb-5 pb-md-0">
+                        <div class="me-5 ms-n2">
+                          <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                            <label>
+                              <input type="search" class="form-control form-control-sm" placeholder="Search"
+                                aria-controls="DataTables_Table_0">
+                            </label>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-start justify-content-md-end align-items-baseline">
+                          <button class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light"
+                            type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasEcommerceCategoryList">
+                            <span><i class="ri-add-line me-0 me-sm-1"></i><span class="d-none d-sm-inline-block">Add
+                                Category</span></span>
+                          </button>
+                        </div>
+                      </div>
+                      <table class="datatables-category-list table dataTable no-footer" id="DataTables_Table_0">
+                        <thead>
+                          <tr>
+                            <th class="sorting sorting_desc text-start" aria-sort="descending">Name</th>
+                            <th class="sorting text-start">Description</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-lg-center">Edit</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% cat.reverse().forEach((category) => { %>
+                            <tr>
+                              <td class="text-start"><%= category.name %></td>
+                              <td class="text-start"><%= category.description %></td>
+                              <td class="text-center">
+                                <button class="btn <%= category.status === 'active' ? 'btn-success' : 'btn-secondary' %> btn-sm">
+                                  <%= category.status === 'active' ? 'Active' : 'Inactive' %>
+                                </button>
+                              </td>
+                              <td class="text-center">
+                                <button class="btn btn-info btn-sm edit-btn" onclick="openEditModal('<%= category._id %>', '<%= category.name %>', '<%= category.description %>', '<%= category.status %>')">Edit</button>
+                              </td>
+                            </tr>
+                          <% }) %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+              
+                  <!-- Offcanvas to add new category -->
+                  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEcommerceCategoryList">
+                    <div class="offcanvas-header py-6">
+                        <h5 class="offcanvas-title">Add Category</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body border-top">
+                        <form id="eCommerceCategoryListForm" class="needs-validation" novalidate>
+                            <div class="form-floating mb-4">
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="ecommerce-category-title" 
+                                    placeholder="Enter category title"
+                                    required
+                                >
+                                <label for="ecommerce-category-title">Title</label>
+                                <div id="name-error" class="invalid-feedback"></div>
+                            </div>
+                
+                            <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <div id="descriptionId" style="height: 150px;" class="border rounded-2"></div>
+                                <div id="description-error" class="invalid-feedback"></div>
+                            </div>
+                
+                            <div class="form-floating mb-4">
+                                <select class="form-select" id="ecommerce-category-status" required>
+                                    <option value="" disabled selected>Select status</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                                <label for="ecommerce-category-status">Status</label>
+                                <div id="status-error" class="invalid-feedback"></div>
+                            </div>
+                
+                            <div class="d-flex gap-3">
+                                <button type="submit" class="btn btn-primary">Add</button>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">Discard</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                </div>
+              </div>
+              <!-- Edit Category Modal -->
+              <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editCategoryForm" method="post" action="/admin/editCategory">
+                                <input type="hidden" id="edit-category-id" name="id">
+                                <div class="mb-3">
+                                    <label for="edit-category-name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="edit-category-name" name="name">
+                                    <div id="name-error" class="fv-plugins-message-container" style="display:none; color:red;"></div> <!-- Error message for name -->
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-category-description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="edit-category-description" name="description"></textarea>
+                                    <div id="description-error" class="fv-plugins-message-container" style="display:none; color:red;"></div> <!-- Error message for description -->
+                                </div>
+                                <div class="mb-3">
+                                    <label for="edit-category-status" class="form-label">Status</label>
+                                    <select class="form-select" id="edit-category-status" name="status">
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+              <!-- / Content -->
+              <!-- Footer -->
+              <footer class="content-footer footer bg-footer-theme">
+                <div class="container-xxl">
+
+                </div>
+              </footer>
+              <!-- / Footer -->
+
+
+              <div class="content-backdrop fade"></div>
+            </div>
+            <!-- / Content -->
+
+
+
+
+            <!-- Footer -->
+            <footer class="content-footer footer bg-footer-theme">
+              <div class="container-xxl">
+                <div
+                  class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
+                  <div class="text-body mb-2 mb-md-0">
+                    ©
+                    <script>
+                      document.write(new Date().getFullYear())
+
+                    </script>, made with <span class="text-danger"><i class="tf-icons ri-heart-fill"></i></span> by <a
+                      href="https://themeselection.com/" target="_blank" class="footer-link">ThemeSelection</a>
+                  </div>
+                  <div class="d-none d-lg-inline-block">
+
+                    <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                    <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+
+                    <a href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/"
+                      target="_blank" class="footer-link me-4">Documentation</a>
+
+
+                    <a href="https://themeselection.com/support/" target="_blank"
+                      class="footer-link d-none d-sm-inline-block">Support</a>
+
+                  </div>
+                </div>
+              </div>
+            </footer>
+            <!-- / Footer -->
+
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+
+
+      <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+      <div class="drag-target"></div>
+
+    </div>
+    <!-- / Layout wrapper -->
+
+
+
+
+
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
+    <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
+    <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="/dashboard-assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="/dashboard-assets/vendor/libs/moment/moment.js"></script>
+    <script src="/dashboard-assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    <script src="/dashboard-assets/vendor/libs/select2/select2.js"></script>
+    <script src="/dashboard-assets/vendor/libs/%40form-validation/popular.js"></script>
+    <script src="/dashboard-assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
+    <script src="/dashboard-assets/vendor/libs/%40form-validation/auto-focus.js"></script>
+    <script src="/dashboard-assets/vendor/libs/quill/katex.js"></script>
+    <script src="/dashboard-assets/vendor/libs/quill/quill.js"></script>
+
+    <!-- Main JS -->
+    <script src="/dashboard-assets/js/main.js"></script>
+
+    <!-- Page JS -->
+
+
+
+
+
+
+<!-- SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<script>
+// Initialize Quill with minimal toolbar options
+const quill = new Quill('#descriptionId', {
+    theme: 'snow',
+    placeholder: 'Enter description...',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline'],
+            ['clean'] // This adds a remove formatting button
+        ]
+    }
+});
+
+function handleFormSubmit(event) {
+    event.preventDefault();
+    
+    // Remove any existing error messages
+    clearErrorMessages();
+    
+    const name = document.querySelector("#ecommerce-category-title").value.trim();
+    const description = quill.getText().trim();
+    const status = document.querySelector("#ecommerce-category-status").value;
+    
+    // Validate form
+    let isValid = true;
+    
+    if (!name) {
+        displayErrorMessage("name-error", "Please enter a name");
+        isValid = false;
+    } else if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
+        displayErrorMessage("name-error", "Category name should contain only letters, numbers and spaces");
+        isValid = false;
+    }
+    
+    if (!description) {
+        displayErrorMessage("description-error", "Please enter a description");
+        isValid = false;
+    }
+    
+    if (!status) {
+        displayErrorMessage("status-error", "Please select a status");
+        isValid = false;
+    }
+    
+    if (!isValid) return;
+
+    // Close the offcanvas before showing SweetAlert
+    const offcanvas = document.querySelector('#offcanvasEcommerceCategoryList');
+    const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvas);
+    if (bsOffcanvas) {
+        bsOffcanvas.hide();
+    }
+
+    // Submit form if validation passes
+    fetch("/admin/addCategory", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, description, status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            throw new Error(data.error);
+        }
+
+        // Display SweetAlert after offcanvas closes
+        bsOffcanvas._element.addEventListener('hidden.bs.offcanvas', () => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Category added successfully!',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                // Reset form
+                resetForm();
+                // Reload page
+                location.reload();
+            });
+        }, { once: true });
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'Failed to add category'
+        });
+    });
+}
+
+function displayErrorMessage(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = "block";
+        
+        // Add error class to the corresponding input
+        const inputId = elementId.replace('-error', '');
+        const inputElement = document.getElementById(inputId);
+        if (inputElement) {
+            inputElement.classList.add('is-invalid');
+        }
+    }
+}
+
+function clearErrorMessages() {
+    // Remove all error messages
+    document.querySelectorAll('.invalid-feedback').forEach(element => {
+        element.style.display = 'none';
+    });
+    
+    // Remove error classes from inputs
+    document.querySelectorAll('.form-control, .form-select').forEach(input => {
+        input.classList.remove('is-invalid');
+    });
+}
+
+function resetForm() {
+    const form = document.getElementById('eCommerceCategoryListForm');
+    form.reset();
+    quill.setText('');
+    clearErrorMessages();
+}
+
+// Initialize event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('eCommerceCategoryListForm');
+    form.addEventListener('submit', handleFormSubmit);
+    
+    // Reset form when offcanvas is closed
+    const offcanvas = document.querySelector('#offcanvasEcommerceCategoryList');
+    offcanvas.addEventListener('hidden.bs.offcanvas', resetForm);
+});
+
+
+
+
+
+  // <!-- Script to Handle Edit Modal -->
+
+    // Function to open the modal and populate it with data
+    function openEditModal(id, name, description, status) {
+        // Populate modal fields with category data
+        document.getElementById("edit-category-id").value = id;
+        document.getElementById("edit-category-name").value = name;
+        document.getElementById("edit-category-description").value = description;
+        document.getElementById("edit-category-status").value = status;
+
+        // Open the modal
+        var editModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+        editModal.show();
+    }
+
+    // Handle form submission
+    document.getElementById('editCategoryForm').addEventListener('submit', async function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Validate the form
+        if (!validateForm()) {
+            return; // Stop further execution if validation fails
+        }
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData);
+
+        try {
+            const response = await fetch('/admin/editCategory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Check response and handle errors
+            if (!response.ok) {
+                const result = await response.json(); // Get the error response
+                Swal.fire({
+                    title: 'Error!',
+                    text: result.error, // Use the error message from the backend
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                });
+                return; // Stop further execution on error
+            }
+
+            const result = await response.json();
+            // Close the modal before showing SweetAlert
+            var editModal = bootstrap.Modal.getInstance(document.getElementById('editCategoryModal'));
+            if (editModal) {
+                editModal.hide(); // Hide the modal
+            }
+
+            // Show success alert
+            Swal.fire({
+                title: 'Success!',
+                text: result.message,
+                icon: 'success',
+                confirmButtonText: 'OK',
+            }).then(() => {
+                window.location.href = '/admin/category'; // Redirect to category page
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An unexpected error occurred. Please try again later.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+        }
+    });
+
+    // Validation function
+    function validateForm() {
+        clearErrorMessages(); // Clear previous error messages
+        const name = document.querySelector("#edit-category-name").value.trim();
+        const description = document.querySelector("#edit-category-description").value.trim();
+        const status = document.querySelector("#edit-category-status").value;
+        let isValid = true;
+
+        if (!name) {
+            displayErrorMessage("name-error", "Please enter a name");
+            isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+            displayErrorMessage("name-error", "Category name should contain only alphabetic characters");
+            isValid = false;
+        }
+
+        if (!description) {
+            displayErrorMessage("description-error", "Please enter a description");
+            isValid = false;
+        }
+
+        if (!status) {
+            displayErrorMessage("status-error", "Please select a status");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function displayErrorMessage(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.innerText = message;
+        errorElement.style.display = "block"; // Show the error message
+    }
+
+    function clearErrorMessages() {
+        document.querySelectorAll(".fv-plugins-message-container").forEach(element => {
+            element.innerText = "";
+            element.style.display = "none"; // Hide previous error messages
+        });
+    }
+
+
+    </script>
+
+
+</body>
+
+
+<!-- Mirrored from demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-category-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Jun 2024 05:50:32 GMT -->
+
+</html>
+
+<!-- beautify ignore:end -->

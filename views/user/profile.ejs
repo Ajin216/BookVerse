@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>BOOKVERSE</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+
+    <!-- Add in your header -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+    <style>
+        .profile-container {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .profile-title {
+            color: #333;
+            font-weight: 600;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+
+        .profile-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .profile-detail-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #6c757d;
+            margin-right: 10px;
+            min-width: 100px;
+        }
+
+        .detail-value {
+            color: #212529;
+            flex-grow: 1;
+        }
+
+        .profile-actions {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            border-top: 1px solid #e9ecef;
+            padding-top: 20px;
+        }
+
+        .profile-actions .btn {
+            padding: 8px 16px;
+        }
+
+        @media (max-width: 576px) {
+            .profile-detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .detail-label {
+                margin-bottom: 5px;
+                min-width: auto;
+            }
+
+            .profile-actions {
+                flex-direction: column;
+            }
+
+            .profile-actions .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+
+
+
+        /* modal style */
+        /* General modal styles */
+.modal-content {
+    border-radius: 10px; /* Rounded corners */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Enhanced shadow for depth */
+}
+
+/* Modal header styles */
+.modal-header {
+    background-color: #007bff; /* Primary blue */
+    color: white;
+    padding: 15px 20px; /* Extra padding for spacing */
+    border-bottom: 2px solid #0056b3; /* Slightly darker border for contrast */
+    border-radius: 10px 10px 0 0; /* Rounded top corners */
+}
+
+.modal-title {
+    font-size: 20px; /* Slightly larger font */
+    font-weight: bold;
+    text-align: center; /* Center the title */
+    width: 100%;
+}
+
+.close {
+    font-size: 1.5rem; /* Larger close button */
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.close:hover {
+    opacity: 1; /* Full opacity on hover */
+}
+
+/* Modal body styles */
+.modal-body {
+    padding: 25px; /* Ample padding for better readability */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Space between form fields */
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #495057; /* Neutral dark gray for labels */
+}
+
+.form-control-plaintext {
+    background-color: #f8f9fa; /* Light gray background for readonly fields */
+    border: 1px solid #e9ecef;
+    border-radius: 5px;
+    padding: 10px;
+    color: #6c757d; /* Muted text color */
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 5px; /* Slightly rounded inputs */
+    padding: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Subtle focus glow */
+}
+
+/* Modal footer styles */
+.modal-footer {
+    background-color: #f1f1f1; /* Light gray footer background */
+    border-top: 1px solid #e9ecef;
+    border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+    padding: 15px 20px; /* Add padding for spacing */
+}
+
+.btn-outline-secondary {
+    color: #6c757d; /* Neutral gray */
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #e9ecef; /* Light hover effect */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Center the modal and adjust size */
+.modal-dialog {
+    max-width: 700px; /* Restrict modal width */
+    margin: 1.75rem auto;
+}
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/*Eye password*/
+    .password-container {
+        position: relative;
+    }
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 75%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        opacity: 0.7;
+    }
+    .toggle-password:hover {
+        opacity: 1;
+    }
+
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+
+
+
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        <ul class="top-menu">
+                            <!-- <li>
+                                <a href="#">Links</a>
+                                <ul>
+                                    <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
+                                    <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                                </ul>
+                            </li> -->
+                        </ul><!-- End .top-menu -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-top -->
+
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+
+                        <a href="index.html" class="logo">
+                            <h3>BOOKVERSE</h3>
+                        </a>
+
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container active">
+                                    <a href="/" class="sf-with-ul">Home</a>
+
+
+                                </li>
+                                <li>
+                                    <a href="/shop" class="sf-with-ul">Shop</a>
+
+                                </li>
+                                <li>
+                                    <a href="product.html" class="sf-with-ul">Product</a>
+
+                                </li>
+                                <li>
+                                    <a href="#" class="sf-with-ul">Pages</a>
+
+                                </li>
+                                <li>
+                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+
+
+                                </li>
+                                <li>
+                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                </li>
+                            </ul><!-- End .menu -->
+                        </nav><!-- End .main-nav -->
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        <div class="header-search">
+                            <a href="#" class="search-toggle" role="button" title="Search"><i
+                                    class="icon-search"></i></a>
+                            <form action="#" method="get">
+                                <div class="header-search-wrapper">
+                                    <label for="q" class="sr-only">Search</label>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
+                                        required>
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+                        <div class="dropdown compare-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" data-display="static"
+                                title="Compare Products" aria-label="Compare Products">
+                                <i class="icon-random"></i>
+                            </a>
+
+
+                        </div><!-- End .compare-dropdown -->
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <i class="icon-shopping-cart"></i>
+
+                            </a>
+
+
+                        </div><!-- End .cart-dropdown -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+        </header><!-- End .header -->
+
+        <main class="main">
+            <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+                <div class="container">
+                    <h1 class="page-title">Profile</h1>
+                </div><!-- End .container -->
+            </div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <!-- <li class="breadcrumb-item"><a href="#">Shop</a></li> -->
+                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+
+
+
+
+            <div class="page-content">
+                <div class="dashboard">
+                    <div class="container">
+                        <div class="row">
+                            <aside class="col-md-4 col-lg-3">
+                                <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="tab-dashboard-link" href=""
+                                            role="tab" aria-controls="tab-dashboard" aria-selected="true">Profile</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-address-link" href="/address" role="tab"
+                                            aria-controls="tab-address" aria-selected="false">Addresses</a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-orders-link" href="/order" role="tab"
+                                            aria-controls="tab-orders" aria-selected="false">Orders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-downloads-link"href="" role="tab"
+                                            aria-controls="tab-downloads" aria-selected="false">Downloads</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-account-link" href="" role="tab"
+                                            aria-controls="tab-account" aria-selected="false">Account Details</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Sign Out</a>
+                                    </li>
+                                </ul>
+                            </aside><!-- End .col-lg-3 -->
+
+
+                            <div class="col-md-8 col-lg-9">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel"
+                                        aria-labelledby="tab-dashboard-link">
+                                        <div class="container-fluid p-0">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="card border-0 shadow-sm">
+                                                        <div class="card-body p-4">
+                                                            <div class="profile-container">
+                                                                <h3 class="profile-title mb-4">Profile Information</h3>
+
+                                                                <div class="profile-details">
+                                                                    <div class="profile-detail-item">
+                                                                        <span class="detail-label">Name:</span>
+                                                                        <span class="detail-value">
+                                                                            <%= user.name %>
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <div class="profile-detail-item">
+                                                                        <span class="detail-label">Email:</span>
+                                                                        <span class="detail-value">
+                                                                            <%= user.email %>
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <div class="profile-detail-item">
+                                                                        <span class="detail-label">Mobile:</span>
+                                                                        <span class="detail-value">
+                                                                            <% if (user.phone) { %>
+                                                                                <%= user.phone %>
+                                                                                    <% } else { %>
+                                                                                        <span class="text-muted">Not
+                                                                                            added</span>
+                                                                                        <% } %>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="profile-actions mt-4">
+                                                                    <a href="#" class="btn btn-outline-primary mr-2"
+                                                                        data-toggle="modal"
+                                                                        data-target="#editProfileModal">
+                                                                        Edit Profile
+                                                                    </a>
+                                                                    <a href="#" class="btn btn-outline-secondary" data-toggle="modal" data-target="#changePasswordModal">
+                                                                        Change Password
+                                                                    </a>
+                                                                </div>
+
+
+                                                                <div class="modal fade" id="editProfileModal"
+                                                                    tabindex="-1" role="dialog"
+                                                                    aria-labelledby="editProfileModalLabel"
+                                                                    aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                                        role="document">
+                                                                        <div class="modal-content shadow-lg border-0">
+                                                                            <!-- Modal Header -->
+                                                                            <div
+                                                                                class="modal-header bg-primary text-white">
+                                                                                <h5 class="modal-title w-100 text-center font-weight-bold"
+                                                                                    id="editProfileModalLabel">Edit
+                                                                                    Profile</h5>
+                                                                                <button type="button"
+                                                                                    class="close text-white"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close"
+                                                                                    style="opacity: 0.8;">
+                                                                                    <span
+                                                                                        aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+
+                                                                            <!-- Modal Form -->
+                                                                            <form id="editProfileForm">
+                                                                                <div class="modal-body">
+                                                                                    <div class="form-group">
+                                                                                        <label for="editEmail" class="font-weight-bold">Email</label>
+                                                                                        <input type="email" 
+                                                                                               class="form-control text-muted" 
+                                                                                               id="editEmail" 
+                                                                                               value="<%= user.email %>" 
+                                                                                               disabled>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label for="editName"
+                                                                                            class="font-weight-bold">Name</label>
+                                                                                        <input type="text"
+                                                                                            class="form-control"
+                                                                                            id="editName" name="name"
+                                                                                            value="<%= user.name %>"
+                                                                                            required>
+                                                                                    </div>
+                                                                                    <div class="form-group">
+                                                                                        <label for="editPhone"
+                                                                                            class="font-weight-bold">Phone
+                                                                                            Number</label>
+                                                                                        <input type="tel"
+                                                                                            class="form-control"
+                                                                                            id="editPhone" name="phone"
+                                                                                            value="<%= user.phone || '' %>"
+                                                                                            placeholder="Enter phone number">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <!-- Modal Footer -->
+                                                                                <div
+                                                                                    class="modal-footer d-flex justify-content-between">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-outline-secondary"
+                                                                                        data-dismiss="modal">Cancel</button>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-primary">Save
+                                                                                        Changes</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                                <div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                        <div class="modal-content shadow-lg border-0">
+                                                                            <!-- Modal Header -->
+                                                                            <div class="modal-header bg-primary text-white">
+                                                                                <h5 class="modal-title w-100 text-center font-weight-bold" id="changePasswordModalLabel">Change Password</h5>
+                                                                                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 0.8;">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                
+                                                                            <!-- Modal Form -->
+                                                                            <form id="changePasswordForm">
+                                                                                <div class="modal-body">
+                                                                                    <div class="form-group password-container">
+                                                                                        <label for="currentPassword" class="font-weight-bold">Current Password</label>
+                                                                                        <input type="password" 
+                                                                                               class="form-control password-input" 
+                                                                                               id="currentPassword" 
+                                                                                               name="currentPassword" 
+                                                                                               required>
+                                                                                        <span class="toggle-password" data-target="#currentPassword">
+                                                                                            <i class="fas fa-eye"></i>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <div class="form-group password-container">
+                                                                                        <label for="newPassword" class="font-weight-bold">New Password</label>
+                                                                                        <input type="password" 
+                                                                                               class="form-control password-input" 
+                                                                                               id="newPassword" 
+                                                                                               name="newPassword" 
+                                                                                               required 
+                                                                                               minlength="3">
+                                                                                        <span class="toggle-password" data-target="#newPassword">
+                                                                                            <i class="fas fa-eye"></i>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <div class="form-group password-container">
+                                                                                        <label for="confirmNewPassword" class="font-weight-bold">Confirm New Password</label>
+                                                                                        <input type="password" 
+                                                                                               class="form-control password-input" 
+                                                                                               id="confirmNewPassword" 
+                                                                                               name="confirmNewPassword" 
+                                                                                               required 
+                                                                                               minlength="3">
+                                                                                        <span class="toggle-password" data-target="#confirmNewPassword">
+                                                                                            <i class="fas fa-eye"></i>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                
+                                                                                <!-- Modal Footer -->
+                                                                                <div class="modal-footer d-flex justify-content-between">
+                                                                                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                                                                                    <button type="submit" class="btn btn-primary">Save New Password</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+                        </div><!-- End .container -->
+                    </div><!-- End .dashboard -->
+                </div><!-- End .page-content -->
+
+
+
+        </main><!-- End .main -->
+
+        <footer class="footer">
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget widget-about">
+                                <h3>BOOKVERSE</h3>
+                                <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
+                                    magna eros eu erat. </p>
+
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i
+                                            class="icon-facebook-f"></i></a>
+                                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i
+                                            class="icon-twitter"></i></a>
+                                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                            class="icon-instagram"></i></a>
+                                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                            class="icon-youtube"></i></a>
+                                    <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                            class="icon-pinterest"></i></a>
+                                </div><!-- End .soial-icons -->
+                            </div><!-- End .widget about-widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="about.html">About Molla</a></li>
+                                    <li><a href="#">How to shop on Molla</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="contact.html">Contact us</a></li>
+                                    <li><a href="login.html">Log in</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="#">Payment Methods</a></li>
+                                    <li><a href="#">Money-back guarantee!</a></li>
+                                    <li><a href="#">Returns</a></li>
+                                    <li><a href="#">Shipping</a></li>
+                                    <li><a href="#">Terms and conditions</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="#">Sign In</a></li>
+                                    <li><a href="cart.html">View Cart</a></li>
+                                    <li><a href="#">My Wishlist</a></li>
+                                    <li><a href="#">Track My Order</a></li>
+                                    <li><a href="#">Help</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-middle -->
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                    <!-- End .footer-copyright -->
+                    <figure class="footer-payments">
+                        <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                    </figure><!-- End .footer-payments -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                    placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li class="active">
+                        <a href="index.html">Home</a>
+
+                        <ul>
+                            <li><a href="index-1.html">01 - furniture store</a></li>
+                            <li><a href="index-2.html">02 - furniture store</a></li>
+                            <li><a href="index-3.html">03 - electronic store</a></li>
+                            <li><a href="index-4.html">04 - electronic store</a></li>
+                            <li><a href="index-5.html">05 - fashion store</a></li>
+                            <li><a href="index-6.html">06 - fashion store</a></li>
+                            <li><a href="index-7.html">07 - fashion store</a></li>
+                            <li><a href="index-8.html">08 - fashion store</a></li>
+                            <li><a href="index-9.html">09 - fashion store</a></li>
+                            <li><a href="index-10.html">10 - shoes store</a></li>
+                            <li><a href="index-11.html">11 - furniture simple store</a></li>
+                            <li><a href="index-12.html">12 - fashion simple store</a></li>
+                            <li><a href="index-13.html">13 - market</a></li>
+                            <li><a href="index-14.html">14 - market fullwidth</a></li>
+                            <li><a href="index-15.html">15 - lookbook 1</a></li>
+                            <li><a href="index-16.html">16 - lookbook 2</a></li>
+                            <li><a href="index-17.html">17 - fashion store</a></li>
+                            <li><a href="index-18.html">18 - fashion store (with sidebar)</a></li>
+                            <li><a href="index-19.html">19 - games store</a></li>
+                            <li><a href="index-20.html">20 - book store</a></li>
+                            <li><a href="index-21.html">21 - sport store</a></li>
+                            <li><a href="index-22.html">22 - tools store</a></li>
+                            <li><a href="index-23.html">23 - fashion left navigation store</a></li>
+                            <li><a href="index-24.html">24 - extreme sport store</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="category.html">Shop</a>
+                        <ul>
+                            <li><a href="category-list.html">Shop List</a></li>
+                            <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
+                            <li><a href="category.html">Shop Grid 3 Columns</a></li>
+                            <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
+                            <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span
+                                            class="tip tip-hot">Hot</span></span></a></li>
+                            <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
+                            <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
+                            <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span
+                                            class="tip tip-new">New</span></span></a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="wishlist.html">Wishlist</a></li>
+                            <li><a href="#">Lookbook</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="product.html" class="sf-with-ul">Product</a>
+                        <ul>
+                            <li><a href="product.html">Default</a></li>
+                            <li><a href="product-centered.html">Centered</a></li>
+                            <li><a href="product-extended.html"><span>Extended Info<span
+                                            class="tip tip-new">New</span></span></a></li>
+                            <li><a href="product-gallery.html">Gallery</a></li>
+                            <li><a href="product-sticky.html">Sticky Info</a></li>
+                            <li><a href="product-sidebar.html">Boxed With Sidebar</a></li>
+                            <li><a href="product-fullwidth.html">Full Width</a></li>
+                            <li><a href="product-masonry.html">Masonry Sticky Info</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Pages</a>
+                        <ul>
+                            <li>
+                                <a href="about.html">About</a>
+
+                                <ul>
+                                    <li><a href="about.html">About 01</a></li>
+                                    <li><a href="about-2.html">About 02</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact</a>
+
+                                <ul>
+                                    <li><a href="contact.html">Contact 01</a></li>
+                                    <li><a href="contact-2.html">Contact 02</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="404.html">Error 404</a></li>
+                            <li><a href="coming-soon.html">Coming Soon</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="blog.html">Blog</a>
+
+                        <ul>
+                            <li><a href="blog.html">Classic</a></li>
+                            <li><a href="blog-listing.html">Listing</a></li>
+                            <li>
+                                <a href="#">Grid</a>
+                                <ul>
+                                    <li><a href="blog-grid-2cols.html">Grid 2 columns</a></li>
+                                    <li><a href="blog-grid-3cols.html">Grid 3 columns</a></li>
+                                    <li><a href="blog-grid-4cols.html">Grid 4 columns</a></li>
+                                    <li><a href="blog-grid-sidebar.html">Grid sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Masonry</a>
+                                <ul>
+                                    <li><a href="blog-masonry-2cols.html">Masonry 2 columns</a></li>
+                                    <li><a href="blog-masonry-3cols.html">Masonry 3 columns</a></li>
+                                    <li><a href="blog-masonry-4cols.html">Masonry 4 columns</a></li>
+                                    <li><a href="blog-masonry-sidebar.html">Masonry sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Mask</a>
+                                <ul>
+                                    <li><a href="blog-mask-grid.html">Blog mask grid</a></li>
+                                    <li><a href="blog-mask-masonry.html">Blog mask masonry</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Single Post</a>
+                                <ul>
+                                    <li><a href="single.html">Default with sidebar</a></li>
+                                    <li><a href="single-fullwidth.html">Fullwidth no sidebar</a></li>
+                                    <li><a href="single-fullwidth-sidebar.html">Fullwidth with sidebar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="elements-list.html">Elements</a>
+                        <ul>
+                            <li><a href="elements-products.html">Products</a></li>
+                            <li><a href="elements-typography.html">Typography</a></li>
+                            <li><a href="elements-titles.html">Titles</a></li>
+                            <li><a href="elements-banners.html">Banners</a></li>
+                            <li><a href="elements-product-category.html">Product Category</a></li>
+                            <li><a href="elements-video-banners.html">Video Banners</a></li>
+                            <li><a href="elements-buttons.html">Buttons</a></li>
+                            <li><a href="elements-accordions.html">Accordions</a></li>
+                            <li><a href="elements-tabs.html">Tabs</a></li>
+                            <li><a href="elements-testimonials.html">Testimonials</a></li>
+                            <li><a href="elements-blog-posts.html">Blog Posts</a></li>
+                            <li><a href="elements-portfolio.html">Portfolio</a></li>
+                            <li><a href="elements-cta.html">Call to Action</a></li>
+                            <li><a href="elements-icon-boxes.html">Icon Boxes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav><!-- End .mobile-nav -->
+
+            <div class="social-icons">router.post("/profile/edit", userAuth, profileController.updateProfile);
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+
+    <!-- Plugins JS File -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('#editProfileForm').on('submit', function (e) {
+                e.preventDefault();
+
+                var name = $('#editName').val().trim();
+                var phone = $('#editPhone').val().trim();
+
+                // Frontend validation for name
+                if (!name || !/^[a-zA-Z\s]{2,50}$/.test(name)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        text: 'Name is required and must only contain letters (2-50 characters).'
+                    });
+                    return;
+                }
+
+                // Frontend validation for phone
+                if (phone && !/^\d{10}$/.test(phone)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        text: 'Phone number must be exactly 10 digits.'
+                    });
+                    return;
+                }
+
+                $.ajax({
+                    url: '/profile/update',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        name: name,
+                        phone: phone
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            // SweetAlert success message
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Your profile has been updated successfully.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(() => {
+                                // Close the modal
+                                $('#editProfileModal').modal('hide');
+
+                                // Reload the page to reflect changes
+                                location.reload();
+                            });
+                        } else {
+                            // SweetAlert error for server-side validation errors
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Update Failed',
+                                text: response.message || 'Unable to update profile at this time.'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: xhr.responseJSON?.message || 'An unexpected error occurred. Please try again later.'
+                        });
+                    }
+                });
+            });
+        });
+
+
+
+        //Change Password
+
+        
+
+        $(document).ready(function () {
+
+            $('.toggle-password').on('click', function () {
+        const targetId = $(this).data('target');
+        const passwordInput = $(targetId);
+        const icon = $(this).find('i');
+        
+        if (passwordInput.attr('type') === 'password') {
+            passwordInput.attr('type', 'text');
+            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordInput.attr('type', 'password');
+            icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+
+
+    $('#changePasswordForm').on('submit', function (e) {
+        e.preventDefault();
+
+        var currentPassword = $('#currentPassword').val().trim();
+        var newPassword = $('#newPassword').val().trim();
+        var confirmNewPassword = $('#confirmNewPassword').val().trim();
+
+        // Frontend validation
+        if (newPassword !== confirmNewPassword) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Password Mismatch',
+                text: 'New password and confirm password do not match.'
+            });
+            return;
+        }
+
+        // Password strength validation
+        if (newPassword.length < 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Weak Password',
+                text: 'Password must be at least 3 characters long.'
+            });
+            return;
+        }
+
+        // Optional: Add more complex password strength checks
+        // if (!/(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])/.test(newPassword)) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Weak Password',
+        //         text: 'Password must include uppercase, lowercase, number, and special character.'
+        //     });
+        //     return;
+        // }
+
+        $.ajax({
+            url: '/change-password',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                currentPassword: currentPassword,
+                newPassword: newPassword
+            }),
+            success: function (response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Password changed successfully.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        $('#changePasswordModal').modal('hide');
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Change Password Failed',
+                        text: response.message || 'Unable to change password.'
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: xhr.responseJSON?.message || 'An unexpected error occurred. Please try again later.'
+                });
+            }
+        });
+    });
+});
+    </script>
+
+
+
+
+</body>
+
+
+<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
+
+</html>

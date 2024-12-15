@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        /* General Reset */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+    
+        /* Container */
+        .section {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 900px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+    
+        p {
+            margin: 8px 0;
+        }
+    
+        strong {
+            color: #34495e;
+        }
+    
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+    
+        table th, table td {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+    
+        table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+    
+        table td {
+            background-color: #fff;
+        }
+    
+        .table-image {
+            max-width: 60px;
+            height: auto;
+            border-radius: 4px;
+        }
+    
+        /* Buttons */
+        .cancel-btn, .update-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+        }
+    
+        .cancel-btn:hover, .update-btn:hover {
+            background-color: #c0392b;
+        }
+    
+        select {
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+    
+        .subtotal {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.2rem;
+        }
+    
+        /* Status Badges */
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            color: #fff;
+            border-radius: 4px;
+        }
+    
+        .status.Pending {
+            background-color: #f39c12;
+        }
+    
+        .status.Processing {
+            background-color: #3498db;
+        }
+    
+        .status.Shipped {
+            background-color: #2ecc71;
+        }
+    
+        .status.Delivered {
+            background-color: #27ae60;
+        }
+    
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .section {
+                padding: 15px;
+            }
+    
+            table th, table td {
+                padding: 8px;
+            }
+    
+            .cancel-btn, .update-btn {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+    
+            .subtotal {
+                font-size: 1rem;
+            }
+        }
+
+
+
+        /* Center the main container */
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section styles */
+.section {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Section title styles */
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Table alignment */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.table-image {
+    max-width: 60px;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Spacing for total */
+.subtotal {
+    text-align: right;
+    font-weight: bold;
+    margin-top: 15px;
+    font-size: 1.2rem;
+}
+
+
+
+
+
+/* Back to Orders Button */
+.back-to-orders {
+    margin-bottom: 20px;
+    text-align: right; /* Ensures the button is aligned to the left */
+}
+
+.back-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff; /* White text for contrast */
+    background-color: #e74c3c; /* Red background */
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+.back-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.8); /* Subtle red focus shadow */
+}
+
+
+    </style>
+</head>
+<body>
+
+    <%- include("../../views/partials/admin/header") %>
+
+
+    <div class="container">
+
+
+        <!-- Order Summary Section -->
+        <div class="section">
+            <div class="section-title">Order Summary</div>
+            <p><strong>Order ID:</strong> <%= order.orderId %></p>
+            <p><strong>Order Date:</strong> <%= order.createdAt.toLocaleDateString() %></p>
+            <p><strong>Total Amount:</strong> ₹<%= order.totalPrice.toFixed(2) %></p>
+            <p><strong>Payment Status:</strong> <span id="paymentStatus"><%= order.payment_status %></span></p>
+            <p><strong>Customer Name:</strong> <%= order.userId.name %></p>
+            <p>
+                <strong>Order Status:</strong>
+                <% if (order.order_status === 'Cancelled') { %>
+                    <span class="text-danger">Cancelled</span>
+                <% } else { %>
+                    <select id="orderStatus" data-order-id="<%= order._id %>">
+                        <option value="Pending" 
+                            <%= order.order_status === 'Pending' ? 'selected' : '' %>
+                            <%= order.order_status !== 'Pending' ? 'disabled' : '' %>>
+                            Pending
+                        </option>
+                        <option value="Processing" 
+                            <%= order.order_status === 'Processing' ? 'selected' : '' %>
+                            <%= order.order_status === 'Pending' ? '' : 'disabled' %>>
+                            Processing
+                        </option>
+                        <option value="Shipped" 
+                            <%= order.order_status === 'Shipped' ? 'selected' : '' %>
+                            <%= order.order_status === 'Processing' ? '' : 'disabled' %>>
+                            Shipped
+                        </option>
+                        <option value="Delivered" 
+                            <%= order.order_status === 'Delivered' ? 'selected' : '' %>
+                            <%= order.order_status === 'Shipped' ? '' : 'disabled' %>>
+                            Delivered
+                        </option>
+                    </select>
+                <% } %>
+            </p>
+        </div>
+
+
+
+    
+        <!-- Shipping Address Section -->
+        <div class="section">
+            <div class="section-title">Shipping Address</div>
+            <p><strong>Name:</strong> <%= order.addresses.addressName %></p>
+            <p><strong>Mobile:</strong> <%= order.addresses.addressMobile %></p>
+            <p><strong>Address:</strong> 
+                <%= order.addresses.addressHouse %>, 
+                <%= order.addresses.addressPost %>, 
+                <%= order.addresses.addressDistrict %>, 
+                <%= order.addresses.addressState %> - 
+                <%= order.addresses.addressPin %>
+            </p>
+        </div>
+    
+        <!-- Order Items Section -->
+        <div class="section">
+            <div class="section-title">Order Items</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Price</th>
+                        <th>Item Status</th>
+                        <th>Action</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <% order.items.forEach(function(item) { %>
+                    <tr>
+                        <td><%= item.name %></td>
+                        <td>
+                            <img src="<%= item.productId.productImage[0] %>" alt="<%= item.name %>" class="table-image">
+                        </td>
+                        <td><%= item.quantity %></td>
+                        <td>₹<%= item.price.toFixed(2) %></td>
+                        <td>₹<%= item.total.toFixed(2) %></td>
+                        <td><%= item.status %></td>
+                        <td>
+                            <button 
+                                class="btn btn-danger cancel-order-btn" 
+                                data-item-id="<%= item._id %>"
+                                onclick="cancelOrderItem('<%= order._id %>', '<%= item._id %>')"
+                            >
+                                Cancel Order
+                            </button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <div class="subtotal">
+                Subtotal: ₹<%= order.totalPrice.toFixed(2) %>
+            </div>
+        </div>
+
+        <div class="back-to-orders">
+            <a href="/admin/adminOrder" class="back-btn">← Back to Orders</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+        function updateSubtotal() {
+            const rows = document.querySelectorAll('tbody tr');
+            let subtotal = 0;
+            rows.forEach(row => {
+                const totalPrice = parseFloat(row.querySelector('td:nth-child(5)').textContent.replace('$', ''));
+                subtotal += totalPrice;
+            });
+            document.querySelector('.subtotal').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+        }
+
+        // Handle order status change
+        document.getElementById('orderStatus').addEventListener('change', function() {
+            const newStatus = this.value;
+            const orderId = '<%= order._id %>';
+
+            fetch(`/update-order-status/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(!data.success) {
+                    alert('Failed to update order status');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                
+            });
+        });
+
+
+
+
+
+//status updation
+
+        
+document.addEventListener('DOMContentLoaded', function() {
+    const orderStatusSelect = document.getElementById('orderStatus');
+    const paymentStatusSpan = document.getElementById('paymentStatus');
+    
+    if (orderStatusSelect) {
+        orderStatusSelect.addEventListener('change', function() {
+            const orderId = this.dataset.orderId;
+            const newStatus = this.value;
+
+            // Show a confirmation dialog before updating
+            Swal.fire({
+                title: 'Update Order Status',
+                text: `Are you sure you want to change the status to ${newStatus}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, update it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/admin/update-order-status', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            orderId: orderId,
+                            newStatus: newStatus
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: data.message,
+                                icon: 'success'
+                            }).then(() => {
+                                // Refresh the page to reflect changes
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: data.message,
+                                icon: data.icon || 'error'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred while updating the order status',
+                            icon: 'error'
+                        });
+                    });
+                }
+            });
+        });
+    }
+});
+
+
+
+    </script>
+
+<%- include("../../views/partials/admin/footer") %>
+
+</body>
+</html>

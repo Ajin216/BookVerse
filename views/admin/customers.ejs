@@ -1,0 +1,190 @@
+<%-include("../../views/partials/admin/header")%>
+
+<!-- / Navbar -->
+
+      
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+
+        <!-- Content -->
+        
+          <div class="container-xxl flex-grow-1 container-p-y">
+            
+            
+<!-- customers List Table -->
+<div class="card">
+  <div class="card-datatable table-responsive">
+    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+      <div class="card-header d-flex rounded-0 flex-wrap py-0 pb-5 pb-md-0">
+        <div class="me-5 pe-5 ms-n1_5 ps-2">
+          <div id="DataTables_Table_0_filter" class="dataTables_filter">
+            <label><input type="search" class="form-control form-control-sm ms-0" placeholder="Search Order" aria-controls="DataTables_Table_0"></label>
+          </div>
+        </div>
+      </div>
+      <table class="datatables-customers table dataTable no-footer dtr-column" id="DataTables_Table_0" style="width: 100%;">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (data && data.length > 0) { %>
+            <% for (let i = 0; i < data.length; i++) { %>
+              <tr>
+                <td><%= data[i].name %></td>
+                <td><%= data[i].email %></td>
+                <td><%= data[i].phone %></td>
+                <td>
+                  <% if (data[i].isBlocked == false) { %>
+                    <button class="btn btn-danger" style="width: 80px;">
+                      <a href="/admin/blockCustomer?id=<%= data[i]._id %>" class="text-white" style="text-decoration: none;">Block</a>
+                    </button>
+                  <% } else { %>
+                    <button class="btn btn-success" style="width: 80px;">
+                      <a href="/admin/unblockCustomer?id=<%= data[i]._id %>" class="text-white" style="text-decoration: none;">Unblock</a>
+                    </button>
+                  <% } %>
+                </td>
+              </tr>
+            <% } %>
+          <% } else { %>
+            <tr>
+              <td colspan="4" class="text-center">No customers found.</td>
+            </tr>
+          <% } %>
+        </tbody>
+        
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center mb-20" style="margin-right: 200px;">
+        <%for(let i=1;i<=totalPages;i++){%>
+          <li class="page-item <%=(i===currentPage) ? 'active' : '' %>">
+            <a class="page-link"   href="?page=<%= i %>"><%= i %></a>
+
+          </li>
+          <%}%>
+          
+      </ul>
+  </nav>
+</div>
+
+
+</div>
+
+
+
+
+          </div>
+          <!-- / Content -->
+
+          
+          
+
+<!-- Footer -->
+<footer class="content-footer footer bg-footer-theme">
+  <div class="container-xxl">
+    <div class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
+      <div class="text-body mb-2 mb-md-0">
+        © <script>
+        document.write(new Date().getFullYear())
+
+        </script>2024, made with <span class="text-danger"><i class="tf-icons ri-heart-fill"></i></span> by <a href="https://themeselection.com" target="_blank" class="footer-link">ThemeSelection</a>
+      </div>
+      <div class="d-none d-lg-inline-block">
+        
+        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+        
+        <a href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a>
+        
+        
+        <a href="https://themeselection.com/support/" target="_blank" class="footer-link d-none d-sm-inline-block">Support</a>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- / Footer -->
+
+          
+          <div class="content-backdrop fade"></div>
+        </div>
+          <!-- / Content -->
+
+          
+          
+          
+
+          
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    
+    
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+    
+    
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+    
+  </div>
+  <!-- / Layout wrapper -->
+
+
+  
+
+  
+
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  <script src="/dashboard-assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="/dashboard-assets/vendor/libs/popper/popper.js"></script>
+  <script src="/dashboard-assets/vendor/js/bootstrap.js"></script>
+  <script src="/dashboard-assets/vendor/libs/node-waves/node-waves.js"></script>
+  <script src="/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="/dashboard-assets/vendor/libs/hammer/hammer.js"></script>
+  <script src="/dashboard-assets/vendor/libs/i18n/i18n.js"></script>
+  <script src="/dashboard-assets/vendor/libs/typeahead-js/typeahead.js"></script>
+  <script src="/dashboard-assets/vendor/js/menu.js"></script>
+  
+  <!-- endbuild -->
+
+  <!-- Vendors JS -->
+  <script src="/dashboard-assets/vendor/libs/moment/moment.js"></script>
+<script src="/dashboard-assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="/dashboard-assets/vendor/libs/select2/select2.js"></script>
+<script src="/dashboard-assets/vendor/libs/%40form-validation/popular.js"></script>
+<script src="/dashboard-assets/vendor/libs/%40form-validation/bootstrap5.js"></script>
+<script src="/dashboard-assets/vendor/libs/%40form-validation/auto-focus.js"></script>
+<script src="/dashboard-assets/vendor/libs/cleavejs/cleave.js"></script>
+<script src="/dashboard-assets/vendor/libs/cleavejs/cleave-phone.js"></script>
+
+  <!-- Main JS -->
+  <script src="/dashboard-assets/js/main.js"></script>
+  
+
+ 
+  
+</body>
+
+
+<!-- Mirrored from demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-customer-all.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Jun 2024 05:50:34 GMT -->
+</html>
+
+<!-- beautify ignore:end -->
+
