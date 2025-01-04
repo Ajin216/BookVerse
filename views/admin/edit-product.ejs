@@ -519,24 +519,235 @@
 
   <script>
   
-// Image cropper variables and functions
+//Image cropper variables and functions
+// let cropper = null;
+// let currentImageInput = null;
+
+// // Initialize event listeners for all image inputs
+// document.querySelectorAll('.image-input').forEach(input => {
+//   input.addEventListener('change', function(e) {
+//     const file = e.target.files[0];
+//     if (file) {
+//       currentImageInput = input;
+//       const reader = new FileReader();
+//       reader.onload = function(event) {
+//         // Show the cropper modal
+//         const cropperModal = new bootstrap.Modal(document.getElementById('cropperModal'));
+//         const cropperImage = document.getElementById('cropperImage');
+//         cropperImage.src = event.target.result;
+        
+//         cropperModal.show();
+        
+//         // Initialize cropper
+//         if (cropper) {
+//           cropper.destroy();
+//         }
+//         cropper = new Cropper(cropperImage, {
+//           aspectRatio: 1,
+//           viewMode: 2,
+//           dragMode: 'move',
+//           autoCropArea: 1,
+//           restore: false,
+//           guides: true,
+//           center: true,
+//           highlight: false,
+//           cropBoxMovable: true,
+//           cropBoxResizable: true,
+//           toggleDragModeOnDblclick: false
+//         });
+//       };
+//       reader.readAsDataURL(file);
+//     }
+//   });
+// });
+
+
+// // Handle crop button click
+// document.getElementById('cropButton').addEventListener('click', function() {
+//   if (!cropper || !currentImageInput) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Error!',
+//       text: 'No image selected for cropping',
+//       confirmButtonColor: '#3085d6'
+//     });
+//     return;
+//   }
+
+//   try {
+//     const croppedCanvas = cropper.getCroppedCanvas({
+//       width: 600,
+//       height: 600
+//     });
+    
+//     croppedCanvas.toBlob(function(blob) {
+//       // Create preview
+//       const previewContainer = currentImageInput.closest('.image-upload-container').querySelector('.preview-container');
+//       const previewImage = previewContainer.querySelector('.img-preview');
+//       const uploadBtn = previewContainer.querySelector('.upload-btn');
+      
+//       // Update preview image
+//       previewImage.src = croppedCanvas.toDataURL();
+//       previewImage.style.display = 'block';
+//       uploadBtn.style.display = 'none';
+      
+//       // Store cropped image data in hidden input
+//       const hiddenInput = document.getElementById(currentImageInput.id.replace('image', 'croppedImage'));
+//       hiddenInput.value = croppedCanvas.toDataURL();
+      
+//       // Close modal
+//       const cropperModal = bootstrap.Modal.getInstance(document.getElementById('cropperModal'));
+//       cropperModal.hide();
+      
+//       // Cleanup
+//       cropper.destroy();
+//       cropper = null;
+//     });
+//   } catch (error) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Error!',
+//       text: 'Failed to crop image. Please try again.',
+//       confirmButtonColor: '#3085d6'
+//     });
+//   }
+// });
+
+
+// // Validate form before submission
+// // Update the validateForm function in your script
+// function validateForm() {
+//   const productTitle = document.getElementById('ecommerce-product-name').value;
+//   const author= document.getElementById('ecommerce-category-author').value;
+//   const productSku = document.getElementById('ecommerce-product-sku').value;
+//   const category = document.getElementById('category-org').value;
+//   const productPrice = document.getElementById('ecommerce-product-price').value;
+//   const productDiscountedPrice = document.getElementById('ecommerce-product-discount-price').value;
+  
+//   if (!productTitle.trim()) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Validation Error',
+//       text: 'Product name is required',
+//       confirmButtonColor: '#3085d6'
+//     });
+//     return false;
+//   }
+
+//   if (!author.trim()) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Validation Error',
+//       text: 'author is required',
+//       confirmButtonColor: '#3085d6'
+//     });
+//     return false;
+//   }
+  
+//   if (!productSku || productSku < 0) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Validation Error',
+//       text: 'Please enter a valid number of units',
+//       confirmButtonColor: '#3085d6'
+//     });
+//     return false;
+//   }
+  
+//   if (!category) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Validation Error',
+//       text: 'Please select a category',
+//       confirmButtonColor: '#3085d6'
+//     });
+//     return false;
+//   }
+  
+//   if (!productPrice || productPrice <= 0) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Validation Error',
+//       text: 'Please enter a valid price',
+//       confirmButtonColor: '#3085d6'
+//     });
+//     return false;
+//   }
+  
+//   if (productDiscountedPrice && parseFloat(productDiscountedPrice) >= parseFloat(productPrice)) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Validation Error',
+//       text: 'Discounted price must be less than regular price',
+//       confirmButtonColor: '#3085d6'
+//     });
+//     return false;
+//   }
+  
+//   // Check for both existing and new images
+//   const existingImagesInput = document.getElementById('existingImages');
+//   const existingImages = existingImagesInput ? JSON.parse(existingImagesInput.value) : [];
+//   const visibleImages = Array.from(document.querySelectorAll('.img-preview'))
+//     .filter(img => img.style.display !== 'none')
+//     .length;
+
+//   if (visibleImages === 0) {
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Validation Error',
+//       text: 'Please upload at least one product image',
+//       confirmButtonColor: '#3085d6'
+//     });
+//     return false;
+//   }
+  
+//   return true;
+// }
+
+// // Update the deleteImage function
+// function deleteImage(imageId) {
+//   const previewImg = document.getElementById(`${imageId}-preview`);
+//   const fileInput = document.getElementById(imageId);
+//   const existingImagesInput = document.getElementById('existingImages');
+  
+//   if (existingImagesInput) {
+//     const existingImages = JSON.parse(existingImagesInput.value);
+//     const imageIndex = parseInt(imageId.replace('image', '')) - 1;
+    
+//     if (existingImages[imageIndex]) {
+//       // Remove the image from existing images array
+//       existingImages.splice(imageIndex, 1);
+//       existingImagesInput.value = JSON.stringify(existingImages);
+//     }
+//   }
+  
+//   // Hide the preview and reset the file input
+//   previewImg.style.display = 'none';
+//   previewImg.src = '';
+//   fileInput.value = '';
+// }
+
+
+
+
+//new
+
+
+
+
 let cropper = null;
 let currentImageInput = null;
 
-// Initialize event listeners for all image inputs
+// Initialize cropper for each image input
 document.querySelectorAll('.image-input').forEach(input => {
   input.addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
-      currentImageInput = input;
+      currentImageInput = this;
       const reader = new FileReader();
-      reader.onload = function(event) {
-        // Show the cropper modal
-        const cropperModal = new bootstrap.Modal(document.getElementById('cropperModal'));
+      reader.onload = function(e) {
         const cropperImage = document.getElementById('cropperImage');
-        cropperImage.src = event.target.result;
-        
-        cropperModal.show();
+        cropperImage.src = e.target.result;
         
         // Initialize cropper
         if (cropper) {
@@ -546,186 +757,273 @@ document.querySelectorAll('.image-input').forEach(input => {
           aspectRatio: 1,
           viewMode: 2,
           dragMode: 'move',
-          autoCropArea: 1,
-          restore: false,
-          guides: true,
-          center: true,
-          highlight: false,
-          cropBoxMovable: true,
-          cropBoxResizable: true,
-          toggleDragModeOnDblclick: false
+          background: true,
+          responsive: true,
+          modal: true,
         });
+        
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('cropperModal'));
+        modal.show();
       };
       reader.readAsDataURL(file);
     }
   });
 });
 
-
 // Handle crop button click
 document.getElementById('cropButton').addEventListener('click', function() {
-  if (!cropper || !currentImageInput) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error!',
-      text: 'No image selected for cropping',
-      confirmButtonColor: '#3085d6'
-    });
-    return;
+  if (!cropper) return;
+  
+  // Get cropped canvas
+  const canvas = cropper.getCroppedCanvas({
+    width: 800,
+    height: 800,
+  });
+  
+  // Convert to base64
+  const croppedImage = canvas.toDataURL('image/jpeg');
+  
+  // Update preview
+  const imageId = currentImageInput.id;
+  const previewImage = document.getElementById(`${imageId}-preview`);
+  previewImage.src = croppedImage;
+  previewImage.style.display = 'block';
+  
+  // Create/update hidden input for the cropped image
+  let hiddenInput = document.getElementById(`cropped${imageId}`);
+  if (!hiddenInput) {
+    hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.id = `cropped${imageId}`;
+    hiddenInput.name = `croppedImage${imageId.replace('image', '')}`;
+    currentImageInput.parentNode.appendChild(hiddenInput);
   }
-
-  try {
-    const croppedCanvas = cropper.getCroppedCanvas({
-      width: 600,
-      height: 600
-    });
-    
-    croppedCanvas.toBlob(function(blob) {
-      // Create preview
-      const previewContainer = currentImageInput.closest('.image-upload-container').querySelector('.preview-container');
-      const previewImage = previewContainer.querySelector('.img-preview');
-      const uploadBtn = previewContainer.querySelector('.upload-btn');
-      
-      // Update preview image
-      previewImage.src = croppedCanvas.toDataURL();
-      previewImage.style.display = 'block';
-      uploadBtn.style.display = 'none';
-      
-      // Store cropped image data in hidden input
-      const hiddenInput = document.getElementById(currentImageInput.id.replace('image', 'croppedImage'));
-      hiddenInput.value = croppedCanvas.toDataURL();
-      
-      // Close modal
-      const cropperModal = bootstrap.Modal.getInstance(document.getElementById('cropperModal'));
-      cropperModal.hide();
-      
-      // Cleanup
-      cropper.destroy();
-      cropper = null;
-    });
-  } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error!',
-      text: 'Failed to crop image. Please try again.',
-      confirmButtonColor: '#3085d6'
-    });
-  }
+  hiddenInput.value = croppedImage;
+  
+  // Close modal
+  const modal = bootstrap.Modal.getInstance(document.getElementById('cropperModal'));
+  modal.hide();
+  
+  // Reset cropper
+  cropper.destroy();
+  cropper = null;
 });
 
-
-// Validate form before submission
-// Update the validateForm function in your script
+// Modified validateForm function to handle image uploads
 function validateForm() {
-  const productTitle = document.getElementById('ecommerce-product-name').value;
-  const author= document.getElementById('ecommerce-category-author').value;
-  const productSku = document.getElementById('ecommerce-product-sku').value;
-  const category = document.getElementById('category-org').value;
-  const productPrice = document.getElementById('ecommerce-product-price').value;
-  const productDiscountedPrice = document.getElementById('ecommerce-product-discount-price').value;
-  
-  if (!productTitle.trim()) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Product name is required',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
+  const form = document.querySelector('form');
+  const formData = new FormData(form);
 
-  if (!author.trim()) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'author is required',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
-  
-  if (!productSku || productSku < 0) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Please enter a valid number of units',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
-  
-  if (!category) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Please select a category',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
-  
-  if (!productPrice || productPrice <= 0) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Please enter a valid price',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
-  
-  if (productDiscountedPrice && parseFloat(productDiscountedPrice) >= parseFloat(productPrice)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Discounted price must be less than regular price',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
-  
-  // Check for both existing and new images
-  const existingImagesInput = document.getElementById('existingImages');
-  const existingImages = existingImagesInput ? JSON.parse(existingImagesInput.value) : [];
-  const visibleImages = Array.from(document.querySelectorAll('.img-preview'))
-    .filter(img => img.style.display !== 'none')
-    .length;
+  // Validate required fields
+  const requiredFields = {
+    productTitle: 'Product name',
+    author: 'Author',
+    description: 'Description',
+    category: 'Category',
+    productPrice: 'Regular price',
+    productDiscountedPrice: 'Sale price'
+  };
 
-  if (visibleImages === 0) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Please upload at least one product image',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
-  
-  return true;
-}
-
-// Update the deleteImage function
-function deleteImage(imageId) {
-  const previewImg = document.getElementById(`${imageId}-preview`);
-  const fileInput = document.getElementById(imageId);
-  const existingImagesInput = document.getElementById('existingImages');
-  
-  if (existingImagesInput) {
-    const existingImages = JSON.parse(existingImagesInput.value);
-    const imageIndex = parseInt(imageId.replace('image', '')) - 1;
-    
-    if (existingImages[imageIndex]) {
-      // Remove the image from existing images array
-      existingImages.splice(imageIndex, 1);
-      existingImagesInput.value = JSON.stringify(existingImages);
+  for (const [field, label] of Object.entries(requiredFields)) {
+    if (!formData.get(field)?.trim()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Validation Error',
+        text: `${label} is required`,
+        confirmButtonColor: '#3085d6'
+      });
+      return false;
     }
   }
+
+  // Price validation
+  const regularPrice = parseFloat(formData.get('productPrice'));
+  const salePrice = parseFloat(formData.get('productDiscountedPrice'));
   
-  // Hide the preview and reset the file input
-  previewImg.style.display = 'none';
-  previewImg.src = '';
-  fileInput.value = '';
+  if (salePrice >= regularPrice) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Sale price must be less than regular price',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
+  }
+
+  // Submit form
+  fetch(form.action, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Product has been updated successfully',
+        confirmButtonColor: '#3085d6'
+      }).then(() => {
+        window.location.href = '/admin/products';
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Failed to update producthhhhhhhhhhhhhhhh',
+        confirmButtonColor: '#3085d6'
+      });
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error!',
+      text: 'Failedvvvvvvvvvvvvvvh to update product',
+      confirmButtonColor: '#3085d6'
+    });
+  });
+
+  return false;
 }
+
+
+
+function deleteImage(imageId) {
+  const previewContainer = document.getElementById(`${imageId}-preview`).closest('.preview-container');
+  const previewImage = previewContainer.querySelector('.img-preview');
+  const uploadBtn = previewContainer.querySelector('.upload-btn');
+  
+  previewImage.src = '';
+  previewImage.style.display = 'none';
+  uploadBtn.style.display = 'block';
+  
+  document.getElementById(imageId).value = '';
+  const hiddenInput = document.getElementById(imageId.replace('image', 'croppedImage'));
+  if (hiddenInput) {
+    hiddenInput.value = '';
+  }
+}
+
+// Function to delete product
+function deleteProduct(productId) {
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/admin/deleteProduct/${productId}`, {
+        method: 'DELETE',
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          Swal.fire(
+            'Deleted!',
+            'Product has been deleted.',
+            'success'
+          ).then(() => {
+            window.location.href = '/admin/products';
+          });
+        } else {
+          Swal.fire('Error!', data.message || 'Failed to delete product', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire('Error!', 'Failed to delete product', 'error');
+      });
+    }
+  });
+}
+
+// Form validation and submission
+function validateForm() {
+  const form = document.querySelector('form');
+  const formData = new FormData(form);
+
+  // Validate required fields based on schema
+  const requiredFields = {
+    productTitle: 'Product name',
+    author: 'Author',
+    description: 'Description',
+    category: 'Category',
+    productPrice: 'Regular price',
+    productDiscountedPrice: 'Sale price'
+  };
+
+  for (const [field, label] of Object.entries(requiredFields)) {
+    if (!formData.get(field)?.trim()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Validation Error',
+        text: `${label} is required`,
+        confirmButtonColor: '#3085d6'
+      });
+      return false;
+    }
+  }
+
+  // Price validation
+  const regularPrice = parseFloat(formData.get('productPrice'));
+  const salePrice = parseFloat(formData.get('productDiscountedPrice'));
+  
+  if (salePrice >= regularPrice) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Sale price must be less than regular price',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
+  }
+
+  // Submit form via AJAX
+  fetch(form.action, {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Product has been updated successfully',
+        confirmButtonColor: '#3085d6'
+      }).then(() => {
+        window.location.href = '/admin/products';
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: data.message || 'Failed to update product',
+        confirmButtonColor: '#3085d6'
+      });
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error!',
+      text: error.message,
+      confirmButtonColor: '#3085d6'
+    });
+  });
+
+  return false;
+}
+
+
 
 </script>
 

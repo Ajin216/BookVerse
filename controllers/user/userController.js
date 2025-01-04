@@ -245,20 +245,136 @@ const logout = async (req, res) => {
 
 
 
+// const getShopPage = async (req, res) => {
+//     try {
+//         const user = req.session.user;
+        
+//         // Pagination parameters
+//         const page = parseInt(req.query.page) || 1;
+//         const limit = 6; // Products per page
+//         const skip = (page - 1) * limit;
+        
+//         // Extract existing query parameters
+//         const { 
+//             category = '', 
+//             sortBy = 'createdAt-desc', 
+//             minPrice = 0, 
+//             maxPrice = 1000000,
+//             q = ''
+//         } = req.query;
+
+//         // Build query conditions (unchanged)
+//         const query = {
+//             isBlocked: false,
+//             salePrice: { 
+//                 $gte: parseFloat(minPrice || 0), 
+//                 $lte: parseFloat(maxPrice || 1000000) 
+//             }
+//         };
+
+//         // Fetch categories (unchanged)
+//         const categories = await Category.find({ isListed: true, status: "active" });
+        
+//         // Category filter logic (unchanged)
+//         if (category) {
+//             const selectedCategory = await Category.findOne({ name: category, isListed: true });
+//             if (selectedCategory) {
+//                 query.category = selectedCategory._id;
+//             }
+//         } else {
+//             query.category = { $in: categories.map(cat => cat._id) };
+//         }
+
+//         // Search logic (unchanged)
+//         if (q) {
+//             query.$or = [
+//                 { productName: { $regex: q, $options: 'i' } },
+//                 { description: { $regex: q, $options: 'i' } }
+//             ];
+//         }
+
+//         // Sorting logic (unchanged)
+//         const sortMapping = {
+//             'createdAt-desc': { createdAt: -1 },
+//             'price-asc': { salePrice: 1 },
+//             'price-desc': { salePrice: -1 },
+//             'name-asc': { productName: 1 },
+//             'name-desc': { productName: -1 }
+//         };
+//         const sort = sortMapping[sortBy] || { createdAt: -1 };
+
+//         // Get total count for pagination
+//         const totalProducts = await Product.countDocuments(query);
+//         const totalPages = Math.ceil(totalProducts / limit);
+
+//         // Fetch products with pagination
+//         const productData = await Product.find(query)
+//             .populate('category')
+//             .sort(sort)
+//             .skip(skip)
+//             .limit(limit);
+
+//         // Prepare view data
+//         const viewData = {
+//             products: productData,
+//             categories: categories,
+//             selectedCategory: category,
+//             sortBy: sortBy,
+//             minPrice: parseFloat(minPrice || 0),
+//             maxPrice: parseFloat(maxPrice || 1000000),
+//             searchQuery: q,
+//             // Pagination data
+//             currentPage: page,
+//             totalPages: totalPages,
+//             hasNextPage: page < totalPages,
+//             hasPrevPage: page > 1,
+//             nextPage: page + 1,
+//             prevPage: page - 1,
+//             lastPage: totalPages,
+//             // Helper for generating pagination URLs
+//             paginationUrl: (pageNum) => {
+//                 const params = new URLSearchParams(req.query);
+//                 params.set('page', pageNum);
+//                 return `?${params.toString()}`;
+//             }
+//         };
+
+//         // Add user data if logged in (unchanged)
+//         if (user) {
+//             const userData = await User.findOne({ _id: user });
+//             viewData.user = userData;
+//         }
+
+//         res.render("shop", viewData);
+
+//     } catch (error) {
+//         console.error("Shop page error:", error);
+//         res.status(500).send("Server error");
+//     }
+// };
+
+
+
+
+
 const getShopPage = async (req, res) => {
     try {
         const user = req.session.user;
         
-        // Extract query parameters for filtering and sorting
+        // Pagination parameters
+        const page = parseInt(req.query.page) || 1;
+        const limit = 6;
+        const skip = (page - 1) * limit;
+        
         const { 
             category = '', 
             sortBy = 'createdAt-desc', 
             minPrice = 0, 
             maxPrice = 1000000,
-            q = '' // Add search query parameter
+            q = ''
         } = req.query;
 
-        // Build query conditions
+        // Build base query
         const query = {
             isBlocked: false,
             salePrice: { 
@@ -268,27 +384,30 @@ const getShopPage = async (req, res) => {
         };
 
         // Fetch categories
-        const categories = await Category.find({ isListed: true, status: "active" });
-        
-        // Category filter logic
+        const categories = await Category.find({ isListed: true });
+
+        // Enhanced ordered search logic
+        if (q.trim()) {
+            const searchTerm = q.trim();
+            // Create a regex pattern that matches letters in order with optional characters in between
+            const orderedPattern = searchTerm.split('').map(char => {
+                // Escape special regex characters if any
+                const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                return `${escapedChar}.*?`;
+            }).join('');
+            
+            query.productName = new RegExp(orderedPattern, 'i');
+        }
+
+        // Category filter (unchanged)
         if (category) {
             const selectedCategory = await Category.findOne({ name: category, isListed: true });
             if (selectedCategory) {
                 query.category = selectedCategory._id;
             }
-        } else {
-            query.category = { $in: categories.map(cat => cat._id) };
         }
 
-        // Search logic
-        if (q) {
-            query.$or = [
-                { productName: { $regex: q, $options: 'i' } },
-                { description: { $regex: q, $options: 'i' } }
-            ];
-        }
-
-        // Sorting logic
+        // Sorting configuration (unchanged)
         const sortMapping = {
             'createdAt-desc': { createdAt: -1 },
             'price-asc': { salePrice: 1 },
@@ -296,29 +415,43 @@ const getShopPage = async (req, res) => {
             'name-asc': { productName: 1 },
             'name-desc': { productName: -1 }
         };
-
-        // Get sort configuration
         const sort = sortMapping[sortBy] || { createdAt: -1 };
 
-        // Fetch products with sorting and filtering
-        const productData = await Product.find(query)
-            .populate('category')
-            .sort(sort);
+        // Get total count for pagination
+        const totalProducts = await Product.countDocuments(query);
+        const totalPages = Math.ceil(totalProducts / limit);
 
-        // Prepare view data
+        // Fetch products
+        const products = await Product.find(query)
+            .populate('category')
+            .sort(sort)
+            .skip(skip)
+            .limit(limit);
+
+        // Prepare view data (unchanged)
         const viewData = {
-            products: productData,
-            categories: categories,
+            products,
+            categories,
             selectedCategory: category,
-            sortBy: sortBy,
+            sortBy,
             minPrice: parseFloat(minPrice || 0),
             maxPrice: parseFloat(maxPrice || 1000000),
-            searchQuery: q // Pass search query to the view
+            searchQuery: q,
+            currentPage: page,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1,
+            nextPage: page + 1,
+            prevPage: page - 1,
+            paginationUrl: (pageNum) => {
+                const params = new URLSearchParams(req.query);
+                params.set('page', pageNum);
+                return `?${params.toString()}`;
+            }
         };
 
-        // Add user data if logged in
         if (user) {
-            const userData = await User.findOne({ _id: user });
+            const userData = await User.findById(user);
             viewData.user = userData;
         }
 

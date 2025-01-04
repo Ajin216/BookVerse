@@ -60,6 +60,8 @@ const updateProfile = async (req, res) => {
             });
         }
 
+
+        //User.findByIdAndUpdate: A Mongoose method that finds a user document by its id and updates it.
         const updatedUser = await User.findByIdAndUpdate(
             userId, 
             { 
@@ -67,6 +69,7 @@ const updateProfile = async (req, res) => {
                 phone: phone ? phone.trim() : null 
             }, 
             { new: true }
+            //Returns the updated user document instead of the old one.
         );
         
         if (!updatedUser) {

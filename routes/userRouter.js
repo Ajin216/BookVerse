@@ -10,6 +10,7 @@ const profileController=require("../controllers/user/profileController");
 const addressController=require("../controllers/user/addressController");
 const checkoutController=require("../controllers/user/checkoutController");
 const orderController=require("../controllers/user/orderController");
+const wishlistController=require("../controllers/user/wishlistController");
 const {userAuth,userAuthOut}=require("../middleware/auth")
 
 
@@ -97,8 +98,11 @@ router.get('/order',userAuth,orderController.getOrderPage)
 router.get('/orderSummary/:orderId',userAuth,orderController.getOrderSummary)
 router.post('/orders/cancel-item/:orderId/:itemId', orderController.cancelOrderItem);
 router.post('/orders/cancel-all-orders/:orderId', userAuth, orderController.cancelAllOrders);
+router.post('/return-item/:itemId', userAuth, orderController.returnOrderItem);
 
-
-
+//Wishlist Management
+router.get('/wishlist',userAuth,wishlistController.getWishlistpage)
+router.post('/wishlist/add', userAuth, wishlistController.addToWishlist);
+router.delete('/remove-from-wishlist/:productId', userAuth, wishlistController.removeFromWishlist);
 
 module.exports=router;

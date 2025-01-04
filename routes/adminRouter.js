@@ -9,6 +9,7 @@ const customerController=require("../controllers/admin/customerController")
 const categoryController=require("../controllers/admin/categoryController")
 const productController=require("../controllers/admin/productController")
 const adminOrderController=require("../controllers/admin/adminOrderController")
+const offerController=require("../controllers/admin/offerController")
 const {user,Auth,adminAuth}=require("../middleware/auth")
 
 router.use(session({
@@ -62,37 +63,47 @@ router.post('/addProducts',
 router.get("/products",adminAuth,productController.showAllProducts);
 router.get("/blockProduct",adminAuth,productController.blockProduct);
 router.get("/unblockProduct",adminAuth,productController.unblockProduct);
-router.get("/editProduct",adminAuth,productController.getEditProduct);
-
-
+router.get("/editProduct", adminAuth, productController.getEditProduct);
 router.post('/editProduct/:id',
   upload.fields([
     { name: 'file1', maxCount: 1 },
     { name: 'file2', maxCount: 1 },
     { name: 'file3', maxCount: 1 }
   ]),
+  adminAuth,
   productController.updateProduct
 );
+router.delete("/deleteProduct/:id", adminAuth, productController.deleteProduct);
 
 
 
 
-//admin order
-// Existing route
+//admin ordermanagement
 router.get("/adminOrder", adminAuth, adminOrderController.getAdminOrderPage);
-
-// New route for order details
 router.get("/order-details", adminAuth, adminOrderController.getOrderDetails);
-
-// Add this route to handle order status updates
 router.post("/update-order-status", adminAuth, adminOrderController.updateOrderStatus);
+router.post("/cancel-order-item", adminAuth, adminOrderController.cancelOrderItem);
+
+
+//offer management
+router.get("/offers",adminAuth,offerController.getOfferPage);
+
+//product offer management
+router.get("/productOffer",adminAuth,offerController.getProductOfferPage);
+router.post("/addProductOffer", adminAuth, offerController.addProductOffer);
+
+router.get("/editProductOffer/:id", adminAuth, offerController.getEditProductOfferPage);
+router.post("/updateProductOffer", adminAuth, offerController.updateProductOffer);
 
 
 
+//category offer management
+router.get("/categoryOffer",adminAuth,offerController.getCategoryOfferPage);
+router.post("/addCategoryOffer", adminAuth, offerController.addCategoryOffer);
 
 
-
-
+// router.get("/offer/:id", adminAuth, offerController.getOfferById);
+// router.post("/offer/:id", adminAuth, offerController.updateOffer);
 
 module.exports=router;
 

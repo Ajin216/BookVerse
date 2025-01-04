@@ -25,6 +25,8 @@ const getAdminOrderPage = async (req, res) => {
     }
 }
 
+
+
 // New controller method to get order details
 const getOrderDetails = async (req, res) => {
     try {
@@ -157,7 +159,61 @@ const updateOrderStatus = async (req, res) => {
 
 
 
+const cancelOrderItem = async (req, res) => {
+    try {
+        const { itemId } = req.body;
+        
+        // Find the order and item first
+        const order = await Order.findOne({ "items._id": itemId });
+        if (!order) {
+            return res.status(404).json({ success: false, message: "Order not found" });
+        }
 
+        // Find the specific item
+        const item = order.items.find(item => item._id.toString() === itemId);
+        if (!item) {
+            return res.status(404).json({ success: false, message: "Item not found" });
+        }
+
+        // Check if item is already delivered
+        if (item.status === 'Delivered') {
+            return res.status(400).json({ 
+                success: false, 
+                message: "Cannot cancel delivered order" 
+            });
+        }
+
+        // Update product quantity only if item wasn't already cancelled
+        if (item.status !== 'Cancelled') {
+            await Product.findByIdAndUpdate(
+                item.productId,
+                { $inc: { quantity: item.quantity } }
+            );
+        }
+
+        // Calculate new total price
+        const cancelledItemTotal = item.total;
+        const newTotalPrice = order.totalPrice - cancelledItemTotal;
+
+        // Update the order
+        const updatedOrder = await Order.findOneAndUpdate(
+            { "items._id": itemId },
+            {
+                $set: {
+                    "items.$.status": "Cancelled",
+                    "order_status": "Cancelled",
+                    "totalPrice": newTotalPrice
+                }
+            },
+            { new: true }
+        );
+
+        res.json({ success: true, order: updatedOrder });
+    } catch (error) {
+        console.error("Error cancelling order:", error);
+        res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
 
 
 
@@ -165,5 +221,6 @@ module.exports={
     getAdminOrderPage,
     getOrderDetails,
     updateOrderStatus,
+    cancelOrderItem
     
 }

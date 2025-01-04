@@ -14,6 +14,9 @@ db()
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
+
+//session() Middleware: Manages user sessions (e.g., storing session data in memory or a database).
+
 app.use(session({
     secret:process.env.SESSION_SECRET,
     resave:false,

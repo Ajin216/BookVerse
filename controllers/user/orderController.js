@@ -154,11 +154,139 @@ const getOrderSummary = async (req, res) => {
 
 
 
+// const cancelOrderItem = async (req, res) => {
+//     try {
+//         const { orderId, itemId } = req.params;
+
+//         // Find the order
+//         const order = await Order.findOne({ orderId: orderId });
+
+//         if (!order) {
+//             return res.status(404).json({ 
+//                 success: false, 
+//                 message: 'Order not found' 
+//             });
+//         }
+
+//         // Find the item to be cancelled
+//         const item = order.items.find(item => 
+//             item._id.toString() === itemId
+//         );
+
+//         if (!item) {
+//             return res.status(404).json({ 
+//                 success: false, 
+//                 message: 'Item not found in the order' 
+//             });
+//         }
+
+//         // Update item status instead of removing it
+//         item.status = 'Cancelled';
+        
+//         // Recalculate total price by excluding cancelled items
+//         order.totalPrice = order.items.reduce((total, item) => {
+//             return item.status !== 'Cancelled' ? total + (item.quantity * item.price) : total;
+//         }, 0);
+
+//         // Return the cancelled item to stock
+//         await Product.findByIdAndUpdate(item.productId, {
+//             $inc: { stock: item.quantity }
+//         });
+
+//         // Check if all items are cancelled
+//         const allItemsCancelled = order.items.every(item => item.status === 'Cancelled');
+//         if (allItemsCancelled) {
+//             order.order_status = 'Cancelled';
+//         }
+
+//         await order.save();
+
+//         res.json({ 
+//             success: true, 
+//             message: 'Item successfully cancelled',
+//             updatedTotalPrice: order.totalPrice,
+//             orderStatus: order.order_status
+//         });
+//     } catch (error) {
+//         console.error('Error canceling order item:', error);
+//         res.status(500).json({ 
+//             success: false, 
+//             message: 'Error canceling order item',
+//             error: error.message 
+//         });
+//     }
+// };
+
+
+
+
+// const cancelAllOrders = async (req, res) => {
+//     try {
+//         const orderId = req.params.orderId;
+//         const { cancelReason } = req.body;
+
+//         // Find the order
+//         const order = await Order.findOne({ orderId: orderId });
+
+//         if (!order) {
+//             return res.status(404).json({ 
+//                 success: false, 
+//                 message: 'Order not found' 
+//             });
+//         }
+
+//         // Check if order is already cancelled
+//         if (order.order_status === 'Cancelled') {
+//             return res.status(400).json({ 
+//                 success: false, 
+//                 message: 'Order is already cancelled' 
+//             });
+//         }
+
+//         // Update order status to Cancelled and mark all items as cancelled
+//         order.order_status = 'Cancelled';
+//         order.cancelReason = cancelReason || 'Customer request';
+        
+//         // Update all items to cancelled status
+//         order.items.forEach(item => {
+//             item.status = 'Cancelled';
+//         });
+
+//         // Return items to stock
+//         for (const item of order.items) {
+//             await Product.findByIdAndUpdate(item.productId, {
+//                 $inc: { stock: item.quantity }
+//             });
+//         }
+
+//         // Set total price to 0
+//         order.totalPrice = 0;
+
+//         // Save the updated order
+//         await order.save();
+
+//         res.json({ 
+//             success: true, 
+//             message: 'Order successfully cancelled'
+//         });
+//     } catch (error) {
+//         console.error('Error canceling entire order:', error);
+//         res.status(500).json({ 
+//             success: false, 
+//             message: 'Error canceling order',
+//             error: error.message 
+//         });
+//     }
+// };
+
+
+
+
+
+
 const cancelOrderItem = async (req, res) => {
     try {
         const { orderId, itemId } = req.params;
-
-        // Find the order
         const order = await Order.findOne({ orderId: orderId });
 
         if (!order) {
@@ -168,45 +296,46 @@ const cancelOrderItem = async (req, res) => {
             });
         }
 
-        // Find the index of the item to be removed
-        const itemIndex = order.items.findIndex(item => 
+        const item = order.items.find(item => 
             item._id.toString() === itemId
         );
 
-        if (itemIndex === -1) {
+        if (!item) {
             return res.status(404).json({ 
                 success: false, 
                 message: 'Item not found in the order' 
             });
         }
 
-        // Get the item to be removed
-        const removedItem = order.items[itemIndex];
+        // Only update stock if item wasn't already cancelled
+        if (item.status !== 'Cancelled') {
+            // Update quantity instead of stock
+            await Product.findByIdAndUpdate(item.productId, {
+                $inc: { quantity: item.quantity }
+            });
+            
+            // Update item status
+            item.status = 'Cancelled';
+            
+            // Recalculate total price
+            order.totalPrice = order.items.reduce((total, item) => {
+                return item.status !== 'Cancelled' ? total + (item.quantity * item.price) : total;
+            }, 0);
 
-        // Remove the item from the order
-        order.items.splice(itemIndex, 1);
+            // Check if all items are cancelled
+            const allItemsCancelled = order.items.every(item => item.status === 'Cancelled');
+            if (allItemsCancelled) {
+                order.order_status = 'Cancelled';
+            }
 
-        // Recalculate total price
-        order.totalPrice -= removedItem.quantity * removedItem.price;
-
-        // Save the updated order
-        await order.save();
-
-        // Return the item to stock
-        await Product.findByIdAndUpdate(removedItem.productId, {
-            $inc: { stock: removedItem.quantity }
-        });
-
-        // If no items left, update order status
-        if (order.items.length === 0) {
-            order.order_status = 'Cancelled';
             await order.save();
         }
 
         res.json({ 
             success: true, 
-            message: 'Item successfully removed from order',
-            updatedTotalPrice: order.totalPrice
+            message: 'Item successfully cancelled',
+            updatedTotalPrice: order.totalPrice,
+            orderStatus: order.order_status
         });
     } catch (error) {
         console.error('Error canceling order item:', error);
@@ -218,18 +347,11 @@ const cancelOrderItem = async (req, res) => {
     }
 };
 
-
-
-
-
-
-
 const cancelAllOrders = async (req, res) => {
     try {
         const orderId = req.params.orderId;
         const { cancelReason } = req.body;
 
-        // Find the order
         const order = await Order.findOne({ orderId: orderId });
 
         if (!order) {
@@ -239,7 +361,6 @@ const cancelAllOrders = async (req, res) => {
             });
         }
 
-        // Check if order is already cancelled
         if (order.order_status === 'Cancelled') {
             return res.status(400).json({ 
                 success: false, 
@@ -247,27 +368,25 @@ const cancelAllOrders = async (req, res) => {
             });
         }
 
-        // Update order status to Cancelled
-        order.order_status = 'Cancelled';
-        order.cancelReason = cancelReason || 'Customer request';
-
-        // Return all items to stock
+        // Return items to stock only if they weren't already cancelled
         for (const item of order.items) {
-            await Product.findByIdAndUpdate(item.productId, {
-                $inc: { stock: item.quantity }
-            });
+            if (item.status !== 'Cancelled') {
+                await Product.findByIdAndUpdate(item.productId, {
+                    $inc: { quantity: item.quantity }
+                });
+                item.status = 'Cancelled';
+            }
         }
 
-        // Clear order items
-        order.items = [];
+        order.order_status = 'Cancelled';
+        order.cancelReason = cancelReason || 'Customer request';
         order.totalPrice = 0;
 
-        // Save the updated order
         await order.save();
 
         res.json({ 
             success: true, 
-            message: 'Order successfully cancelled' 
+            message: 'Order successfully cancelled'
         });
     } catch (error) {
         console.error('Error canceling entire order:', error);
@@ -281,10 +400,89 @@ const cancelAllOrders = async (req, res) => {
 
 
 
+//return order
+
+const returnOrderItem = async (req, res) => {
+    try {
+        const itemId = req.params.itemId;
+
+        // Find the order and populate product information
+        const order = await Order.findOne({ "items._id": itemId })
+            .populate('items.productId');
+            
+        if (!order) {
+            return res.status(404).json({ success: false, message: 'Order not found' });
+        }
+
+        // Find the specific item in the order
+        const itemIndex = order.items.findIndex(item => item._id.toString() === itemId);
+        if (itemIndex === -1) {
+            return res.status(404).json({ success: false, message: 'Item not found' });
+        }
+
+        const item = order.items[itemIndex];
+
+        // Check if item is already returned
+        if (item.status === 'Returned') {
+            return res.status(400).json({ success: false, message: 'Item is already returned' });
+        }
+
+        // Update item status to Returned
+        item.status = 'Returned';
+
+        // Find and update product quantity
+        const product = await Product.findById(item.productId);
+        if (!product) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+
+        // Increment the product quantity
+        product.quantity += item.quantity;
+
+        // Update product availability status if needed
+        if (product.status === 'Out Of Stock' && product.quantity > 0) {
+            product.status = 'Available';
+        }
+
+        // Save both order and product changes
+        try {
+            await Promise.all([
+                order.save({ validateBeforeSave: true }),
+                product.save()
+            ]);
+        } catch (saveError) {
+            console.error('Save Error:', saveError);
+            return res.status(500).json({ 
+                success: false, 
+                message: 'Error saving changes',
+                error: saveError.message 
+            });
+        }
+
+        res.json({ 
+            success: true, 
+            message: 'Item returned successfully',
+            newQuantity: product.quantity
+        });
+
+    } catch (error) {
+        console.error('Error returning item:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Failed to return item',
+            error: error.message 
+        });
+    }
+};
+
+
+
+
 module.exports={
     getOrderPage,
     getOrderSummary,
     cancelOrderItem,
-    cancelAllOrders
+    cancelAllOrders,
+    returnOrderItem
 
 }

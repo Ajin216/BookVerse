@@ -269,9 +269,13 @@
                                         <th>Quantity</th>
                                         <th>Price</th>
                                         <th>Subtotal</th>
+                                        <th>Product Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+
+
+
                                 <tbody>
                                     <% items.forEach((item, index) => { %>
                                         <tr data-item-id="<%= item._id.toString() %>">
@@ -288,16 +292,43 @@
                                             <td>₹<%= item.price.toFixed(2) %></td>
                                             <td>₹<%= item.subtotal.toFixed(2) %></td>
                                             <td>
-                                                <button 
-                                                    class="btn btn-outline-danger btn-sm" 
-                                                    onclick="cancelOrderItem('<%= item._id.toString() %>')"
-                                                >
-                                                    Cancel Item
-                                                </button>
+                                                <% if (item.status === 'Cancelled') { %>
+                                                    <span class="badge bg-danger">Cancelled</span>
+                                                <% } else if (item.status === 'Returned') { %>
+                                                    <span class="badge bg-secondary">Returned</span>
+                                                <% } else { %>
+                                                    <span class="badge bg-success">Active</span>
+                                                <% } %>
                                             </td>
+
+                                             <td>
+                                                <% if (order.order_status === 'Delivered') { %>
+                                                    <% if (item.status === 'Returned') { %>
+                                                        <button class="btn btn-secondary btn-sm" disabled>Returned</button>
+                                                    <% } else { %>
+                                                        <button class="btn btn-danger btn-sm" onclick="returnOrderItem('<%= item._id %>', this)">
+                                                            Return Product
+                                                        </button>
+                                                    <% } %>
+                                                <% } else if (item.status === 'Cancelled') { %>
+                                                    <button class="btn btn-danger btn-sm" disabled>Cancelled</button>
+                                                <% } else { %>
+                                                    <button 
+                                                        class="btn btn-outline-danger btn-sm" 
+                                                        onclick="cancelOrderItem('<%= item._id.toString() %>')"
+                                                    >
+                                                        Cancel Item
+                                                    </button>
+                                                <% } %>
+                                            </td>
+                                            
                                         </tr>
-                                        <% }); %>
+                                    <% }); %>
+                                   
                                 </tbody>
+
+
+
                                 <tfoot>
                                     <tr class="table-active">
                                         <td colspan="6" class="text-end"><strong>Total Price:</strong></td>
@@ -307,11 +338,24 @@
                             </table>
                         </div>
         
-                        <div class="order-actions">
+                        <!-- <div class="order-actions">
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
                                 Cancel All Orders
                             </button>
                             <a href="/order" class="btn btn-outline-primary">Back to Orders</a>
+                        </div> -->
+
+                        <div class="order-actions">
+                            <% if (order.order_status==='Delivered' || order.order_status==='Cancelled' ) { %>
+                                <button type="button" class="btn btn-danger" disabled>
+                                    Cancel All Orders
+                                </button>
+                                <% } else { %>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+                                        Cancel All Orders
+                                    </button>
+                                    <% } %>
+                                        <a href="/order" class="btn btn-outline-primary">Back to Orders</a>
                         </div>
         
         
@@ -736,148 +780,291 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
 
-        function cancelOrderItem(itemId) {
-     const orderId = '<%= order.orderId %>'; // Ensure this is correctly populated
-     
-     // Improved confirmation dialog
-     Swal.fire({
-         title: 'Are you sure?',
-         text: 'Do you want to cancel this item from your order?',
-         icon: 'warning',
-         showCancelButton: true,
-         confirmButtonColor: '#3085d6',
-         cancelButtonColor: '#d33',
-         confirmButtonText: 'Yes, cancel it!'
-     }).then((result) => {
-         if (result.isConfirmed) {
-             fetch(`/orders/cancel-item/${orderId}/${itemId}`, {
-                 method: 'POST',
-                 headers: {
-                     'Content-Type': 'application/json'
-                 }
-             })
-             .then(response => {
-                 if (!response.ok) {
-                     throw new Error('Network response was not ok');
-                 }
-                 return response.json();
-             })
-             .then(data => {
-                 if(data.success) {
-                     // Remove the specific row
-                     const rowToRemove = document.querySelector(`tr[data-item-id="${itemId}"]`);
-                     if (rowToRemove) {
-                         rowToRemove.remove();
-                     }
-                     
-                     // Update total price
-                     const totalPriceElement = document.querySelector('tfoot .total-price');
-                     if (totalPriceElement) {
-                         totalPriceElement.textContent = `₹${data.updatedTotalPrice.toFixed(2)}`;
-                     }
-                     
-                     // Show success message
-                     Swal.fire(
-                         'Cancelled!',
-                         'Your order item has been cancelled.',
-                         'success'
-                     );
-                     
-                     // Reload the page or update UI as needed
-                     if (document.querySelector('tbody').children.length === 0) {
-                         window.location.reload()
-                     }
-                 } else {
-                     Swal.fire(
-                         'Error!',
-                         data.message || 'Failed to cancel the item',
-                         'error'
-                     );
-                 }
-             })
-             .catch(error => {
-                 console.error('Error:', error);
-                 Swal.fire(
-                     'Error!',
-                     'An error occurred while canceling the item',
-                     'error'
-                 );
-             });
-         }
-     });
- }
+    
+    <script>
+// function cancelOrderItem(itemId) {
+//     const orderId = '<%= order.orderId %>';
+    
+//     Swal.fire({
+//         title: 'Are you sure?',
+//         text: 'Do you want to cancel this item from your order?',
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         confirmButtonText: 'Yes, cancel it!'
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             fetch(`/orders/cancel-item/${orderId}/${itemId}`, {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 }
+//             })
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error('Network response was not ok');
+//                 }
+//                 return response.json();
+//             })
+//             .then(data => {
+//                 if(data.success) {
+//                     // Update the specific row
+//                     const row = document.querySelector(`tr[data-item-id="${itemId}"]`);
+//                     if (row) {
+//                         // Update the cancel button
+//                         const actionCell = row.querySelector('td:last-child');
+//                         actionCell.innerHTML = '<button class="btn btn-secondary btn-sm" disabled>Cancelled</button>';
+                        
+//                         // Update total price
+//                         const totalPriceElement = document.querySelector('tfoot td:last-child');
+//                         if (totalPriceElement) {
+//                             totalPriceElement.textContent = `₹${data.updatedTotalPrice.toFixed(2)}`;
+//                         }
+
+//                         // Update order status if all items are cancelled
+//                         if (data.orderStatus === 'Cancelled') {
+//                             const orderStatusBadge = document.querySelector('.status-badge');
+//                             if (orderStatusBadge) {
+//                                 orderStatusBadge.className = 'badge status-badge bg-danger';
+//                                 orderStatusBadge.textContent = 'Cancelled';
+//                             }
+//                         }
+//                     }
+                    
+//                     Swal.fire(
+//                         'Cancelled!',
+//                         'Your order item has been cancelled.',
+//                         'success'
+//                     ).then(() => {
+//                         window.location.reload(); // Added page reload after success message
+//                     });
+//                 } else {
+//                     Swal.fire(
+//                         'Error!',
+//                         data.message || 'Failed to cancel the item',
+//                         'error'
+//                     );
+//                 }
+//             })
+//             .catch(error => {
+//                 console.error('Error:', error);
+//                 Swal.fire(
+//                     'Error!',
+//                     'An error occurred while canceling the item',
+//                     'error'
+//                 );
+//             });
+//         }
+//     });
+// }
+
+
+function cancelOrderItem(itemId) {
+    const orderId = '<%= order.orderId %>';
+    
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to cancel this item from your order?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, cancel it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/orders/cancel-item/${orderId}/${itemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if(data.success) {
+                    Swal.fire(
+                        'Cancelled!',
+                        'Your order item has been cancelled.',
+                        'success'
+                    ).then(() => {
+                        window.location.reload(); // Simple window reload after success
+                    });
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        data.message || 'Failed to cancel the item',
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error!',
+                    'An error occurred while canceling the item',
+                    'error'
+                );
+            });
+        }
+    });
+}
  
  
  
  
- 
- 
- //cancell all orders
- 
- 
-     // Handle cancel reason selection
-     document.getElementById('cancelReason').addEventListener('change', function() {
-         const otherReasonContainer = document.getElementById('otherReasonContainer');
-         otherReasonContainer.style.display = this.value === 'Other' ? 'block' : 'none';
-     });
- 
-     // Handle form submission
-     document.getElementById('cancelAllOrderForm').addEventListener('submit', function(e) {
-         e.preventDefault();
-         const orderId = '<%= order.orderId %>';
-         const cancelReason = document.getElementById('cancelReason').value;
-         const otherReason = document.getElementById('otherReason').value;
- 
-         Swal.fire({
-             title: 'Are you sure?',
-             text: 'Do you want to cancel the entire order?',
-             icon: 'warning',
-             showCancelButton: true,
-             confirmButtonColor: '#d33',
-             cancelButtonColor: '#3085d6',
-             confirmButtonText: 'Yes, cancel order'
-         }).then((result) => {
-             if (result.isConfirmed) {
-                 fetch(`/orders/cancel-all-orders/${orderId}`, {
-                     method: 'POST',
-                     headers: {
-                         'Content-Type': 'application/json'
-                     },
-                     body: JSON.stringify({
-                         cancelReason: cancelReason === 'Other' ? otherReason : cancelReason
-                     })
-                 })
-                 .then(response => response.json())
-                 .then(data => {
-                     if (data.success) {
-                         Swal.fire(
-                             'Cancelled!',
-                             'Your order has been cancelled.',
-                             'success'
-                         ).then(() => {
-                             window.location.reload()
-                         });
-                     } else {
-                         Swal.fire(
-                             'Error!',
-                             data.message || 'Failed to cancel the order',
-                             'error'
-                         );
-                     }
-                 })
-                 .catch(error => {
-                     console.error('Error:', error);
-                     Swal.fire(
-                         'Error!',
-                         'An error occurred while canceling the order',
-                         'error'
-                     );
-                 });
-             }
-         });
-     });
+//  //cancell all orders
+// Frontend JavaScript
+document.getElementById('cancelReason').addEventListener('change', function() {
+    const otherReasonContainer = document.getElementById('otherReasonContainer');
+    otherReasonContainer.style.display = this.value === 'Other' ? 'block' : 'none';
+});
+
+document.getElementById('cancelAllOrderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const orderId = '<%= order.orderId %>';
+    const cancelReason = document.getElementById('cancelReason').value;
+    const otherReason = document.getElementById('otherReason').value;
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to cancel the entire order?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, cancel order'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/orders/cancel-all-orders/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cancelReason: cancelReason === 'Other' ? otherReason : cancelReason
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update all cancel buttons to "Cancelled"
+                    const itemButtons = document.querySelectorAll('.btn-outline-danger');
+                    itemButtons.forEach(button => {
+                        button.className = 'btn btn-danger btn-sm';
+                        button.disabled = true;
+                        button.textContent = 'Cancelled';
+                    });
+
+                    // Update order status badge
+                    const statusBadge = document.querySelector('.status-badge');
+                    if (statusBadge) {
+                        statusBadge.className = 'badge status-badge bg-danger';
+                        statusBadge.textContent = 'Cancelled';
+                    }
+
+                    // Disable Cancel All Orders button
+                    const cancelAllBtn = document.querySelector('[data-bs-target="#cancelOrderModal"]');
+                    if (cancelAllBtn) {
+                        cancelAllBtn.disabled = true;
+                    }
+
+                    // Update total price
+                    const totalPriceElement = document.querySelector('tfoot td:last-child');
+                    if (totalPriceElement) {
+                        totalPriceElement.textContent = '₹0.00';
+                    }
+
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
+                    modal.hide();
+
+                    Swal.fire(
+                        'Cancelled!',
+                        'Your order has been cancelled.',
+                        'success'
+                    );
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        data.message || 'Failed to cancel the order',
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error!',
+                    'An error occurred while canceling the order',
+                    'error'
+                );
+            });
+        }
+    });
+});
+
+
+
+
+//return order
+
+function returnOrderItem(itemId, buttonElement) {
+    Swal.fire({
+        title: 'Return Item?',
+        text: 'Do you want to return this item?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, return it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/return-item/${itemId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    // Update button state
+                    buttonElement.textContent = 'Returned';
+                    buttonElement.disabled = true;
+                    buttonElement.classList.remove('btn-success');
+                    buttonElement.classList.add('btn-secondary');
+
+                    // Update the product status badge
+                    const row = buttonElement.closest('tr');
+                    const statusCell = row.querySelector('td:nth-child(8)'); // 8th column is product status
+                    statusCell.innerHTML = '<span class="badge bg-secondary">Returned</span>';
+
+                    Swal.fire(
+                        'Returned!',
+                        'Item has been returned successfully.',
+                        'success'
+                    );
+                } else {
+                    throw new Error(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error!',
+                    'Failed to return the item',
+                    'error'
+                );
+            });
+        }
+    });
+}
      </script>
 </body>
 

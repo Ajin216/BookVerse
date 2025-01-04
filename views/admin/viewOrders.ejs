@@ -317,7 +317,6 @@ table th {
                         <th>Quantity</th>
                         <th>Price</th>
                         <th>Total Price</th>
-                        <th>Item Status</th>
                         <th>Action</th>
                         
                     </tr>
@@ -332,14 +331,22 @@ table th {
                         <td><%= item.quantity %></td>
                         <td>₹<%= item.price.toFixed(2) %></td>
                         <td>₹<%= item.total.toFixed(2) %></td>
-                        <td><%= item.status %></td>
+                        
+                        
                         <td>
-                            <button 
-                                class="btn btn-danger cancel-order-btn" 
-                                data-item-id="<%= item._id %>"
-                                onclick="cancelOrderItem('<%= order._id %>', '<%= item._id %>')"
+                            <button class="btn <%= 
+                                    item.status === 'Cancelled' ? 'btn-secondary' : 
+                                    item.status === 'Returned' ? 'btn-info' :
+                                    order.order_status === 'Delivered' ? 'btn-success' : 
+                                    'btn-outline-danger' 
+                                %> btn-sm" 
+                                onclick="cancelOrderItem('<%= item._id.toString() %>')"
+                                <%= item.status === 'Cancelled' || item.status === 'Returned' || order.order_status === 'Delivered' ? 'disabled' : '' %>
                             >
-                                Cancel Order
+                                <%= item.status === 'Cancelled' ? 'Cancelled' : 
+                                   item.status === 'Returned' ? 'Returned' :
+                                   order.order_status === 'Delivered' ? 'Delivered' : 
+                                   'Cancel Order' %>
                             </button>
                         </td>
                     </tr>
@@ -465,6 +472,118 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+
+//cancel order
+
+async function cancelOrderItem(itemId) {
+    try {
+        const orderStatus = document.querySelector(`button[onclick="cancelOrderItem('${itemId}')"]`).textContent.trim();
+        
+        // Check if the order is already delivered
+        if (orderStatus === 'Delivered') {
+            Swal.fire({
+                title: 'Cannot Cancel',
+                text: 'This order has already been delivered',
+                icon: 'info',
+                confirmButtonColor: '#3085d6'
+            });
+            return;
+        }
+
+        // Show confirmation dialog using SweetAlert
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this cancellation!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel it!'
+        });
+
+        if (!result.isConfirmed) {
+            return;
+        }
+
+        // Show loading state
+        Swal.fire({
+            title: 'Processing...',
+            text: 'Please wait while we cancel the order.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        const response = await fetch('/admin/cancel-order-item', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ itemId })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Update UI elements
+            const cancelButton = document.querySelector(`button[onclick="cancelOrderItem('${itemId}')"]`);
+            if (cancelButton) {
+                cancelButton.disabled = true;
+                
+                // Check if order is delivered or cancelled
+                if (data.order.items.find(item => item._id === itemId).status === 'Delivered') {
+                    cancelButton.textContent = 'Delivered';
+                    cancelButton.classList.remove('btn-outline-danger');
+                    cancelButton.classList.add('btn-success');
+                } else {
+                    cancelButton.textContent = 'Cancelled';
+                    cancelButton.classList.remove('btn-outline-danger');
+                    cancelButton.classList.add('btn-secondary');
+                }
+            }
+
+            // Update order status
+            const orderStatusContainer = document.getElementById('orderStatus').parentElement;
+            const statusText = data.order.order_status;
+            const statusClass = statusText === 'Delivered' ? 'text-success' : 'text-danger';
+            orderStatusContainer.innerHTML = `<strong>Order Status:</strong> <span class="${statusClass}">${statusText}</span>`;
+
+            // Update total price
+            if (data.order.totalPrice !== undefined) {
+                const totalPriceElement = document.querySelector('.subtotal');
+                if (totalPriceElement) {
+                    totalPriceElement.textContent = `Subtotal: ₹${data.order.totalPrice.toFixed(2)}`;
+                }
+            }
+
+            // Show success message
+            Swal.fire({
+                title: data.order.order_status === 'Delivered' ? 'Delivered!' : 'Cancelled!',
+                text: data.order.order_status === 'Delivered' ? 'The order has been marked as delivered.' : 'The order has been cancelled successfully.',
+                icon: 'success',
+                confirmButtonColor: '#3085d6'
+            });
+        } else {
+            // Show error message
+            Swal.fire({
+                title: 'Error!',
+                text: data.message || 'Failed to update order',
+                icon: 'error',
+                confirmButtonColor: '#3085d6'
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while updating the order',
+            icon: 'error',
+            confirmButtonColor: '#3085d6'
+        });
+    }
+}
 
     </script>
 

@@ -1,0 +1,130 @@
+<%- include("../../views/partials/admin/header") %>
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="card">
+    <div class="card-header border-bottom d-flex align-items-center justify-content-between py-4 mb-2">
+      <h5 class="mb-0">Manage Offers</h5>
+      <div class="d-flex align-items-center gap-2">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" 
+                  data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="ri-add-line me-0 me-sm-1"></i>
+            <span class="d-none d-sm-inline-block">Create New Offer</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item" href="/admin/productOffer">Product Offer</a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="/admin/categoryOffer">Category Offer</a>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-datatable table-responsive">
+      <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+        <div class="px-4 pb-4">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="me-3">
+                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                  <label class="d-flex justify-content-start align-items-center gap-2">
+                    <span>Search:</span>
+                    <input type="search" class="form-control form-control-sm" placeholder="Search Offers"
+                      aria-controls="DataTables_Table_0">
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <div class="px-4 pb-4">
+          <table class="datatables-offer-list table table-hover dataTable no-footer" id="DataTables_Table_0">
+            <thead>
+              <tr>
+                <th class="sorting sorting_desc text-start" aria-sort="descending">Offer Name</th>
+                <th class="sorting text-start">Offer Type</th>
+                <th class="sorting text-center">Discount (%)</th>
+                <th class="sorting text-center">Expiry Date</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+
+
+            <tbody>
+                <% offers.forEach(function(offer) { %>
+                    <tr>
+                        <td class="text-start">
+                            <%= offer.title %>
+                        </td>
+                        <td class="text-start">
+                            <%= offer.type %>
+                        </td>
+                        <td class="text-center">
+                            <%= offer.discount %>%
+                        </td>
+                        <td class="text-center">
+                            <%= new Date(offer.validTill).toLocaleDateString() %>
+                        </td>
+                        <td class="text-center">
+                            <button 
+                                onclick="toggleOfferStatus('<%= offer._id %>', this)" 
+                                class="btn <%= offer.status === 'active' ? 'btn-success' : 'btn-secondary' %> btn-sm">
+                                <%= offer.status === 'active' ? 'Active' : 'Inactive' %>
+                            </button>
+                        </td>
+                        
+                        <td class="text-center">
+                          <div class="dropdown">
+                              <div class="dropdown">
+                                  <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="actionDropdown" 
+                                          data-bs-toggle="dropdown" aria-expanded="false">
+                                    Action
+                                  </button>
+                                  <ul class="dropdown-menu" aria-labelledby="actionDropdown">
+                                    <li>
+                                      <% if (offer.type === 'product') { %>
+                                          <a class="dropdown-item" href="/admin/editProductOffer/<%= offer._id %>">Edit</a>
+                                      <% } else if (offer.type === 'category') { %>
+                                          <a class="dropdown-item" href="/admin/editCategoryOffer/<%= offer._id %>">Edit</a>
+                                      <% } %>
+                                    </li>
+                                    <li>
+                                      <a class="dropdown-item" href="#" onclick="deleteOffer('offerId')">Delete</a>
+                                    </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<%- include("../../views/partials/admin/footer") %>
+
+
+
+
+
+
+
+
+
