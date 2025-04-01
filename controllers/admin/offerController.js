@@ -4,75 +4,49 @@ const Product=require("../../models/productSchema");
 
 
 
-// const getOfferPage = async (req, res) => {
-//     try {
-//         const offers = await Offer.find()
-//             .populate('products')
-//             .populate('category')
-//             .sort({ createdAt: -1 });
-//         res.render("offers", { offers });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Server Error');
-//     }
-// }
-
-
-// const getProductOfferPage = async (req, res) => {
-//     try {
-//         // Fetch products and store as 'data' to match your other views
-//         const data = await Product.find({ isBlocked: false });
-        
-//         // Pass data to the template
-//         res.render("productOffer", { data: data });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Server Error');
-//     }
-// }
-
-
-
-// //add offer
-
-// const addProductOffer = async (req, res) => {
-//     try {
-//         const { offerName, discountPercentage, productId, expiryDate } = req.body;
-
-//         const offer = new Offer({
-//             title: offerName,
-//             description: `${discountPercentage}% off on selected product`,
-//             discount: discountPercentage,
-//             type: 'product',
-//             products: [productId],
-//             validTill: expiryDate,
-//             status: 'active'
-//         });
-
-//         await offer.save();
-//         res.json({ success: true });
-//     } catch (error) {
-//         console.error(error);
-//         res.json({ success: false, message: error.message });
-//     }
-// };
-
-
-
-
 
 const getOfferPage = async (req, res) => {
     try {
+        const page = parseInt(req.query.page) || 1; // Current page
+        const limit = 5; // Items per page
+        const skip = (page - 1) * limit;
+
+        // Get total count for pagination
+        const totalOffers = await Offer.countDocuments();
+        const totalPages = Math.ceil(totalOffers / limit);
+
+        // Get paginated offers
         const offers = await Offer.find()
             .populate('products')
             .populate('category')
-            .sort({ createdAt: -1 });
-        res.render("offers", { offers });
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        // Update status of expired offers
+        const currentDate = new Date();
+        for (const offer of offers) {
+            if (currentDate > new Date(offer.validTill) && offer.status === 'active') {
+                await Offer.findByIdAndUpdate(offer._id, { status: 'inactive' });
+                offer.status = 'inactive';
+            }
+        }
+
+        res.render("offers", { 
+            offers,
+            currentPage: page,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1
+        });
     } catch (error) {
         console.error(error);
         res.status(500).send('Server Error');
     }
-}
+};
+
+
+
 
 const getProductOfferPage = async (req, res) => {
     try {
@@ -160,39 +134,40 @@ const getEditProductOfferPage = async (req, res) => {
     try {
         const offerId = req.params.id;
         
-        // Fetch the offer with populated products
-        const offer = await Offer.findById(offerId).populate('products');
+        // Fetch the offer details with populated products
+        const offer = await Offer.findById(offerId)
+            .populate('products', '_id productName');
         
         if (!offer) {
             return res.redirect('/admin/offers');
         }
 
-        // Fetch all unblocked products
-        const data = await Product.find({ 
+        // Get array of product IDs that are already in the offer
+        const existingProductIds = offer.products.map(p => p._id);
+
+        // Fetch all unblocked products that aren't already in the offer
+        const availableProducts = await Product.find({
             isBlocked: false,
-            _id: { $nin: offer.products.map(p => p._id) } // Exclude already selected products
-        }).select('_id productName price');
-        
-        res.render("editProductOffer", { offer, data });
+            _id: { $nin: existingProductIds }
+        }).select('_id productName');
+
+        res.render('editProductOffer', { 
+            offer,
+            availableProducts // This was missing in your controller
+        });
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error');
+        console.error('Error fetching offer details:', error);
+        res.redirect('/admin/offers');
     }
 };
+
+
 
 const updateProductOffer = async (req, res) => {
     try {
         const { offerId, offerName, discountPercentage, productIds, expiryDate, status } = req.body;
 
-        // Validate input
-        if (!offerId || !offerName || !discountPercentage || !productIds || !expiryDate || !status) {
-            return res.json({ 
-                success: false, 
-                message: 'All fields are required' 
-            });
-        }
-
-        // Check for duplicate offer name excluding current offer
+        // Check for duplicate name excluding current offer
         const existingOffer = await Offer.findOne({ 
             _id: { $ne: offerId },
             title: { $regex: new RegExp(`^${offerName}$`, 'i') }
@@ -201,7 +176,7 @@ const updateProductOffer = async (req, res) => {
         if (existingOffer) {
             return res.json({ 
                 success: false, 
-                message: 'An offer with this name already exists' 
+                message: 'An offer with this name already exists'
             });
         }
 
@@ -214,7 +189,7 @@ const updateProductOffer = async (req, res) => {
         if (productsExist !== productIds.length) {
             return res.json({ 
                 success: false, 
-                message: 'One or more selected products are invalid or blocked' 
+                message: 'One or more selected products are invalid or blocked'
             });
         }
 
@@ -227,10 +202,10 @@ const updateProductOffer = async (req, res) => {
                 discount: discountPercentage,
                 products: productIds,
                 validTill: expiryDate,
-                status: status
+                status
             },
             { new: true }
-        ).populate('products');
+        );
 
         if (!updatedOffer) {
             return res.json({
@@ -239,20 +214,20 @@ const updateProductOffer = async (req, res) => {
             });
         }
 
-        res.json({ 
+        res.json({
             success: true,
-            message: 'Offer updated successfully',
-            offer: updatedOffer
+            message: 'Offer updated successfully'
         });
 
     } catch (error) {
         console.error('Error updating offer:', error);
-        res.json({ 
-            success: false, 
+        res.json({
+            success: false,
             message: error.message || 'Error updating offer'
         });
     }
 };
+
 
 
 
@@ -279,35 +254,88 @@ const getCategoryOfferPage = async (req, res) => {
 
 
 
+
 const addCategoryOffer = async (req, res) => {
     try {
-        const { offerName, discountPercentage, categoryId, expiryDate } = req.body;
+        const { offerName, discountPercentage, categoryIds, expiryDate } = req.body;
+
+        // Check for duplicate offer name
+        const existingOffer = await Offer.findOne({ 
+            title: { $regex: new RegExp(`^${offerName}$`, 'i') }
+        });
+
+        if (existingOffer) {
+            return res.json({ 
+                success: false, 
+                message: 'An offer with this name already exists. Please choose a different name.' 
+            });
+        }
+
+        // Validate input
+        if (!offerName || !discountPercentage || !categoryIds || !expiryDate) {
+            return res.json({ 
+                success: false, 
+                message: 'All fields are required' 
+            });
+        }
+
+        // Validate categories exist and are active
+        const validCategories = await Category.find({
+            _id: { $in: categoryIds },
+            isListed: true,
+            status: 'active'
+        });
+
+        if (validCategories.length !== categoryIds.length) {
+            return res.json({ 
+                success: false, 
+                message: 'One or more selected categories are invalid or inactive' 
+            });
+        }
 
         // Create new offer
-        const newOffer = new Offer({
+        const offer = new Offer({
             title: offerName,
-            description: `${offerName} - Category Offer`,
+            description: `${discountPercentage}% off on selected categories`,
             discount: discountPercentage,
             type: 'category',
-            category: [categoryId],
+            category: categoryIds,
             validTill: expiryDate,
             status: 'active'
         });
 
-        await newOffer.save();
+        await offer.save();
 
-        // Update category with offer
-        await Category.findByIdAndUpdate(categoryId, {
-            categoryOffer: discountPercentage
+        // Update categoryOffer field for all selected categories
+        await Category.updateMany(
+            { _id: { $in: categoryIds } },
+            { $set: { categoryOffer: discountPercentage } }
+        );
+
+        res.json({ 
+            success: true,
+            message: 'Category offer created successfully',
+            offerId: offer._id
         });
 
-        res.json({ success: true, message: 'Offer created successfully' });
-
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ 
+        console.error('Error creating category offer:', error);
+        
+        // Attempt to rollback category updates if offer creation fails
+        if (error && categoryIds) {
+            try {
+                await Category.updateMany(
+                    { _id: { $in: categoryIds } },
+                    { $set: { categoryOffer: 0 } }
+                );
+            } catch (rollbackError) {
+                console.error('Rollback failed:', rollbackError);
+            }
+        }
+
+        res.json({ 
             success: false, 
-            message: error.message || 'Error creating offer' 
+            message: error.message || 'Error creating category offer'
         });
     }
 };
@@ -315,54 +343,120 @@ const addCategoryOffer = async (req, res) => {
 
 
 
-// const getOfferById = async (req, res) => {
-//     try {
-//         const offer = await Offer.findById(req.params.id)
-//             .populate('products')
-//             .populate('category');
+const getEditCategoryOfferPage = async (req, res) => {
+    try {
+        const offerId = req.params.id;
         
-//         if (!offer) {
-//             return res.status(404).json({ success: false, message: 'Offer not found' });
-//         }
+        // Fetch the offer details with populated categories
+        const offer = await Offer.findById(offerId)
+            .populate('category', '_id name');
+        
+        if (!offer) {
+            return res.redirect('/admin/categoryOffer');
+        }
 
-//         res.json({ success: true, offer });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ success: false, message: 'Server Error' });
-//     }
-// };
+        // Get array of category IDs that are already in the offer
+        const existingCategoryIds = offer.category.map(c => c._id);
 
-// const updateOffer = async (req, res) => {
-//     try {
-//         const { title, discount, validTill, status } = req.body;
-//         const offerId = req.params.id;
+        // Fetch all active categories that aren't already in the offer
+        const availableCategories = await Category.find({
+            isListed: true,
+            status: 'active',
+            _id: { $nin: existingCategoryIds }
+        }).select('_id name');
 
-//         const offer = await Offer.findById(offerId);
-//         if (!offer) {
-//             return res.status(404).json({ success: false, message: 'Offer not found' });
-//         }
+        res.render('editCategoryOffer', { 
+            offer,
+            availableCategories
+        });
+    } catch (error) {
+        console.error('Error fetching offer details:', error);
+        res.redirect('/admin/categoryOffer');
+    }
+};
 
-//         // Update offer details
-//         offer.title = title;
-//         offer.discount = discount;
-//         offer.validTill = validTill;
-//         offer.status = status;
+const updateCategoryOffer = async (req, res) => {
+    try {
+        const { offerId, offerName, discountPercentage, categoryIds, expiryDate, status } = req.body;
 
-//         // If it's a category offer, update the category
-//         if (offer.type === 'category' && offer.category.length > 0) {
-//             await Category.findByIdAndUpdate(offer.category[0], {
-//                 categoryOffer: discount
-//             });
-//         }
+        // Check for duplicate name excluding current offer
+        const existingOffer = await Offer.findOne({ 
+            _id: { $ne: offerId },
+            title: { $regex: new RegExp(`^${offerName}$`, 'i') }
+        });
 
-//         await offer.save();
+        if (existingOffer) {
+            return res.json({ 
+                success: false, 
+                message: 'An offer with this name already exists'
+            });
+        }
 
-//         res.json({ success: true, message: 'Offer updated successfully' });
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ success: false, message: error.message });
-//     }
-// };
+        // Validate categories exist and are active
+        const validCategories = await Category.find({
+            _id: { $in: categoryIds },
+            isListed: true,
+            status: 'active'
+        });
+
+        if (validCategories.length !== categoryIds.length) {
+            return res.json({ 
+                success: false, 
+                message: 'One or more selected categories are invalid or inactive'
+            });
+        }
+
+        // Reset categoryOffer for previously selected categories
+        const currentOffer = await Offer.findById(offerId);
+        if (currentOffer && currentOffer.category) {
+            await Category.updateMany(
+                { _id: { $in: currentOffer.category } },
+                { $set: { categoryOffer: 0 } }
+            );
+        }
+
+        // Update offer
+        const updatedOffer = await Offer.findByIdAndUpdate(
+            offerId,
+            {
+                title: offerName,
+                description: `${discountPercentage}% off on selected categories`,
+                discount: discountPercentage,
+                category: categoryIds,
+                validTill: expiryDate,
+                status
+            },
+            { new: true }
+        );
+
+        if (!updatedOffer) {
+            return res.json({
+                success: false,
+                message: 'Offer not found'
+            });
+        }
+
+        // Update categoryOffer for newly selected categories
+        await Category.updateMany(
+            { _id: { $in: categoryIds } },
+            { $set: { categoryOffer: discountPercentage } }
+        );
+
+        res.json({
+            success: true,
+            message: 'Offer updated successfully'
+        });
+
+    } catch (error) {
+        console.error('Error updating offer:', error);
+        res.json({
+            success: false,
+            message: error.message || 'Error updating offer'
+        });
+    }
+};
+
+
 
 
 
@@ -372,8 +466,8 @@ module.exports={
     addProductOffer,
     getCategoryOfferPage,
     addCategoryOffer,
-    // getOfferById,
-    // updateOffer
     updateProductOffer,
-    getEditProductOfferPage 
+    getEditProductOfferPage,
+    getEditCategoryOfferPage,
+    updateCategoryOffer
 }

@@ -298,24 +298,24 @@ body {
                             <i class="icon-bars"></i>
                         </button>
 
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png" alt="Molla Logo" width="105" height="25">
+                        <a href="/" class="logo">
+                            <h3>BOOKVERSE</h3>
                         </a>
 
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
                                 <li class="megamenu-container active">
-                                    <a href="index.html" class="sf-with-ul">Home</a>
+                                    <a href="/" class="sf-with-ul">Home</a>
 
                                   
                                 </li>
                                 <li>
-                                    <a href="category.html" class="sf-with-ul">Shop</a>
+                                    <a href="/shop" class="sf-with-ul">Shop</a>
 
 
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                    <a href="#" class="sf-with-ul">Product</a>
 
                                    
                                 </li>
@@ -325,12 +325,12 @@ body {
                                    
                                 </li>
                                 <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                    <a href="#" class="sf-with-ul">Blog</a>
 
                                    
                                 </li>
                                 <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                    <a href="#" class="sf-with-ul">Elements</a>
 
                                    
                                 </li>
@@ -338,33 +338,7 @@ body {
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
 
-                    <div class="header-right">
-                        <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                            <form action="#" method="get">
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-                           
-                        </div><!-- End .compare-dropdown -->
-
-                        <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <i class="icon-shopping-cart"></i>
-                                
-                            </a>
-
-                           
-                        </div><!-- End .cart-dropdown -->
-                    </div><!-- End .header-right -->
+                    
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
@@ -378,8 +352,8 @@ body {
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
                 <div class="container">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/shop">Shop</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                     </ol>
                 </div><!-- End .container -->
@@ -392,11 +366,6 @@ body {
 
 
 
-
-            				<form action="#">
-        						<input type="text" class="form-control" required id="checkout-discount-input">
-            					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
-            				</form>
             			</div><!-- End .checkout-discount -->
 
    
@@ -460,7 +429,7 @@ body {
                                                         </label>
                                                     </div>
                                                     <div class="form-check mb-3">
-                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="razorPay" value="Razor Pay">
+                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="razorPay" value="Razorpay">
                                                         <label class="form-check-label" for="razorPay">
                                                             Razor Pay
                                                         </label>
@@ -472,6 +441,60 @@ body {
                                                         </label>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                        <!-- Coupon Section -->
+                                        <div class="card mb-4">
+                                            <div class="card-header">
+                                                <h2 class="mb-0">Apply Coupon</h2>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- Available Coupons -->
+                                                <div class="available-coupons mb-3">
+                                                    <h6>Available Coupons:</h6>
+                                                    <div class="coupon-list">
+                                                        <% if (coupons && coupons.length > 0) { %>
+                                                            <% coupons.forEach(function(coupon) { %>
+                                                                <div class="coupon-item border p-2 mb-2 rounded">
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <div>
+                                                                            <strong><%= coupon.couponName %></strong>
+                                                                            <span class="badge bg-primary ms-2"><%= coupon.discount %>% OFF</span>
+                                                                            <% if (coupon.isUsed) { %>
+                                                                                <span class="badge bg-secondary ms-2">Already Used</span>
+                                                                            <% } %>
+                                                                        </div>
+                                                                        <button type="button" 
+                                                                                class="btn btn-sm btn-outline-primary copy-code" 
+                                                                                data-code="<%= coupon.couponId %>"
+                                                                                <% if (coupon.isUsed) { %>disabled<% } %>>
+                                                                            <%= coupon.isUsed ? 'Already Used' : 'Copy Code' %>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="small text-muted mt-1">
+                                                                        <%= coupon.description %>
+                                                                    </div>
+                                                                    <div class="small text-muted">
+                                                                        Min Purchase: ₹<%= coupon.min_purchase_amount %> | Max Discount: ₹<%= coupon.max_amount %>
+                                                                    </div>
+                                                                </div>
+                                                            <% }); %>
+                                                        <% } else { %>
+                                                            <p class="text-muted">No coupons available</p>
+                                                        <% } %>
+                                                    </div>
+                                                </div>
+                                        
+                                                <!-- Coupon Input -->
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="couponCode" placeholder="Enter coupon code">
+                                                    <button class="btn btn-outline-secondary" type="button" id="applyCoupon">
+                                                        Apply
+                                                    </button>
+                                                </div>
+                                                <div id="couponMessage" class="mt-2"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -490,20 +513,32 @@ body {
                                                             <th>Total</th>
                                                         </tr>
                                                     </thead>
+                                                    
+
                                                     <tbody>
+                                                        <% let subtotal = 0; %>
                                                         <% if (cartItems && cartItems.length > 0) { %>
-                                                            <% let subtotal = 0; %>
                                                             <% cartItems.forEach(item => { %>
-                                                                <tr>
+                                                                <tr class="product-row" data-product-id="<%= item.productId._id %>">
                                                                     <td>
                                                                         <a href="/productDetails/<%= item.productId._id %>">
                                                                             <%= item.productId.productName %> 
                                                                             (x <%= item.quantity %>)
                                                                         </a>
+                                                                        <div class="discount-info" style="display: none; font-size: 0.9em; color: #28a745;"></div>
                                                                     </td>
-                                                                    <td>₹<%= (item.productId.salePrice * item.quantity).toFixed(2) %></td>
+                                                                    <% 
+                                                                        const priceToUse = item.productId.bestDiscount > 0 ? 
+                                                                            item.productId.discountedPrice : 
+                                                                            item.productId.regularPrice;
+                                                                        const itemTotal = priceToUse * item.quantity;
+                                                                        subtotal += itemTotal;
+                                                                    %>
+                                                                    <td>
+                                                                        <span class="original-price">₹<%= itemTotal.toFixed(2) %></span>
+                                                                        <div class="final-price" style="display: none;"></div>
+                                                                    </td>
                                                                 </tr>
-                                                                <% subtotal += item.productId.salePrice * item.quantity; %>
                                                             <% }); %>
                                                             <tr class="summary-subtotal">
                                                                 <td>Subtotal:</td>
@@ -518,12 +553,15 @@ body {
                                                             <td>Shipping:</td>
                                                             <td>Free shipping</td>
                                                         </tr>
+                                                        <tr class="summary-discount" style="display: none;">
+                                                            <td>Discount:</td>
+                                                            <td>-₹0.00</td>
+                                                        </tr>
                                                         <tr class="summary-total">
                                                             <td>Total:</td>
-                                                            <td>₹<%= subtotal.toFixed(2) %></td>
+                                                            <td>₹<%= subtotal ? subtotal.toFixed(2) : '0.00' %></td>
                                                         </tr>
                                                     </tbody>
-                                                    
                                                 </table>
                                             </div>
                                             <div class="card-footer">
@@ -536,120 +574,6 @@ body {
                                 </div>
                             </div>
                         </form>
-                        
-                        
-            <!-- Add Address Modal -->
- <!-- Add Address Modal -->
- <!-- <div class="modal fade" id="addAddressModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add New Address</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addressForm">
-                    <div class="mb-3">
-                        <label for="addressName" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="addressName"
-                            name="addressName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addressMobile" class="form-label">Mobile
-                            Number</label>
-                        <input type="tel" class="form-control" id="addressMobile"
-                            name="addressMobile" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addressHouse" class="form-label">House
-                            Name/Number</label>
-                        <input type="text" class="form-control" id="addressHouse"
-                            name="addressHouse" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addressPost" class="form-label">Post Office</label>
-                        <input type="text" class="form-control" id="addressPost"
-                            name="addressPost" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addressDistrict" class="form-label">District</label>
-                        <input type="text" class="form-control" id="addressDistrict"
-                            name="addressDistrict" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addressState" class="form-label">State</label>
-                        <input type="text" class="form-control" id="addressState"
-                            name="addressState" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="addressPin" class="form-label">PIN Code</label>
-                        <input type="number" class="form-control" id="addressPin"
-                            name="addressPin" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save
-                            Address</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
-<!-- Edit Address Modal -->
-<!-- <div class="modal fade" id="editAddressModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit Address</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editAddressForm">
-                    <input type="hidden" id="editAddressId" name="addressId">
-                    
-                    <div class="mb-3">
-                        <label for="editAddressName" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="editAddressName" name="addressName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAddressMobile" class="form-label">Mobile Number</label>
-                        <input type="tel" class="form-control" id="editAddressMobile" name="addressMobile" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAddressHouse" class="form-label">House Name/Number</label>
-                        <input type="text" class="form-control" id="editAddressHouse" name="addressHouse" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAddressPost" class="form-label">Post Office</label>
-                        <input type="text" class="form-control" id="editAddressPost" name="addressPost" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAddressDistrict" class="form-label">District</label>
-                        <input type="text" class="form-control" id="editAddressDistrict" name="addressDistrict" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAddressState" class="form-label">State</label>
-                        <input type="text" class="form-control" id="editAddressState" name="addressState" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editAddressPin" class="form-label">PIN Code</label>
-                        <input type="number" class="form-control" id="editAddressPin" name="addressPin" required>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Update Address</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> -->
-
         </div>
     </div>
 
@@ -665,7 +589,7 @@ body {
 	            	<div class="row">
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget widget-about">
-	            				<img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<h3>BOOKVERSE</h3>
 	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
 	            				<div class="social-icons">
@@ -1034,6 +958,11 @@ body {
 
 
 
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="/js/razorpay.js"></script>
+
+
+
 
     <script>
 
@@ -1090,126 +1019,435 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-//EDIT ADDRESS
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Modal Population Event Listener
-//     document.getElementById('editAddressModal').addEventListener('show.bs.modal', function(e) {
-//         const editButton = e.relatedTarget;
-//         const addressId = editButton.getAttribute('data-address-id');
-//         const addressCard = editButton.closest('.card');
-//         const paragraphs = addressCard.querySelectorAll('.address-details p');
 
-//         document.getElementById('editAddressId').value = addressId;
-//         document.getElementById('editAddressName').value = paragraphs[0].textContent.replace('Name:', '').trim();
-//         document.getElementById('editAddressHouse').value = paragraphs[1].textContent.replace('House:', '').trim();
-//         document.getElementById('editAddressPost').value = paragraphs[2].textContent.replace('Post Office:', '').trim();
-//         document.getElementById('editAddressDistrict').value = paragraphs[3].textContent.replace('District:', '').trim();
-//         document.getElementById('editAddressState').value = paragraphs[4].textContent.replace('State:', '').trim();
-//         document.getElementById('editAddressPin').value = paragraphs[5].textContent.replace('PIN Code:', '').trim();
-//         document.getElementById('editAddressMobile').value = paragraphs[6].textContent.replace('Mobile:', '').trim();
-//     });
+// Coupon copy functionality
+document.querySelectorAll('.copy-code').forEach(button => {
+    button.addEventListener('click', function() {
+        const code = this.getAttribute('data-code');
+        navigator.clipboard.writeText(code);
+        document.getElementById('couponCode').value = code;
+        this.textContent = 'Copied!';
+        setTimeout(() => {
+            this.textContent = 'Copy Code';
+        }, 2000);
+    });
+});
 
-//     // Form Submission Event Listener
-//     document.getElementById('editAddressForm').addEventListener('submit', async function(e) {
-//         e.preventDefault();
-//         const submitButton = this.querySelector('button[type="submit"]');
-//         submitButton.disabled = true;
 
-//         const formData = new FormData(this);
-//         const validationErrors = [];
 
-//         // Name Validation
-//         const addressName = formData.get('addressName').trim();
-//         if (!/^[a-zA-Z\s'-]+$/.test(addressName)) {
-//             validationErrors.push('Name must contain only letters, spaces, hyphens, or apostrophes');
-//         }
-//         if (addressName.length < 2) {
-//             validationErrors.push('Name must be at least 2 characters long');
-//         }
 
-//         // Mobile Validation
-//         const addressMobile = formData.get('addressMobile').trim();
-//         const mobileRegex = /^[6-9]\d{9}$/;
-//         if (!mobileRegex.test(addressMobile)) {
-//             validationErrors.push('Invalid mobile number');
-//         }
+document.addEventListener('DOMContentLoaded', function() {
+    const applyCouponBtn = document.getElementById('applyCoupon');
+    const couponMessageDiv = document.getElementById('couponMessage');
+    
+    applyCouponBtn.addEventListener('click', async function() {
+        const couponCode = document.getElementById('couponCode').value;
+        if (!couponCode) {
+            couponMessageDiv.innerHTML = '<div class="alert alert-danger">Please enter a coupon code</div>';
+            return;
+        }
 
-//         // PIN Code Validation
-//         const addressPin = formData.get('addressPin').trim();
-//         const pinRegex = /^\d{6}$/;
-//         if (!pinRegex.test(addressPin)) {
-//             validationErrors.push('PIN code must be 6 digits');
-//         }
+        try {
+            const subtotal = parseFloat(document.querySelector('.summary-subtotal td:last-child')
+                .textContent.replace('₹', ''));
+            
+            const response = await fetch('/apply-coupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    couponCode,
+                    subtotal
+                })
+            });
 
-//         // House Address Validation
-//         const addressHouse = formData.get('addressHouse').trim();
-//         if (!addressHouse || addressHouse.length < 3) {
-//             validationErrors.push('House address is too short');
-//         }
+            const data = await response.json();
 
-//         // Other field validations
-//         const addressPost = formData.get('addressPost').trim();
-//         if (addressPost.length < 3) {
-//             validationErrors.push('Post Office name is too short');
-//         }
+            if (data.success) {
+                // Show success message
+                couponMessageDiv.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                
+                // Update discount information for each product
+                data.itemDiscounts.forEach(item => {
+                    const productRow = document.querySelector(`.product-row[data-product-id="${item.productId}"]`);
+                    if (productRow) {
+                        const discountInfo = productRow.querySelector('.discount-info');
+                        const finalPrice = productRow.querySelector('.final-price');
+                        const originalPrice = productRow.querySelector('.original-price');
+                        
+                        discountInfo.innerHTML = `Discount: -₹${item.discountPerUnit.toFixed(2)} per unit`;
+                        discountInfo.style.display = 'block';
+                        
+                        finalPrice.innerHTML = `₹${(item.finalPrice * item.quantity).toFixed(2)}`;
+                        finalPrice.style.display = 'block';
+                        originalPrice.style.textDecoration = 'line-through';
+                        originalPrice.style.color = '#999';
+                    }
+                });
+                
+                // Update total discount and final amount
+                const discountRow = document.querySelector('.summary-discount');
+                discountRow.style.display = 'table-row';
+                discountRow.querySelector('td:last-child').textContent = 
+                    `-₹${data.discountAmount.toFixed(2)}`;
+                
+                document.querySelector('.summary-total td:last-child').textContent = 
+                    `₹${data.finalAmount.toFixed(2)}`;
+                
+                // Store coupon data
+                const couponInput = document.getElementById('appliedCouponData') || 
+                    document.createElement('input');
+                couponInput.type = 'hidden';
+                couponInput.id = 'appliedCouponData';
+                couponInput.name = 'appliedCoupon';
+                couponInput.value = JSON.stringify({
+                    code: couponCode,
+                    discountAmount: data.discountAmount,
+                    discountType: data.discountType,
+                    discountValue: data.discountValue,
+                    itemDiscounts: data.itemDiscounts
+                });
+                
+                if (!document.getElementById('appliedCouponData')) {
+                    document.getElementById('orderForm').appendChild(couponInput);
+                }
+                
+                // Disable coupon input and button
+                document.getElementById('couponCode').disabled = true;
+                applyCouponBtn.disabled = true;
+                
+                // Add remove coupon button if not exists
+                if (!document.getElementById('removeCouponBtn')) {
+                    const removeCouponBtn = document.createElement('button');
+                    removeCouponBtn.id = 'removeCouponBtn';
+                    removeCouponBtn.className = 'btn btn-outline-danger ms-2';
+                    removeCouponBtn.textContent = 'Remove';
+                    removeCouponBtn.onclick = function(e) {
+                        e.preventDefault();
+                        resetCouponApplication();
+                    };
+                    applyCouponBtn.after(removeCouponBtn);
+                }
+            } else {
+                couponMessageDiv.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+            }
+        } catch (error) {
+            console.error('Error applying coupon:', error);
+            couponMessageDiv.innerHTML = '<div class="alert alert-danger">Error applying coupon</div>';
+        }
+    });
 
-//         const addressDistrict = formData.get('addressDistrict').trim();
-//         if (addressDistrict.length < 3) {
-//             validationErrors.push('District name is too short');
-//         }
+    function resetCouponApplication() {
+        // Reset all discount displays
+        document.querySelectorAll('.discount-info').forEach(el => {
+            el.style.display = 'none';
+        });
+        
+        document.querySelectorAll('.final-price').forEach(el => {
+            el.style.display = 'none';
+        });
+        
+        document.querySelectorAll('.original-price').forEach(el => {
+            el.style.textDecoration = 'none';
+            el.style.color = 'inherit';
+        });
+        
+        // Reset summary
+        document.querySelector('.summary-discount').style.display = 'none';
+        const subtotal = document.querySelector('.summary-subtotal td:last-child').textContent;
+        document.querySelector('.summary-total td:last-child').textContent = subtotal;
+        
+        // Reset coupon form
+        document.getElementById('couponCode').disabled = false;
+        document.getElementById('couponCode').value = '';
+        document.getElementById('applyCoupon').disabled = false;
+        document.getElementById('couponMessage').innerHTML = '';
+        
+        // Remove coupon data
+        const couponInput = document.getElementById('appliedCouponData');
+        if (couponInput) couponInput.remove();
+        
+        // Remove remove button
+        const removeBtn = document.getElementById('removeCouponBtn');
+        if (removeBtn) removeBtn.remove();
+    }
+});
 
-//         const addressState = formData.get('addressState').trim();
-//         if (addressState.length < 3) {
-//             validationErrors.push('State name is too short');
-//         }
 
-//         // Check for validation errors
-//         if (validationErrors.length > 0) {
-//             Swal.fire({
-//                 icon: 'warning',
-//                 title: 'Validation Errors',
-//                 html: validationErrors.map(err => `• ${err}`).join('<br>'),
-//                 confirmButtonColor: '#3085d6'
-//             });
-//             submitButton.disabled = false;
-//             return;
-//         }
 
-//         // Submit the form data via fetch API
-//         const response = await fetch('/api/address/update', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(Object.fromEntries(formData.entries()))
-//         });
 
-//         const result = await response.json();
+document.addEventListener('DOMContentLoaded', function() {
+    const orderForm = document.getElementById('orderForm');
+    const walletRadio = document.getElementById('wallet');
+    const razorPayRadio = document.getElementById('razorPay');
 
-//         if (response.ok) {
-//             // Refresh the page instead of manual UI update
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Success!',
-//                 text: result.message || 'Address updated successfully.',
-//                 showConfirmButton: false,
-//                 timer: 1500,
-//                 willClose: () => {
-//                     location.reload();
-//                 }
-//             });
-//         } else {
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Error!',
-//                 text: result.message || 'Failed to update address.',
-//                 confirmButtonColor: '#d33'
-//             });
-//         }
+    // Add wallet balance check when wallet payment is selected
+    walletRadio.addEventListener('change', async function() {
+        if (this.checked) {
+            try {
+                const response = await fetch('/check-wallet-balance');
+                const data = await response.json();
+                
+                const subtotal = parseFloat(document.querySelector('.summary-total td:last-child')
+                    .textContent.replace('₹', ''));
 
-//         submitButton.disabled = false;
-//     });
-// });
+                if (data.balance < subtotal) {
+                    alert(`Insufficient wallet balance. Your current balance is ₹${data.balance}`);
+                    this.checked = false;
+                }
+            } catch (error) {
+                console.error('Error checking wallet balance:', error);
+                this.checked = false;
+                alert('Error checking wallet balance');
+            }
+        }
+    });
+
+    // Update the form submit handler to include wallet payment
+    orderForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const addressId = document.getElementById('addressSelect').value;
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+        if (!addressId || !paymentMethod) {
+            if (!addressId) alert('Please select a shipping address');
+            if (!paymentMethod) alert('Please select a payment method');
+            return;
+        }
+
+        // Get coupon data
+        const appliedCouponInput = document.getElementById('appliedCouponData');
+        let appliedCoupon = null;
+        if (appliedCouponInput) {
+            appliedCoupon = appliedCouponInput.value;
+        }
+
+        if (razorPayRadio.checked) {
+            try {
+                const response = await fetch('/create-razorpay-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        selectedAddressId: addressId,
+                        paymentMethod: 'Razorpay',
+                        appliedCoupon: appliedCoupon
+                    })
+                });
+
+                const orderData = await response.json();
+
+                if (!orderData.success) {
+                    throw new Error(orderData.message);
+                }
+
+                // Initialize Razorpay
+                const options = {
+                    key: orderData.key_id,
+                    amount: orderData.amount,
+                    currency: "INR",
+                    name: "BOOKVERSE",
+                    description: "Book Purchase",
+                    order_id: orderData.orderId,
+                    handler: async function(response) {
+                        try {
+                            const verifyPayment = await fetch('/verify-payment', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_signature: response.razorpay_signature,
+                                    orderId: orderData.bookverseOrderId,
+                                    appliedCoupon: appliedCoupon
+                                })
+                            });
+
+                            const verifyResponse = await verifyPayment.json();
+                            window.location.href = `/orderConfirmation/${orderData.bookverseOrderId}`;
+                        } catch (error) {
+                            console.error('Verification error:', error);
+                            window.location.href = `/orderConfirmation/${orderData.bookverseOrderId}`;
+                        }
+                    },
+                    prefill: {
+                        name: orderData.customerName,
+                        email: orderData.email,
+                        contact: orderData.phone
+                    },
+                    theme: {
+                        color: "#3399cc"
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            window.location.href = `/orderConfirmation/${orderData.bookverseOrderId}`;
+                        }
+                    }
+                };
+
+                const rzp1 = new Razorpay(options);
+                rzp1.open();
+
+            } catch (error) {
+                console.error('Payment error:', error);
+                alert('Payment failed. Please try again.');
+            }
+        } else if (walletRadio.checked) {
+            // Handle wallet payment
+            handleWalletPayment(addressId, appliedCoupon);
+        } else {
+            // Existing COD logic
+            this.submit();
+        }
+    });
+
+    async function handleWalletPayment(addressId, appliedCoupon) {
+        try {
+            const response = await fetch('/process-wallet-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    selectedAddressId: addressId,
+                    paymentMethod: 'Wallet',
+                    appliedCoupon: appliedCoupon
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                window.location.href = `/orderConfirmation/${result.orderId}`;
+            } else {
+                alert(result.message || 'Payment failed');
+            }
+        } catch (error) {
+            console.error('Wallet payment error:', error);
+            alert('Payment failed. Please try again.');
+        }
+    }
+});
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get elements
+    const cashOnDeliveryRadio = document.getElementById('cashOnDelivery');
+    const totalPriceElement = document.querySelector('.summary-total td:last-child');
+    
+    // Check if elements exist
+    if (cashOnDeliveryRadio && totalPriceElement) {
+        // Extract total price value (remove the ₹ symbol and convert to number)
+        const totalPrice = parseFloat(totalPriceElement.textContent.replace('₹', '').trim());
+        
+        // Check if total price exceeds Rs 1000
+        if (totalPrice > 1000) {
+            // Disable COD option
+            cashOnDeliveryRadio.disabled = true;
+            
+            // Create a message to explain why COD is disabled
+            const messageElement = document.createElement('div');
+            messageElement.className = 'text-danger mt-1 small';
+            messageElement.innerHTML = 'Cash on Delivery is not available for orders over ₹1,000';
+            
+            // Insert message after the COD label
+            const codLabel = document.querySelector('label[for="cashOnDelivery"]');
+            codLabel.parentNode.appendChild(messageElement);
+            
+            // If COD was pre-selected, unselect it
+            if (cashOnDeliveryRadio.checked) {
+                cashOnDeliveryRadio.checked = false;
+            }
+        }
+    }
+    
+    // Also need to update this if a coupon changes the total price
+    const applyCouponBtn = document.getElementById('applyCoupon');
+    if (applyCouponBtn) {
+        applyCouponBtn.addEventListener('click', function() {
+            // Wait for coupon to be applied and total to be updated
+            setTimeout(function() {
+                const updatedTotal = parseFloat(document.querySelector('.summary-total td:last-child').textContent.replace('₹', '').trim());
+                
+                if (updatedTotal > 1000) {
+                    cashOnDeliveryRadio.disabled = true;
+                    
+                    // Add message if it doesn't exist
+                    if (!document.querySelector('label[for="cashOnDelivery"] + .text-danger')) {
+                        const messageElement = document.createElement('div');
+                        messageElement.className = 'text-danger mt-1 small';
+                        messageElement.innerHTML = 'Cash on Delivery is not available for orders over ₹1,000';
+                        
+                        const codLabel = document.querySelector('label[for="cashOnDelivery"]');
+                        codLabel.parentNode.appendChild(messageElement);
+                    }
+                    
+                    if (cashOnDeliveryRadio.checked) {
+                        cashOnDeliveryRadio.checked = false;
+                    }
+                } else {
+                    cashOnDeliveryRadio.disabled = false;
+                    
+                    // Remove message if it exists
+                    const existingMessage = document.querySelector('label[for="cashOnDelivery"] + .text-danger');
+                    if (existingMessage) {
+                        existingMessage.remove();
+                    }
+                }
+            }, 500); // Small delay to ensure the total has been updated
+        });
+    }
+    
+    // Also need to handle when a coupon is removed
+    const removeCouponBtn = document.getElementById('removeCouponBtn');
+    if (removeCouponBtn) {
+        removeCouponBtn.addEventListener('click', function() {
+            setTimeout(function() {
+                const updatedTotal = parseFloat(document.querySelector('.summary-total td:last-child').textContent.replace('₹', '').trim());
+                
+                if (updatedTotal > 1000) {
+                    cashOnDeliveryRadio.disabled = true;
+                    
+                    // Add message if it doesn't exist
+                    if (!document.querySelector('label[for="cashOnDelivery"] + .text-danger')) {
+                        const messageElement = document.createElement('div');
+                        messageElement.className = 'text-danger mt-1 small';
+                        messageElement.innerHTML = 'Cash on Delivery is not available for orders over ₹1,000';
+                        
+                        const codLabel = document.querySelector('label[for="cashOnDelivery"]');
+                        codLabel.parentNode.appendChild(messageElement);
+                    }
+                    
+                    if (cashOnDeliveryRadio.checked) {
+                        cashOnDeliveryRadio.checked = false;
+                    }
+                } else {
+                    cashOnDeliveryRadio.disabled = false;
+                    
+                    // Remove message if it exists
+                    const existingMessage = document.querySelector('label[for="cashOnDelivery"] + .text-danger');
+                    if (existingMessage) {
+                        existingMessage.remove();
+                    }
+                }
+            }, 500);
+        });
+    }
+});
+
 
     </script>
 

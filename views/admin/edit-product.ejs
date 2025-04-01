@@ -395,13 +395,6 @@
                           name="productPrice" value="<%= product.regularPrice %>" aria-label="Product price">
                         <label for="ecommerce-product-price">Best Price</label>
                       </div>
-          
-                      <div class="form-floating form-floating-outline mb-5">
-                        <input type="number" class="form-control" id="ecommerce-product-discount-price"
-                          placeholder="Discounted Price" name="productDiscountedPrice"
-                          value="<%= product.salePrice%>" aria-label="Product discounted price">
-                        <label for="ecommerce-product-discount-price">Discounted Price</label>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -519,221 +512,6 @@
 
   <script>
   
-//Image cropper variables and functions
-// let cropper = null;
-// let currentImageInput = null;
-
-// // Initialize event listeners for all image inputs
-// document.querySelectorAll('.image-input').forEach(input => {
-//   input.addEventListener('change', function(e) {
-//     const file = e.target.files[0];
-//     if (file) {
-//       currentImageInput = input;
-//       const reader = new FileReader();
-//       reader.onload = function(event) {
-//         // Show the cropper modal
-//         const cropperModal = new bootstrap.Modal(document.getElementById('cropperModal'));
-//         const cropperImage = document.getElementById('cropperImage');
-//         cropperImage.src = event.target.result;
-        
-//         cropperModal.show();
-        
-//         // Initialize cropper
-//         if (cropper) {
-//           cropper.destroy();
-//         }
-//         cropper = new Cropper(cropperImage, {
-//           aspectRatio: 1,
-//           viewMode: 2,
-//           dragMode: 'move',
-//           autoCropArea: 1,
-//           restore: false,
-//           guides: true,
-//           center: true,
-//           highlight: false,
-//           cropBoxMovable: true,
-//           cropBoxResizable: true,
-//           toggleDragModeOnDblclick: false
-//         });
-//       };
-//       reader.readAsDataURL(file);
-//     }
-//   });
-// });
-
-
-// // Handle crop button click
-// document.getElementById('cropButton').addEventListener('click', function() {
-//   if (!cropper || !currentImageInput) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Error!',
-//       text: 'No image selected for cropping',
-//       confirmButtonColor: '#3085d6'
-//     });
-//     return;
-//   }
-
-//   try {
-//     const croppedCanvas = cropper.getCroppedCanvas({
-//       width: 600,
-//       height: 600
-//     });
-    
-//     croppedCanvas.toBlob(function(blob) {
-//       // Create preview
-//       const previewContainer = currentImageInput.closest('.image-upload-container').querySelector('.preview-container');
-//       const previewImage = previewContainer.querySelector('.img-preview');
-//       const uploadBtn = previewContainer.querySelector('.upload-btn');
-      
-//       // Update preview image
-//       previewImage.src = croppedCanvas.toDataURL();
-//       previewImage.style.display = 'block';
-//       uploadBtn.style.display = 'none';
-      
-//       // Store cropped image data in hidden input
-//       const hiddenInput = document.getElementById(currentImageInput.id.replace('image', 'croppedImage'));
-//       hiddenInput.value = croppedCanvas.toDataURL();
-      
-//       // Close modal
-//       const cropperModal = bootstrap.Modal.getInstance(document.getElementById('cropperModal'));
-//       cropperModal.hide();
-      
-//       // Cleanup
-//       cropper.destroy();
-//       cropper = null;
-//     });
-//   } catch (error) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Error!',
-//       text: 'Failed to crop image. Please try again.',
-//       confirmButtonColor: '#3085d6'
-//     });
-//   }
-// });
-
-
-// // Validate form before submission
-// // Update the validateForm function in your script
-// function validateForm() {
-//   const productTitle = document.getElementById('ecommerce-product-name').value;
-//   const author= document.getElementById('ecommerce-category-author').value;
-//   const productSku = document.getElementById('ecommerce-product-sku').value;
-//   const category = document.getElementById('category-org').value;
-//   const productPrice = document.getElementById('ecommerce-product-price').value;
-//   const productDiscountedPrice = document.getElementById('ecommerce-product-discount-price').value;
-  
-//   if (!productTitle.trim()) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Validation Error',
-//       text: 'Product name is required',
-//       confirmButtonColor: '#3085d6'
-//     });
-//     return false;
-//   }
-
-//   if (!author.trim()) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Validation Error',
-//       text: 'author is required',
-//       confirmButtonColor: '#3085d6'
-//     });
-//     return false;
-//   }
-  
-//   if (!productSku || productSku < 0) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Validation Error',
-//       text: 'Please enter a valid number of units',
-//       confirmButtonColor: '#3085d6'
-//     });
-//     return false;
-//   }
-  
-//   if (!category) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Validation Error',
-//       text: 'Please select a category',
-//       confirmButtonColor: '#3085d6'
-//     });
-//     return false;
-//   }
-  
-//   if (!productPrice || productPrice <= 0) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Validation Error',
-//       text: 'Please enter a valid price',
-//       confirmButtonColor: '#3085d6'
-//     });
-//     return false;
-//   }
-  
-//   if (productDiscountedPrice && parseFloat(productDiscountedPrice) >= parseFloat(productPrice)) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Validation Error',
-//       text: 'Discounted price must be less than regular price',
-//       confirmButtonColor: '#3085d6'
-//     });
-//     return false;
-//   }
-  
-//   // Check for both existing and new images
-//   const existingImagesInput = document.getElementById('existingImages');
-//   const existingImages = existingImagesInput ? JSON.parse(existingImagesInput.value) : [];
-//   const visibleImages = Array.from(document.querySelectorAll('.img-preview'))
-//     .filter(img => img.style.display !== 'none')
-//     .length;
-
-//   if (visibleImages === 0) {
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Validation Error',
-//       text: 'Please upload at least one product image',
-//       confirmButtonColor: '#3085d6'
-//     });
-//     return false;
-//   }
-  
-//   return true;
-// }
-
-// // Update the deleteImage function
-// function deleteImage(imageId) {
-//   const previewImg = document.getElementById(`${imageId}-preview`);
-//   const fileInput = document.getElementById(imageId);
-//   const existingImagesInput = document.getElementById('existingImages');
-  
-//   if (existingImagesInput) {
-//     const existingImages = JSON.parse(existingImagesInput.value);
-//     const imageIndex = parseInt(imageId.replace('image', '')) - 1;
-    
-//     if (existingImages[imageIndex]) {
-//       // Remove the image from existing images array
-//       existingImages.splice(imageIndex, 1);
-//       existingImagesInput.value = JSON.stringify(existingImages);
-//     }
-//   }
-  
-//   // Hide the preview and reset the file input
-//   previewImg.style.display = 'none';
-//   previewImg.src = '';
-//   fileInput.value = '';
-// }
-
-
-
-
-//new
-
-
-
 
 let cropper = null;
 let currentImageInput = null;
@@ -810,6 +588,8 @@ document.getElementById('cropButton').addEventListener('click', function() {
   cropper = null;
 });
 
+
+
 // Modified validateForm function to handle image uploads
 function validateForm() {
   const form = document.querySelector('form');
@@ -821,8 +601,8 @@ function validateForm() {
     author: 'Author',
     description: 'Description',
     category: 'Category',
-    productPrice: 'Regular price',
-    productDiscountedPrice: 'Sale price'
+    productPrice: 'Regular price'
+    // Removed productDiscountedPrice: 'Sale price'
   };
 
   for (const [field, label] of Object.entries(requiredFields)) {
@@ -837,19 +617,8 @@ function validateForm() {
     }
   }
 
-  // Price validation
-  const regularPrice = parseFloat(formData.get('productPrice'));
-  const salePrice = parseFloat(formData.get('productDiscountedPrice'));
-  
-  if (salePrice >= regularPrice) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Sale price must be less than regular price',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
+  // Remove the price comparison validation
+  // since we no longer have sale price
 
   // Submit form
   fetch(form.action, {
@@ -871,7 +640,7 @@ function validateForm() {
       Swal.fire({
         icon: 'error',
         title: 'Error!',
-        text: 'Failed to update producthhhhhhhhhhhhhhhh',
+        text: data.message || 'Failed to update product',
         confirmButtonColor: '#3085d6'
       });
     }
@@ -881,7 +650,7 @@ function validateForm() {
     Swal.fire({
       icon: 'error',
       title: 'Error!',
-      text: 'Failedvvvvvvvvvvvvvvh to update product',
+      text: error.message || 'Failed to update product',
       confirmButtonColor: '#3085d6'
     });
   });
@@ -944,6 +713,11 @@ function deleteProduct(productId) {
   });
 }
 
+
+
+
+
+
 // Form validation and submission
 function validateForm() {
   const form = document.querySelector('form');
@@ -955,8 +729,8 @@ function validateForm() {
     author: 'Author',
     description: 'Description',
     category: 'Category',
-    productPrice: 'Regular price',
-    productDiscountedPrice: 'Sale price'
+    productPrice: 'Regular price'
+    // Removed productDiscountedPrice: 'Sale price'
   };
 
   for (const [field, label] of Object.entries(requiredFields)) {
@@ -971,19 +745,7 @@ function validateForm() {
     }
   }
 
-  // Price validation
-  const regularPrice = parseFloat(formData.get('productPrice'));
-  const salePrice = parseFloat(formData.get('productDiscountedPrice'));
-  
-  if (salePrice >= regularPrice) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Validation Error',
-      text: 'Sale price must be less than regular price',
-      confirmButtonColor: '#3085d6'
-    });
-    return false;
-  }
+  // Remove price validation comparing regular and sale price
 
   // Submit form via AJAX
   fetch(form.action, {
@@ -1027,15 +789,8 @@ function validateForm() {
 
 </script>
 
-
-
-
-
   </body>
-
-
-  <!-- Mirrored from demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-product-add.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Jun 2024 05:50:31 GMT -->
 
   </html>
 
-  <!-- beautify ignore:end -->
+  

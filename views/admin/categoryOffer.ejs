@@ -11,22 +11,19 @@
 
     <div class="min-h-screen p-6">
         <div class="container mx-auto">
-            <!-- Page Header -->
             <div class="flex justify-between items-center mb-6 px-4">
                 <h1 class="text-3xl font-extrabold text-gray-900">Create Category Offer</h1>
                 <a 
                     href="/admin/offers" 
                     class="text-violet-600 font-medium hover:underline flex items-center"
                 >
-                    View All Category Offers
+                    View All Offers
                 </a>
             </div>
 
-            <!-- Main Form Card -->
             <div class="bg-white rounded-xl shadow-xl p-8">
-                <form id="categoryOfferForm" class="space-y-8">
+                <form id="offerForm" class="space-y-8">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Offer Name -->
                         <div>
                             <label for="offerName" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Offer Name
@@ -41,7 +38,6 @@
                             >
                         </div>
 
-                        <!-- Discount Percentage -->
                         <div>
                             <label for="discountPercentage" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Discount Percentage
@@ -58,25 +54,34 @@
                             >
                         </div>
 
-                        <!-- Category Selection -->
                         <div>
                             <label for="category" class="block text-sm font-semibold text-gray-700 mb-2">
-                                Select Category
+                                Select Categories
                             </label>
                             <select 
                                 id="category" 
-                                name="category" 
-                                required
+                                name="category"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 shadow-sm"
                             >
                                 <option value="">Choose a category</option>
                                 <% cat.forEach(function(category) { %>
-                                    <option value="<%= category._id %>"><%= category.name %></option>
+                                    <option value="<%= category._id %>" data-name="<%= category.name %>">
+                                        <%= category.name %>
+                                    </option>
                                 <% }); %>
                             </select>
                         </div>
 
-                        <!-- Expiry Date -->
+                        <!-- Selected Categories Display Box -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Selected Categories
+                            </label>
+                            <div id="selectedCategoriesBox" class="min-h-[120px] w-full p-4 border border-gray-300 rounded-lg bg-gray-50 overflow-y-auto space-y-2">
+                                <p class="text-gray-500 italic text-sm">No categories selected</p>
+                            </div>
+                        </div>
+
                         <div>
                             <label for="expiryDate" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Expiry Date
@@ -91,7 +96,6 @@
                         </div>
                     </div>
 
-                    <!-- Action Buttons -->
                     <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
                         <a 
                             href="/admin/categoryOffer"
@@ -116,107 +120,169 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-    document.getElementById('categoryOfferForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const offerName = document.getElementById('offerName').value;
-        const discountPercentage = document.getElementById('discountPercentage').value;
-        const categoryId = document.getElementById('category').value;
-        const expiryDate = document.getElementById('expiryDate').value;
+        // Store selected categories
+        const selectedCategories = new Map();
+        const categorySelect = document.getElementById('category');
+        const selectedCategoriesBox = document.getElementById('selectedCategoriesBox');
 
-        // Validation
-        if (!offerName.trim()) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error',
-                text: 'Please enter offer name'
-            });
-            return;
-        }
-
-        if (/^[\d\s]/.test(offerName)) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error',
-                text: 'Offer name cannot start with spaces or numbers'
-            });
-            return;
-        }
-
-        if (!discountPercentage || discountPercentage < 1 || discountPercentage > 99) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error',
-                text: 'Discount percentage must be between 1 and 99'
-            });
-            return;
-        }
-
-        if (!categoryId) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error',
-                text: 'Please select a category'
-            });
-            return;
-        }
-
-        if (!expiryDate || new Date(expiryDate) <= new Date()) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Validation Error',
-                text: 'Please select a future expiry date'
-            });
-            return;
-        }
-
-        // Show loading state
-        Swal.fire({
-            title: 'Creating category offer...',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
+        // Handle category selection
+        categorySelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (this.value) {
+                const categoryId = this.value;
+                const categoryName = selectedOption.text;
+                
+                if (!selectedCategories.has(categoryId)) {
+                    selectedCategories.set(categoryId, categoryName);
+                    updateSelectedCategoriesDisplay();
+                }
+                
+                // Reset select to default option
+                this.selectedIndex = 0;
             }
         });
 
-        const formData = { offerName, discountPercentage, categoryId, expiryDate };
+        // Remove category from selection
+        function removeCategory(categoryId) {
+            selectedCategories.delete(categoryId);
+            updateSelectedCategoriesDisplay();
+        }
 
-        fetch('/admin/addCategoryOffer', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
+        // Update the display box
+        function updateSelectedCategoriesDisplay() {
+            selectedCategoriesBox.innerHTML = '';
+            
+            if (selectedCategories.size === 0) {
+                selectedCategoriesBox.innerHTML = '<p class="text-gray-500 italic text-sm">No categories selected</p>';
+                return;
+            }
+
+            selectedCategories.forEach((name, id) => {
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'flex justify-between items-center p-2 bg-white border border-gray-200 rounded-lg';
+                categoryElement.innerHTML = `
+                    <span class="text-gray-700">${name}</span>
+                    <button type="button" onclick="removeCategory('${id}')" 
+                            class="text-red-500 hover:text-red-700 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                `;
+                selectedCategoriesBox.appendChild(categoryElement);
+            });
+        }
+
+        // Form submission
+        document.getElementById('offerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const offerName = document.getElementById('offerName').value;
+            const discountPercentage = document.getElementById('discountPercentage').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const categoryIds = Array.from(selectedCategories.keys());
+
+            // Validation
+            if (!offerName.trim()) {
                 Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: 'Category offer created successfully',
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then(() => {
-                    window.location.href = '/admin/categoryOffer';
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please enter offer name'
                 });
-            } else {
+                return;
+            }
+
+            if (/^[\d\s]/.test(offerName)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Offer name cannot start with spaces or numbers'
+                });
+                return;
+            }
+
+            if (!discountPercentage || discountPercentage < 1 || discountPercentage > 50) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Discount percentage must be between 1 and 50'
+                });
+                return;
+            }
+
+            if (categoryIds.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please select at least one category'
+                });
+                return;
+            }
+
+            if (!expiryDate || new Date(expiryDate) <= new Date()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please select a future expiry date'
+                });
+                return;
+            }
+
+            // Show loading state
+            Swal.fire({
+                title: 'Creating offer...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            const formData = { 
+                offerName, 
+                discountPercentage, 
+                categoryIds,
+                expiryDate 
+            };
+
+            fetch('/admin/addCategoryOffer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Category offer created successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = '/admin/categoryOffer';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message || 'Error creating offer'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: data.message || 'Error creating category offer'
+                    text: 'Failed to create offer. Please try again.'
                 });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Failed to create category offer. Please try again.'
             });
         });
-    });
+
+        // Initialize the display
+        updateSelectedCategoriesDisplay();
     </script>
 </body>
 </html>

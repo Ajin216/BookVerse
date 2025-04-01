@@ -1,5 +1,5 @@
 const Cart = require('../../models/cartSchema');
-// const Offer = require('../../models/offerModel');
+const Offer = require('../../models/offerSchema');
 const Product = require('../../models/productSchema');
 // const wishishlist = require('../../models/wishlistSchema');
 const User = require('../../models/userScheme');
@@ -10,48 +10,115 @@ const User = require('../../models/userScheme');
 
 const getCartPage = async (req, res) => {
     try {
-        // Check if user is logged in
-        console.log("Session User ID:", req.session.user); 
-        const userId = req.session.user; // Ensure this matches your session key
+        console.log("Session User ID:", req.session.user);
+        const userId = req.session.user;
         if (!userId) {
             return res.render("cart", { cartItems: [], subtotal: 0 });
         }
 
-        // Fetch the cart for the user and populate product details
+        // Get current date for offer validation
+        const currentDate = new Date();
+
+        // Fetch active offers
+        const activeOffers = await Offer.find({
+            status: 'active',
+            validTill: { $gt: currentDate }
+        });
+
+        // Fetch the cart with populated product details
         const cart = await Cart.findOne({ userId })
             .populate({
                 path: 'items.productId',
-                select: 'productName productImage salePrice quantity' // Fetch only necessary fields
+                populate: {
+                    path: 'category',
+                    select: '_id'
+                },
+                select: 'productName productImage regularPrice quantity category'
             });
 
         if (!cart || !cart.items || cart.items.length === 0) {
-            // If no items in cart, render empty cart
             return res.render("cart", { cartItems: [], subtotal: 0 });
         }
 
-        // Calculate subtotal
-        const cartItems = cart.items;
+        // Process each cart item to calculate discounts
+        const cartItems = cart.items.map(item => {
+            if (!item.productId) return item;
+
+            // Ensure regularPrice exists and is a number
+            item.productId.regularPrice = Number(item.productId.regularPrice) || 0;
+
+            let bestDiscount = 0;
+
+            // Check category offers
+            const categoryOffers = activeOffers.filter(offer => 
+                offer.type === 'category' && 
+                offer.category.some(cat => cat.toString() === item.productId.category._id.toString())
+            );
+
+            if (categoryOffers.length > 0) {
+                const maxCategoryDiscount = Math.max(...categoryOffers.map(o => Number(o.discount) || 0));
+                bestDiscount = maxCategoryDiscount;
+            }
+
+            // Check product-specific offers
+            const productOffers = activeOffers.filter(offer => 
+                offer.type === 'product' && 
+                offer.products.some(p => p.toString() === item.productId._id.toString())
+            );
+
+            if (productOffers.length > 0) {
+                const maxProductDiscount = Math.max(...productOffers.map(o => Number(o.discount) || 0));
+                bestDiscount = Math.max(bestDiscount, maxProductDiscount);
+            }
+
+            // Calculate discounted price if there's an active discount
+            if (bestDiscount > 0) {
+                const discountAmount = (item.productId.regularPrice * (bestDiscount/100));
+                item.productId.discountedPrice = Math.round(item.productId.regularPrice - discountAmount);
+                item.productId.bestDiscount = bestDiscount;
+            }
+
+            // Ensure quantity is a number
+            item.quantity = Number(item.quantity) || 1;
+
+            // Store the final price in the item for easy access
+            item.finalPrice = item.productId.discountedPrice || item.productId.regularPrice;
+
+            return item;
+        });
+
+        // Calculate subtotal considering discounts
         const subtotal = cartItems.reduce((total, item) => {
             if (item.productId) {
-                return total + (item.productId.salePrice * item.quantity);
+                const price = Number(item.finalPrice) || Number(item.productId.regularPrice) || 0;
+                const quantity = Number(item.quantity) || 1;
+                return total + (price * quantity);
             }
             return total;
         }, 0);
 
-        res.render("cart", {
+        // Round the subtotal to avoid floating point issues
+        const roundedSubtotal = Math.round(subtotal);
+
+        // Prepare data to send to the view
+        const cartData = {
             cartItems,
-            subtotal
-        });
+            subtotal: roundedSubtotal || 0 // Ensure we never send null
+        };
+
+        // Add stock error messages from session if present
+        if (req.session.stockError) {
+            cartData.stockError = req.session.stockError;
+            delete req.session.stockError; // Clear the session after using it
+        }
+
+        res.render("cart", cartData);
 
     } catch (error) {
         console.error("Error fetching cart:", error);
         res.status(500).send("Server error");
     }
 };
-
-
-
-
 
 
 const addToCart = async (req, res) => {
@@ -67,7 +134,7 @@ const addToCart = async (req, res) => {
         }
 
         // Check if the product exists and has sufficient stock
-        const product = await Product.findById(productId);
+        const product = await Product.findById(productId).populate('category');
         if (!product) {
             return res.status(404).json({
                 success: false,
@@ -75,13 +142,47 @@ const addToCart = async (req, res) => {
             });
         }
 
+        // Get active offers for price calculation
+        const currentDate = new Date();
+        const activeOffers = await Offer.find({
+            status: 'active',
+            validTill: { $gt: currentDate }
+        });
+
+        // Calculate best discount
+        let bestDiscount = 0;
+
+        // Check category offers
+        const categoryOffers = activeOffers.filter(offer => 
+            offer.type === 'category' && 
+            offer.category.some(cat => cat.toString() === product.category._id.toString())
+        );
+        if (categoryOffers.length > 0) {
+            bestDiscount = Math.max(...categoryOffers.map(o => o.discount));
+        }
+
+        // Check product-specific offers
+        const productOffers = activeOffers.filter(offer => 
+            offer.type === 'product' && 
+            offer.products.some(p => p.toString() === product._id.toString())
+        );
+        if (productOffers.length > 0) {
+            const maxProductDiscount = Math.max(...productOffers.map(o => o.discount));
+            bestDiscount = Math.max(bestDiscount, maxProductDiscount);
+        }
+
+        // Calculate final price
+        const finalPrice = bestDiscount > 0 
+            ? Math.round(product.regularPrice - (product.regularPrice * (bestDiscount/100)))
+            : product.regularPrice;
+
         // Calculate maximum allowed quantity
         const maxAllowed = Math.min(product.quantity, 5);
 
         // Find the cart for the user
         let cart = await Cart.findOne({ userId: userId });
         
-        // Check existing quantity in cart (if exists)
+        // Check existing quantity in cart
         let existingQuantity = 0;
         if (cart) {
             const existingItem = cart.items.find(item => 
@@ -92,7 +193,7 @@ const addToCart = async (req, res) => {
             }
         }
 
-        // Validate total quantity (existing + new)
+        // Validate total quantity
         const totalQuantity = existingQuantity + quantity;
         if (totalQuantity > maxAllowed) {
             return res.status(400).json({
@@ -108,8 +209,8 @@ const addToCart = async (req, res) => {
                 items: [{
                     productId: productId,
                     quantity: quantity,
-                    price: product.salePrice,
-                    totalPrice: product.salePrice * quantity
+                    price: finalPrice,
+                    totalPrice: finalPrice * quantity
                 }]
             });
         } else {
@@ -123,14 +224,15 @@ const addToCart = async (req, res) => {
                 cart.items.push({
                     productId: productId,
                     quantity: quantity,
-                    price: product.salePrice,
-                    totalPrice: product.salePrice * quantity
+                    price: finalPrice,
+                    totalPrice: finalPrice * quantity
                 });
             } else {
                 // Update existing item
                 const existingItem = cart.items[existingItemIndex];
                 existingItem.quantity = totalQuantity;
-                existingItem.totalPrice = existingItem.price * totalQuantity;
+                existingItem.price = finalPrice;
+                existingItem.totalPrice = finalPrice * totalQuantity;
             }
         }
 
@@ -150,11 +252,6 @@ const addToCart = async (req, res) => {
     }
 };
 
-
-
-
-
-// Update cart item quantity
 const updateCartItem = async (req, res) => {
     try {
         const userId = req.session.user;
@@ -167,9 +264,15 @@ const updateCartItem = async (req, res) => {
             });
         }
 
-        // Find the cart and populate product details
+        // Find the cart and populate product details including category
         const cart = await Cart.findOne({ userId })
-            .populate('items.productId');
+            .populate({
+                path: 'items.productId',
+                populate: {
+                    path: 'category',
+                    select: '_id'
+                }
+            });
 
         if (!cart) {
             return res.status(404).json({
@@ -180,13 +283,46 @@ const updateCartItem = async (req, res) => {
 
         // Find the item in cart
         const cartItem = cart.items.find(item => item._id.toString() === cartItemId);
-
         if (!cartItem) {
             return res.status(404).json({
                 success: false,
                 message: "Cart item not found"
             });
         }
+
+        // Get active offers
+        const currentDate = new Date();
+        const activeOffers = await Offer.find({
+            status: 'active',
+            validTill: { $gt: currentDate }
+        });
+
+        // Calculate best discount for the item
+        let bestDiscount = 0;
+
+        // Check category offers
+        const categoryOffers = activeOffers.filter(offer => 
+            offer.type === 'category' && 
+            offer.category.some(cat => cat.toString() === cartItem.productId.category._id.toString())
+        );
+        if (categoryOffers.length > 0) {
+            bestDiscount = Math.max(...categoryOffers.map(o => o.discount));
+        }
+
+        // Check product-specific offers
+        const productOffers = activeOffers.filter(offer => 
+            offer.type === 'product' && 
+            offer.products.some(p => p.toString() === cartItem.productId._id.toString())
+        );
+        if (productOffers.length > 0) {
+            const maxProductDiscount = Math.max(...productOffers.map(o => o.discount));
+            bestDiscount = Math.max(bestDiscount, maxProductDiscount);
+        }
+
+        // Calculate final price
+        const finalPrice = bestDiscount > 0 
+            ? Math.round(cartItem.productId.regularPrice - (cartItem.productId.regularPrice * (bestDiscount/100)))
+            : cartItem.productId.regularPrice;
 
         // Validate quantity against stock
         if (quantity > cartItem.productId.quantity) {
@@ -198,7 +334,7 @@ const updateCartItem = async (req, res) => {
             });
         }
 
-        // Validate minimum quantity
+        // Validate minimum and maximum quantity
         if (quantity < 1) {
             return res.status(400).json({
                 success: false,
@@ -207,7 +343,6 @@ const updateCartItem = async (req, res) => {
             });
         }
 
-        // Validate maximum quantity limit
         if (quantity > 5) {
             return res.status(400).json({
                 success: false,
@@ -216,14 +351,16 @@ const updateCartItem = async (req, res) => {
             });
         }
 
-        // Update quantity
+        // Update quantity and price
         cartItem.quantity = quantity;
+        cartItem.price = finalPrice;
+        cartItem.totalPrice = finalPrice * quantity;
         await cart.save();
 
-        // Calculate new totals
-        const newItemTotal = cartItem.productId.salePrice * quantity;
+        // Calculate new totals considering all discounts
+        const newItemTotal = finalPrice * quantity;
         const newSubtotal = cart.items.reduce((sum, item) => {
-            return sum + (item.productId.salePrice * item.quantity);
+            return sum + item.totalPrice;
         }, 0);
 
         res.json({
@@ -244,7 +381,6 @@ const updateCartItem = async (req, res) => {
 
 
 
-// Remove item from cart
 const removeCartItem = async (req, res) => {
     try {
         const userId = req.session.user;
@@ -262,7 +398,13 @@ const removeCartItem = async (req, res) => {
             { userId },
             { $pull: { items: { _id: cartItemId } } },
             { new: true }
-        ).populate('items.productId');
+        ).populate({
+            path: 'items.productId',
+            populate: {
+                path: 'category',
+                select: '_id'
+            }
+        });
 
         if (!cart) {
             return res.status(404).json({
@@ -271,9 +413,9 @@ const removeCartItem = async (req, res) => {
             });
         }
 
-        // Calculate new subtotal
+        // Calculate new subtotal using the stored totalPrice
         const newSubtotal = cart.items.reduce((sum, item) => {
-            return sum + (item.productId.salePrice * item.quantity);
+            return sum + item.totalPrice;
         }, 0);
 
         res.json({

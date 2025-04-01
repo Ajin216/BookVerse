@@ -206,7 +206,7 @@ body {
                             <i class="icon-bars"></i>
                         </button>
 
-                        <a href="index.html" class="logo">
+                        <a href="/" class="logo">
                             <h3>BOOKVERSE</h3>
                         </a>
 
@@ -222,7 +222,7 @@ body {
 
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                    <a href="#" class="sf-with-ul">Product</a>
 
                                 </li>
                                 <li>
@@ -230,49 +230,18 @@ body {
 
                                 </li>
                                 <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                    <a href="#" class="sf-with-ul">Blog</a>
 
 
                                 </li>
                                 <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                    <a href="#" class="sf-with-ul">Elements</a>
                                 </li>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
 
-                    <div class="header-right">
-                        <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i
-                                    class="icon-search"></i></a>
-                            <form action="#" method="get">
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
-                                        required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static"
-                                title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-
-                        </div><!-- End .compare-dropdown -->
-
-                        <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <i class="icon-shopping-cart"></i>
-
-                            </a>
-
-
-                        </div><!-- End .cart-dropdown -->
-                    </div><!-- End .header-right -->
+                    
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
@@ -325,7 +294,7 @@ body {
                                                     <% if (orders && orders.length > 0) { %>
                                                         <% orders.forEach((order, index) => { %>
                                                             <tr>
-                                                                <td class="text-center"><%= (pagination.currentPage - 1) * 10 + index + 1 %></td>
+                                                                <td class="text-center"><%= (pagination.currentPage - 1) * 15 + index + 1 %></td>
                                                                 <td><%= order.orderId %></td>
                                                                 <td><%= order.createdAt.toLocaleDateString() %></td>
                                                                 <td>₹<%= order.totalPrice.toFixed(2) %></td>

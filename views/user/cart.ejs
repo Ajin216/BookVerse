@@ -75,14 +75,14 @@
                             <i class="icon-bars"></i>
                         </button>
 
-                        <a href="index.html" class="logo">
+                        <a href="/" class="logo">
                             <h3>BOOKVERSE</h3>
                         </a>
 
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
                                 <li class="megamenu-container active">
-                                    <a href="/home" class="sf-with-ul">Home</a>
+                                    <a href="/" class="sf-with-ul">Home</a>
 
 
                                 </li>
@@ -92,7 +92,7 @@
 
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                    <a href="#" class="sf-with-ul">Product</a>
 
 
                                 </li>
@@ -100,48 +100,17 @@
                                     <a href="#" class="sf-with-ul">Pages</a>
                                 </li>
                                 <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                    <a href="#" class="sf-with-ul">Blog</a>
 
 
                                 </li>
                                 <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                    <a href="#" class="sf-with-ul">Elements</a>
                                 </li>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
 
-                    <div class="header-right">
-                        <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i
-                                    class="icon-search"></i></a>
-                            <form action="#" method="get">
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
-                                        required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static"
-                                title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-                        </div><!-- End .compare-dropdown -->
-
-                        <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <i class="icon-shopping-cart"></i>
-
-                            </a>
-
-
-                        </div><!-- End .cart-dropdown -->
-                    </div><!-- End .header-right -->
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
@@ -164,9 +133,32 @@
 
 
 
-            <div class="page-content">
+            `<div class="page-content">
                 <div class="cart">
                     <div class="container">
+
+
+                        <% if (locals.stockError) { %>
+                            <div class="alert alert-danger mt-3 mb-4" style="border-left: 4px solid #dc3545; background-color: #fff1f1; border-radius: 4px; padding: 15px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                <h5 style="color: #dc3545; margin-bottom: 10px; font-weight: 600;">
+                                    <i class="icon-exclamation-circle" style="margin-right: 8px;"></i><%= stockError.message %>
+                                </h5>
+                                <ul style="margin-bottom: 0; padding-left: 25px; list-style-type: none;">
+                                    <% stockError.items.forEach(item => { %>
+                                        <li style="margin-bottom: 6px; font-size: 0.95em; color: #555;">
+                                            <span style="font-weight: 600; color: #333;"><%= item.productName %></span> 
+                                            - <span class="text-danger">Requested: <%= item.requested %></span>, 
+                                            <span class="text-success">Available: <%= item.available %></span>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                                
+                            </div>
+                        <% } %>
+
+
+
+
                         <div class="row">
                             <div class="col-lg-9">
                                 <table class="table table-cart table-mobile">
@@ -180,12 +172,31 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% if (cartItems && cartItems.length> 0) { %>
-                                            <% cartItems.forEach(item=> { %>
+                                        <% if (cartItems && cartItems.length > 0) { %>
+                                            <% cartItems.forEach(item => { %>
                                                 <tr id="cart-item-<%= item._id %>">
                                                     <td class="product-col">
                                                         <div class="product">
-                                                            <figure class="product-media">
+                                                            <figure class="product-media position-relative">
+                                                                <% if (item.productId.bestDiscount > 0) { %>
+                                                                    <span class="product-label label-sale" style="background-color: #f56342; 
+                                                                                                                  color: white; 
+                                                                                                                  padding: 1px 4px; 
+                                                                                                                  border-radius: 2px; 
+                                                                                                                  position: absolute; 
+                                                                                                                  top: 5px; 
+                                                                                                                  right: 5px; 
+                                                                                                                  font-size: 9px; 
+                                                                                                                  max-width: 40px; 
+                                                                                                                  display: inline-block; 
+                                                                                                                  text-align: center; 
+                                                                                                                  overflow: hidden; 
+                                                                                                                  white-space: nowrap; 
+                                                                                                                  text-overflow: ellipsis; 
+                                                                                                                  z-index: 2;">
+                                                                        <%= item.productId.bestDiscount %>%
+                                                                    </span>
+                                                                <% } %>
                                                                 <a href="/productDetails/<%= item.productId._id %>">
                                                                     <img src="<%= item.productId.productImage[0] %>"
                                                                         alt="<%= item.productId.productName %>"
@@ -197,40 +208,45 @@
                                                                     <%= item.productId.productName %>
                                                                 </a>
                                                             </h3>
-
                                                         </div>
                                                     </td>
-                                                    <td class="price-col">₹<%= item.productId.salePrice %>
+                                                    <td class="price-col">
+                                                        <% if (item.productId.bestDiscount > 0) { %>
+                                                            <span class="new-price">₹<%= item.productId.discountedPrice %></span>
+                                                            <br>
+                                                           
+                                                        <% } else { %>
+                                                            ₹<%= item.productId.regularPrice %>
+                                                        <% } %>
                                                     </td>
                                                     <td class="quantity-col">
                                                         <div class="cart-product-quantity">
                                                             <input type="number" class="form-control quantity-input"
-                                                                value="<%= item.quantity %>" min="0" max="6"
+                                                                value="<%= item.quantity %>" min="1" max="6"
                                                                 max="<%= item.productId.quantity %>" step="1"
                                                                 data-cart-item-id="<%= item._id %>"
-                                                                data-price="<%= item.productId.salePrice %>">
+                                                                data-price="<%= item.productId.discountedPrice || item.productId.regularPrice %>">
                                                         </div>
                                                     </td>
-                                                    <td class="total-col">₹<%= item.productId.salePrice * item.quantity
-                                                            %>
+                                                    <td class="total-col">
+                                                        ₹<%= (item.productId.discountedPrice || item.productId.regularPrice) * item.quantity %>
                                                     </td>
                                                     <td class="remove-col">
-                                                        <button class="btn-remove"
-                                                            onclick="removeCartItem('<%= item._id %>')">
+                                                        <button class="btn-remove" onclick="removeCartItem('<%= item._id %>')">
                                                             <i class="icon-close"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
-                                                <% }) %>
-                                                    <% } else { %>
-                                                        <tr>
-                                                            <td colspan="5" class="text-center">Your cart is empty</td>
-                                                        </tr>
-                                                        <% } %>
+                                            <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="5" class="text-center">Your cart is empty</td>
+                                            </tr>
+                                        <% } %>
                                     </tbody>
                                 </table>
                             </div>
-
+            
                             <aside class="col-lg-3">
                                 <div class="summary summary-cart">
                                     <h3 class="summary-title">Cart Total</h3>
@@ -238,18 +254,15 @@
                                         <tbody>
                                             <tr class="summary-subtotal">
                                                 <td>Subtotal:</td>
-                                                <td id="cart-subtotal">₹<%= subtotal %>
-                                                </td>
+                                                <td id="cart-subtotal">₹<%= subtotal %></td>
                                             </tr>
                                             <tr class="summary-total">
                                                 <td>Total:</td>
-                                                <td id="cart-total">₹<%= subtotal %>
-                                                </td>
+                                                <td id="cart-total">₹<%= subtotal %></td>
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <a href="/checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO
-                                        CHECKOUT</a>
+                                    <a href="/checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
                                 </div>
                                 <a href="/shop" class="btn btn-outline-dark-2 btn-block mb-3">
                                     <span>CONTINUE SHOPPING</span><i class="icon-refresh"></i>
@@ -258,7 +271,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>`
 
 
 
@@ -666,81 +679,144 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Handle quantity changes
-            const quantityInputs = document.querySelectorAll('.quantity-input');
-            quantityInputs.forEach(input => {
-                input.addEventListener('change', function () {
-                    const cartItemId = this.getAttribute('data-cart-item-id');
-                    const newQuantity = parseInt(this.value);
-                    const maxStock = parseInt(this.getAttribute('max'));
 
-                    // Reset invalid values immediately
-                    if (newQuantity < 1) {
-                        this.value = 1;
-                        showErrorAlert('Minimum quantity is 1');
-                        return;
-                    }
-                    if (newQuantity > 5) {
-                        this.value = 5;
-                        showErrorAlert('Maximum quantity allowed is 5');
-                        return;
-                    }
 
-                    updateCartItem(cartItemId, newQuantity, this);
-                });
 
-                // Prevent invalid inputs
-                input.addEventListener('keypress', function (e) {
-                    if (e.key === '-' || e.key === '+' || e.key === 'e' || e.key === '.') {
-                        e.preventDefault();
-                    }
-                });
-            });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Handle quantity changes
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    quantityInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            const cartItemId = this.getAttribute('data-cart-item-id');
+            const newQuantity = parseInt(this.value);
+            const currentQuantity = parseInt(this.defaultValue);
+            const maxStock = parseInt(this.getAttribute('max'));
+
+            // Check for decrement below 1
+            if (newQuantity < 1) {
+                this.value = currentQuantity;
+                showErrorAlert('Minimum quantity required is 1');
+                return;
+            }
+            
+            // Other existing validations
+            if (newQuantity > 5) {
+                this.value = 5;
+                showErrorAlert('Maximum quantity allowed is 5');
+                return;
+            }
+
+            updateCartItem(cartItemId, newQuantity, this);
         });
 
-        function showErrorAlert(message) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: message,
-                confirmButtonColor: '#3085d6'
-                
+        // Prevent invalid inputs
+        input.addEventListener('keypress', function (e) {
+            if (e.key === '-' || e.key === '+' || e.key === 'e' || e.key === '.') {
+                e.preventDefault();
+            }
+        });
+    });
+});
 
-            });
-            setTimeout(()=>{
+function showErrorAlert(message) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: message,
+        confirmButtonColor: '#3085d6'
+    }).then(() => {
+        window.location.reload();
+    });
+}
+
+function showSuccessAlert(message, autoRefresh = true) {
+    // Simply refresh without showing success alert
+    if (autoRefresh) {
+        window.location.reload();
+    }
+}
+
+function updateCartItem(cartItemId, quantity, inputElement) {
+    // Show loading state without full screen Swal
+    const loadingElement = document.createElement('div');
+    loadingElement.className = 'cart-updating';
+    loadingElement.style.position = 'fixed';
+    loadingElement.style.bottom = '10px';
+    loadingElement.style.right = '10px';
+    loadingElement.style.background = 'rgba(0,0,0,0.7)';
+    loadingElement.style.color = 'white';
+    loadingElement.style.padding = '10px 15px';
+    loadingElement.style.borderRadius = '5px';
+    loadingElement.style.zIndex = '9999';
+    loadingElement.textContent = 'Updating cart...';
+    document.body.appendChild(loadingElement);
+
+    fetch('/cart/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            cartItemId: cartItemId,
+            quantity: quantity
+        })
+    })
+        .then(response => response.json())
+        .then(data => {
+            document.body.removeChild(loadingElement);
+
+            if (data.success) {
+                // Store the previous value as the new default
+                inputElement.defaultValue = quantity;
+                // Only refresh without showing success message
                 window.location.reload();
-            },1000)
-        }
+            } else {
+                // Reset the input to previous valid quantity
+                inputElement.value = inputElement.defaultValue;
+                showErrorAlert(data.message);
+            }
+        })
+        .catch(error => {
+            if (document.body.contains(loadingElement)) {
+                document.body.removeChild(loadingElement);
+            }
+            console.error('Error:', error);
+            showErrorAlert('Error updating cart');
+            // Reset to previous valid quantity on error
+            inputElement.value = inputElement.defaultValue;
+        });
+}
 
-        function showSuccessAlert(message) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: message,
-                confirmButtonColor: '#3085d6',
-                timer: 1500
-            });
-        }
 
-        function updateCartItem(cartItemId, quantity, inputElement) {
-            // Show loading state
+
+function removeCartItem(cartItemId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, remove it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
             const loadingAlert = Swal.fire({
-                title: 'Updating cart...',
+                title: 'Removing item...',
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
                 }
             });
 
-            fetch('/cart/update', {
+            fetch('/cart/remove', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    cartItemId: cartItemId,
-                    quantity: quantity
+                    cartItemId: cartItemId
                 })
             })
                 .then(response => response.json())
@@ -748,96 +824,19 @@
                     loadingAlert.close();
 
                     if (data.success) {
-                        // Update item total
-                        const itemRow = document.querySelector(`#cart-item-${cartItemId}`);
-                        const totalCol = itemRow.querySelector('.total-col');
-                        totalCol.textContent = `₹${data.newItemTotal}`;
-
-                        // Update cart subtotal and total
-                        document.getElementById('cart-subtotal').textContent = `₹${data.newSubtotal}`;
-                        document.getElementById('cart-total').textContent = `₹${data.newSubtotal}`;
-
-                        showSuccessAlert('Cart updated successfully');
+                        showSuccessAlert('Item removed successfully', true); // true means auto refresh
                     } else {
-                        // Reset the input to previous valid quantity
-                        if (data.currentQuantity) {
-                            inputElement.value = data.currentQuantity;
-                        }
                         showErrorAlert(data.message);
                     }
                 })
                 .catch(error => {
                     loadingAlert.close();
                     console.error('Error:', error);
-                    showErrorAlert('Error updating cart');
+                    showErrorAlert('Error removing item');
                 });
         }
-
-        function removeCartItem(cartItemId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, remove it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const loadingAlert = Swal.fire({
-                        title: 'Removing item...',
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-
-                    fetch('/cart/remove', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            cartItemId: cartItemId
-                        })
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            loadingAlert.close();
-
-                            if (data.success) {
-                                // Remove the item row with animation
-                                const itemRow = document.querySelector(`#cart-item-${cartItemId}`);
-                                itemRow.style.transition = 'opacity 0.5s';
-                                itemRow.style.opacity = '0';
-
-                                setTimeout(() => {
-                                    itemRow.remove();
-
-                                    // Update cart subtotal and total
-                                    document.getElementById('cart-subtotal').textContent = `₹${data.newSubtotal}`;
-                                    document.getElementById('cart-total').textContent = `₹${data.newSubtotal}`;
-
-                                    // Check if cart is empty
-                                    const remainingItems = document.querySelectorAll('.product-col');
-                                    if (remainingItems.length === 0) {
-                                        location.reload();
-                                    }
-                                }, 500);
-
-                                showSuccessAlert('Item removed successfully');
-                            } else {
-                                showErrorAlert(data.message);
-                            }
-                        })
-                        .catch(error => {
-                            loadingAlert.close();
-                            console.error('Error:', error);
-                            showErrorAlert('Error removing item');
-                        });
-                }
-            });
-        }
+    });
+}
     </script>
 
 

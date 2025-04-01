@@ -10,6 +10,7 @@ const categoryController=require("../controllers/admin/categoryController")
 const productController=require("../controllers/admin/productController")
 const adminOrderController=require("../controllers/admin/adminOrderController")
 const offerController=require("../controllers/admin/offerController")
+const couponController=require("../controllers/admin/couponController")
 const {user,Auth,adminAuth}=require("../middleware/auth")
 
 router.use(session({
@@ -32,7 +33,8 @@ router.get("/login",adminController.loadLogin);
 router.post("/login",adminController.login);
 router.get("/dashboard",adminAuth,adminController.loadDashboard)
 router.get("/logout",adminAuth,adminController.logout)
-
+router.get("/dashboard/report/pdf", adminAuth, adminController.downloadPDFReport);
+router.get("/dashboard/report/excel", adminAuth, adminController.downloadExcelReport);
 
 // Customer Management
 
@@ -83,6 +85,8 @@ router.get("/adminOrder", adminAuth, adminOrderController.getAdminOrderPage);
 router.get("/order-details", adminAuth, adminOrderController.getOrderDetails);
 router.post("/update-order-status", adminAuth, adminOrderController.updateOrderStatus);
 router.post("/cancel-order-item", adminAuth, adminOrderController.cancelOrderItem);
+// In your admin router file
+router.post("/process-return-request", adminAuth, adminOrderController.processReturnRequest); 
 
 
 //offer management
@@ -91,19 +95,27 @@ router.get("/offers",adminAuth,offerController.getOfferPage);
 //product offer management
 router.get("/productOffer",adminAuth,offerController.getProductOfferPage);
 router.post("/addProductOffer", adminAuth, offerController.addProductOffer);
-
 router.get("/editProductOffer/:id", adminAuth, offerController.getEditProductOfferPage);
 router.post("/updateProductOffer", adminAuth, offerController.updateProductOffer);
 
 
 
 //category offer management
-router.get("/categoryOffer",adminAuth,offerController.getCategoryOfferPage);
+router.get("/categoryOffer", adminAuth, offerController.getCategoryOfferPage);
 router.post("/addCategoryOffer", adminAuth, offerController.addCategoryOffer);
+router.get("/editCategoryOffer/:id", adminAuth, offerController.getEditCategoryOfferPage);
+router.post("/updateCategoryOffer", adminAuth, offerController.updateCategoryOffer);
 
 
-// router.get("/offer/:id", adminAuth, offerController.getOfferById);
-// router.post("/offer/:id", adminAuth, offerController.updateOffer);
+
+
+//coupon management
+router.get("/coupons", adminAuth, couponController.getCouponPage);
+router.post("/add-coupon", adminAuth, couponController.addCoupon);
+router.get("/get-coupon/:id", adminAuth, couponController.getCoupon);
+router.put("/update-coupon", adminAuth, couponController.updateCoupon);
+router.delete("/delete-coupon/:id", adminAuth, couponController.deleteCoupon);
+
 
 module.exports=router;
 

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Category Offer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <%- include("../../views/partials/admin/header") %>
+
+    <div class="min-h-screen p-6">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center mb-6 px-4">
+                <h1 class="text-3xl font-extrabold text-gray-900">Edit Category Offer</h1>
+                <a href="/admin/categoryOffer" class="text-violet-600 font-medium hover:underline">
+                    View All Category Offers
+                </a>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-xl p-8">
+                <form id="editOfferForm" class="space-y-8" data-offer-id="<%= offer._id %>">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Basic Info -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Offer Name
+                            </label>
+                            <input 
+                                type="text" 
+                                id="offerName" 
+                                name="offerName" 
+                                required
+                                value="<%= offer.title %>"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Discount Percentage
+                            </label>
+                            <input 
+                                type="number" 
+                                id="discountPercentage" 
+                                name="discountPercentage" 
+                                min="1"
+                                max="99"
+                                required
+                                value="<%= offer.discount %>"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                            >
+                        </div>
+
+                        <!-- Category Selection -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Add Categories
+                            </label>
+                            <select 
+                                id="categorySelect"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                            >
+                                <option value="">Select a category</option>
+                                <% availableCategories.forEach(function(category) { %>
+                                    <option value="<%= category._id %>" 
+                                            data-name="<%= category.name %>">
+                                        <%= category.name %>
+                                    </option>
+                                <% }); %>
+                            </select>
+                        </div>
+
+                        <!-- Selected Categories Box -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Selected Categories
+                            </label>
+                            <div id="selectedCategoriesBox" 
+                                 class="min-h-[200px] w-full p-4 border border-gray-300 rounded-lg bg-gray-50 overflow-y-auto space-y-2">
+                            </div>
+                        </div>
+
+                        <!-- Date and Status -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Expiry Date
+                            </label>
+                            <input 
+                                type="date" 
+                                id="expiryDate" 
+                                name="expiryDate" 
+                                required
+                                value="<%= new Date(offer.validTill).toISOString().split('T')[0] %>"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                            >
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Status
+                            </label>
+                            <select 
+                                id="status" 
+                                name="status"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                            >
+                                <option value="active" <%= offer.status === 'active' ? 'selected' : '' %>>Active</option>
+                                <option value="inactive" <%= offer.status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                        <a href="/admin/categoryOffer" 
+                           class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+                            Cancel
+                        </a>
+                        <button type="submit"
+                                class="px-6 py-3 bg-violet-600 text-white rounded-lg hover:bg-violet-700">
+                            Update Offer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <%- include("../../views/partials/admin/footer") %>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Store selected categories
+        const selectedCategories = new Map();
+        
+        // Initialize with existing categories
+        "<% offer.category.forEach(function(category) { %>"
+            selectedCategories.set('<%= category._id %>', '<%= category.name %>');
+        "<% }); %>"
+
+        // Update display on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCategoryDisplay();
+        });
+
+        // Handle new category selection
+        document.getElementById('categorySelect').addEventListener('change', function() {
+            const categoryId = this.value;
+            if (!categoryId) return;
+            
+            const categoryName = this.options[this.selectedIndex].dataset.name;
+            selectedCategories.set(categoryId, categoryName);
+            updateCategoryDisplay();
+            this.value = '';
+        });
+
+        // Remove category
+        function removeCategory(categoryId) {
+            selectedCategories.delete(categoryId);
+            updateCategoryDisplay();
+        }
+
+        // Update categories display
+        function updateCategoryDisplay() {
+            const container = document.getElementById('selectedCategoriesBox');
+            container.innerHTML = '';
+
+            if (selectedCategories.size === 0) {
+                container.innerHTML = '<p class="text-gray-500 italic">No categories selected</p>';
+                return;
+            }
+
+            selectedCategories.forEach((name, id) => {
+                const div = document.createElement('div');
+                div.className = 'flex justify-between items-center p-3 bg-white rounded-lg border border-gray-200';
+                div.innerHTML = `
+                    <span class="text-gray-700">${name}</span>
+                    <button type="button" 
+                            onclick="removeCategory('${id}')"
+                            class="text-red-500 hover:text-red-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Form submission
+        document.getElementById('editOfferForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const offerName = document.getElementById('offerName').value;
+            const discountPercentage = parseInt(document.getElementById('discountPercentage').value);
+            const categoryIds = Array.from(selectedCategories.keys());
+            const expiryDate = document.getElementById('expiryDate').value;
+            const status = document.getElementById('status').value;
+
+            // Validation
+            if (!offerName.trim()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please enter offer name'
+                });
+                return;
+            }
+
+            if (/^[\d\s]/.test(offerName)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Offer name cannot start with spaces or numbers'
+                });
+                return;
+            }
+
+            if (!discountPercentage || discountPercentage < 1 || discountPercentage > 50) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Discount percentage must be between 1 and 50'
+                });
+                return;
+            }
+
+            if (categoryIds.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please select at least one category'
+                });
+                return;
+            }
+
+            if (!expiryDate || new Date(expiryDate) <= new Date()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please select a future expiry date'
+                });
+                return;
+            }
+
+            // Show loading state
+            Swal.fire({
+                title: 'Updating offer...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            const formData = {
+                offerId: this.dataset.offerId,
+                offerName,
+                discountPercentage,
+                categoryIds,
+                expiryDate,
+                status
+            };
+
+            try {
+                const response = await fetch('/admin/updateCategoryOffer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Offer updated successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = '/admin/categoryOffer';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message || 'Failed to update offer'
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to update offer. Please try again.'
+                });
+            }
+        });
+
+        // Initialize the display
+        updateCategoryDisplay();
+    </script>
+</body>
+</html>

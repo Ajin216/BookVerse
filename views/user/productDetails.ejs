@@ -184,7 +184,7 @@
 
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                    <a href="#" class="sf-with-ul">Product</a>
 
 
                                 </li>
@@ -194,12 +194,12 @@
 
                                 </li>
                                 <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                    <a href="#" class="sf-with-ul">Blog</a>
 
 
                                 </li>
                                 <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                    <a href="#" class="sf-with-ul">Elements</a>
 
 
                                 </li>
@@ -208,90 +208,7 @@
                     </div><!-- End .header-left -->
 
                     <div class="header-right">
-                        <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i
-                                    class="icon-search"></i></a>
-                            <form action="#" method="get">
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
-                                        required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static"
-                                title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-
-                        </div><!-- End .compare-dropdown -->
-
-                        <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <i class="icon-shopping-cart"></i>
-
-                            </a>
-
-                            <!-- <div class="dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-cart-products">
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Beige knitted elastic runner shoes</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $84.00
-                                            </span>
-                                        </div>
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="/assets/images/products/cart/product-1.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div>
-
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Blue utility pinafore denim dress</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $76.00
-                                            </span>
-                                        </div>
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="/assets/images/products/cart/product-2.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div>
-                                </div>
-
-                                <div class="dropdown-cart-total">
-                                    <span>Total</span>
-
-                                    <span class="cart-total-price">$160.00</span>
-                                </div>
-
-                                <div class="dropdown-cart-action">
-                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
-                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
-                                </div>
-                            </div> -->
-                        </div>
-                    </div><!-- End .header-right -->
+                     
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
@@ -306,15 +223,7 @@
                     </ol>
 
                     <nav class="product-pager ml-auto" aria-label="Product">
-                        <a class="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabindex="-1">
-                            <i class="icon-angle-left"></i>
-                            <span>Prev</span>
-                        </a>
-
-                        <a class="product-pager-link product-pager-next" href="#" aria-label="Next" tabindex="-1">
-                            <span>Next</span>
-                            <i class="icon-angle-right"></i>
-                        </a>
+                        
                     </nav><!-- End .pager-nav -->
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
@@ -330,15 +239,21 @@
                             <div class="col-md-6">
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
-                                        <figure class="product-main-image">
+                                        <figure class="product-main-image position-relative">
+                                            <% if (product.bestDiscount > 0) { %>
+                                                <span class="product-label label-sale" 
+                                                      style="background-color: #f56342; color: white; padding: 3px 7px; border-radius: 3px; position: absolute; top: 10px; right: 10px; font-size: 13px; width: 45px; display: inline-block; text-align: center; z-index: 2;">
+                                                    <%= product.bestDiscount %>% OFF
+                                                </span>
+                                            <% } %>
                                             <img id="product-zoom" src="<%= product.productImage[0] %>"
                                                 data-zoom-image="<%= product.productImage[0] %>" alt="product image">
-
+                        
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery">
                                                 <i class="icon-arrows"></i>
                                             </a>
                                         </figure><!-- End .product-main-image -->
-
+                        
                                         <div id="product-zoom-gallery" class="product-image-gallery">
                                             <% product.productImage.forEach((image, index) => { 
                                                
@@ -356,17 +271,13 @@
                                     </div><!-- End .row -->
                                 </div><!-- End .product-gallery -->
                             </div><!-- End .col-md-6 -->
-
-
-
-
+                        
                             <div class="col-md-6">
                                 <div class="product-details">
                                     <h1 class="product-title">
                                         <%= product.productName %>
                                     </h1>
-
-
+                        
                                     <div class="ratings-container">
                                         <div class="ratings">
                                             <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
@@ -374,40 +285,47 @@
                                         <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews
                                             )</a>
                                     </div><!-- End .rating-container -->
-
-
-
-                                    <div class="product-price crossed-price">
-                                        ₹<%= product.regularPrice %>
+                        
+                                    <div class="product-price-container position-relative">
+                                        <% if (product.bestDiscount > 0) { %>
+                                            <!-- <span class="product-label label-sale" 
+                                                  style="background-color: #f56342; color: white; padding: 3px 7px; border-radius: 3px; position: absolute; top: -30px; right: 10px; font-size: 13px; width: 45px; display: inline-block; text-align: center;">
+                                                <%= product.bestDiscount %>% OFF
+                                            </span> -->
+                                            <div class="product-price">
+                                                <span class="new-price">₹<%= product.discountedPrice %></span>
+                                                <span class="old-price" style="text-decoration: line-through; color: #999; margin-left: 10px;">
+                                                    ₹<%= product.regularPrice %>
+                                                </span>
+                                            </div>
+                                        <% } else { %>
+                                            <div class="product-price">
+                                                <span>₹<%= product.regularPrice %></span>
+                                            </div>
+                                        <% } %>
                                     </div>
-                                    <div class="product-price">
-                                        ₹<%= product.salePrice %>
-                                    </div>
-
-
+                        
                                     <div class="details-filter-row details-row-category">
                                         <label for="category"> Category: </label>
                                         <div class="product-details-category">
                                             <%= product.category.name%>
                                         </div>
                                     </div>
-
+                        
                                     <div class="details-filter-row details-row-category">
                                         <label for="category"> Author: </label>
                                         <div class="product-details-category">
                                             <%= product.author%>
                                         </div>
                                     </div>
-
+                        
                                     <div class="details-filter-row details-row-category">
                                         <label for="category"> Stocks: </label>
                                         <div class="product-details-category">
                                             <%= product.quantity%>
                                         </div>
                                     </div>
-
-
-
+                        
                                     <div class="details-filter-row details-row-size">
                                         <label for="qty">Qty:</label>
                                         <div class="product-details-quantity">
@@ -415,33 +333,27 @@
                                                 max="<%= Math.min(product.quantity, 5) %>" data-decimals="0" required>
                                         </div>
                                     </div>
-
-
-
+                        
                                     <div class="product-details-action">
-                                        <!-- <a href="/cart" class="btn-product btn-cart"><span>add to cart</span></a> -->
-                                        <% if (product.quantity> 0) { %>
+                                        <% if (product.quantity > 0) { %>
                                             <a href="/cart" class="btn-product btn-cart add-to-cart-btn"
                                                 data-product-id="<%= product._id %>" data-quantity="1">
                                                 <span>Add to cart</span>
                                             </a>
-                                            <% } else { %>
-                                                <p class="out-of-stock-text">
-                                                    Out of Stock
-                                                </p>
-                                                <% } %>
-
-                                                    <div class="details-action-wrapper">
-                                                        <button onclick="addToWishlist('<%= product._id %>')" class="btn btn-outline-primary-2">
-                                                            Add to Wishlist
-                                                        </button>
-                                                       
-                                                    </div>
-
-                                                    
-                                    </div><!-- End .product-details-action -->
-                                </div><!-- End .product-details -->
-                            </div><!-- End .col-md-6 -->
+                                        <% } else { %>
+                                            <p class="out-of-stock-text">
+                                                Out of Stock
+                                            </p>
+                                        <% } %>
+                        
+                                        <div class="details-action-wrapper">
+                                            <button onclick="addToWishlist('<%= product._id %>')" class="btn btn-outline-primary-2">
+                                                Add to Wishlist
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div><!-- End .row -->
 
 
@@ -586,7 +498,7 @@
 
                     <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
 
-                    `<div class="container">
+                    <div class="container">
                         <h2 class="title text-center mb-4">Related Products</h2>
                         <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow"
                             data-toggle="owl" data-owl-options='{
@@ -616,18 +528,23 @@
                             }'>
                             <% relatedProducts.forEach(function(relatedProduct) { %>
                                 <div class="product product-7 text-center">
-                                    <figure class="product-media">
+                                    <figure class="product-media position-relative">
+                                        <% if (relatedProduct.bestDiscount > 0) { %>
+                                            <span class="product-label label-sale" 
+                                                  style="background-color: #f56342; color: white; padding: 3px 7px; border-radius: 3px; position: absolute; top: 10px; right: 10px; font-size: 13px; width: 45px; display: inline-block; text-align: center; z-index: 2;">
+                                                <%= relatedProduct.bestDiscount %>% OFF
+                                            </span>
+                                        <% } %>
                                         <a href="/product/<%= relatedProduct._id %>">
-                                            <% if (relatedProduct.productImage && relatedProduct.productImage.length> 0)
-                                                { %>
+                                            <% if (relatedProduct.productImage && relatedProduct.productImage.length > 0) { %>
                                                 <img src="<%= relatedProduct.productImage[0] %>"
                                                     alt="<%= relatedProduct.productName %>" class="product-image">
-                                                <% } else { %>
-                                                    <img src="/assets/images/placeholder.jpg" alt="Product image"
-                                                        class="product-image">
-                                                    <% } %>
+                                            <% } else { %>
+                                                <img src="/assets/images/placeholder.jpg" alt="Product image"
+                                                    class="product-image">
+                                            <% } %>
                                         </a>
-
+                    
                                         <div class="product-action-vertical">
                                             <a href="#" class="btn-product-icon btn-wishlist btn-expandable"
                                                 onclick="addToWishlist('<%= relatedProduct._id %>', event)">
@@ -639,21 +556,21 @@
                                                 <span>Quick view</span>
                                             </a>
                                         </div>
-
+                    
                                         <div class="product-action">
-                                            <% if (relatedProduct.quantity> 0) { %>
+                                            <% if (relatedProduct.quantity > 0) { %>
                                                 <a href="#" class="btn-product btn-cart"
                                                     onclick="addToCart('<%= relatedProduct._id %>', event)">
                                                     <span>add to cart</span>
                                                 </a>
-                                                <% } else { %>
-                                                    <button class="btn-product btn-cart" disabled>
-                                                        <span>Out of Stock</span>
-                                                    </button>
-                                                    <% } %>
+                                            <% } else { %>
+                                                <button class="btn-product btn-cart" disabled>
+                                                    <span>Out of Stock</span>
+                                                </button>
+                                            <% } %>
                                         </div>
                                     </figure>
-
+                    
                                     <div class="product-body">
                                         <div class="product-cat">
                                             <a href="/category/<%= relatedProduct.category._id %>">
@@ -666,25 +583,22 @@
                                             </a>
                                         </h3>
                                         <div class="product-price">
-                                            <% if (relatedProduct.salePrice) { %>
-                                                <span class="new-price">₹<%= relatedProduct.salePrice %></span>
-                                                <span class="old-price">₹<%= relatedProduct.regularPrice %></span>
-                                                <% } else { %>
+                                            <% if (relatedProduct.bestDiscount > 0) { %>
+                                                <span class="new-price">₹<%= relatedProduct.discountedPrice %></span>
+                                                <span class="old-price" style="text-decoration: line-through; color: #999; margin-left: 10px;">
                                                     ₹<%= relatedProduct.regularPrice %>
-                                                        <% } %>
-                                        </div>
-                                        <% if (relatedProduct.productOffer> 0) { %>
-                                            <div class="product-offer">
-                                                <span class="badge badge-success">
-                                                    <%= relatedProduct.productOffer %>% OFF
                                                 </span>
-                                            </div>
+                                            <% } else { %>
+                                                <span>₹<%= relatedProduct.regularPrice %></span>
                                             <% } %>
+                                        </div>
                                     </div>
                                 </div>
-                                <% }); %>
+                            <% }); %>
                         </div>
                     </div>
+
+
                 </div><!-- End .container -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->

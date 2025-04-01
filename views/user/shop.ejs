@@ -93,12 +93,12 @@
 
                                 </li>
                                 <li>
-                                    <a href="category.html" class="sf-with-ul">Shop</a>
+                                    <a href="/shop" class="sf-with-ul">Shop</a>
 
 
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                    <a href="#" class="sf-with-ul">Product</a>
 
 
                                 </li>
@@ -108,12 +108,12 @@
 
                                 </li>
                                 <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                    <a href="#" class="sf-with-ul">Blog</a>
 
 
                                 </li>
                                 <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                    <a href="#" class="sf-with-ul">Elements</a>
 
                                 </li>
                             </ul><!-- End .menu -->
@@ -328,17 +328,37 @@
                                                             <% } %>
                                                         </div><!-- End .product-action -->
                                                     </figure><!-- End .product-media -->
-                                    
+                    
+
+
                                                     <div class="product-body">
+                                                        <% if (product.bestDiscount > 0) { %>
+                                                            <span class="product-label label-sale" 
+                                                                  style="background-color: #f56342; color: white; padding: 3px 7px; border-radius: 3px; position: absolute; top: -270px; right: 10px; font-size: 13px; width: 45px; display: inline-block; text-align: center;">
+                                                                <%= product.bestDiscount %>% OFF
+                                                            </span>
+                                                        <% } %>
+                                                        
                                                         <div class="product-cat">
-                                                            <p><%= product.productName %> </p>
+                                                            <p><%= product.productName %></p>
                                                         </div>
                                                         
-                                                        <div class="product-price crossed-price">
-                                                            <del>₹<%= product.regularPrice %></del>
-                                                            <span class="sale-price">₹<%= product.salePrice %></span>
-                                                        </div>
-                                                    </div><!-- End .product-body -->
+                                                        <% if (product.bestDiscount > 0) { %>
+                                                            <div class="product-price">
+                                                                <span class="new-price">₹<%= product.discountedPrice %></span>
+                                                                <span class="old-price" style="text-decoration: line-through; color: #999; margin-left: 10px;">
+                                                                    ₹<%= product.regularPrice %>
+                                                                </span>
+                                                            </div>
+                                                        <% } else { %>
+                                                            <div class="product-price">
+                                                                <span>₹<%= product.regularPrice %></span>
+                                                            </div>
+                                                        <% } %>
+                                                    </div>
+
+                                                    
+
                                                 </div><!-- End .product -->
                                             </div><!-- End .col-sm-6 col-lg-4 -->
                                         <% }) %>
@@ -901,32 +921,6 @@
                 }
             });
 
-
-
-
-
-//             document.addEventListener('DOMContentLoaded', function() {
-//     const searchForm = document.querySelector('.header-search form');
-//     const searchInput = document.getElementById('q');
-
-//     // Optional: Clear search input when clicking search toggle
-//     const searchToggle = document.querySelector('.search-toggle');
-//     if (searchToggle) {
-//         searchToggle.addEventListener('click', function(e) {
-//             e.preventDefault();
-//             searchInput.focus();
-//         });
-//     }
-
-//     // Optional: Validate search input
-//     searchForm.addEventListener('submit', function(e) {
-//         const searchTerm = searchInput.value.trim();
-//         if (searchTerm === '') {
-//             e.preventDefault();
-//             alert('Please enter a search term');
-//         }
-//     });
-// });
 
 
 

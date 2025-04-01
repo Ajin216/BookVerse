@@ -3,6 +3,7 @@
 
 
 <!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,17 +38,20 @@
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .order-summary-container {
             max-width: 1100px;
             margin: 2rem auto;
             padding: 0 15px;
         }
+
         .order-card {
             border: none;
             border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
+
         .order-header {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
@@ -56,43 +60,52 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .order-header h2 {
             margin: 0;
             font-weight: 600;
         }
+
         .address-section {
             background-color: #f1f5f9;
             padding: 1.5rem;
             border-radius: 10px;
             margin-bottom: 1.5rem;
         }
+
         .table-order {
             margin-top: 1.5rem;
         }
+
         .table-order thead {
             background-color: #e9ecef;
         }
+
         .product-thumbnail {
             max-width: 80px;
             max-height: 80px;
             object-fit: cover;
             border-radius: 8px;
         }
+
         .order-actions {
             display: flex;
             justify-content: center;
             gap: 1rem;
             margin-top: 1.5rem;
         }
+
         .status-badge {
             font-size: 0.9em;
             padding: 0.4em 0.7em;
         }
+
         @media (max-width: 768px) {
             .order-header {
                 flex-direction: column;
                 text-align: center;
             }
+
             .order-header .badge {
                 margin-top: 0.5rem;
             }
@@ -108,7 +121,7 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        
+
                     </div><!-- End .header-left -->
 
                     <div class="header-right">
@@ -136,7 +149,7 @@
                             <i class="icon-bars"></i>
                         </button>
 
-                        <a href="index.html" class="logo">
+                        <a href="/" class="logo">
                             <h3>BOOKVERSE</h3>
                         </a>
 
@@ -145,58 +158,62 @@
                                 <li class="megamenu-container active">
                                     <a href="/" class="sf-with-ul">Home</a>
 
-                                    
+
                                 </li>
                                 <li>
                                     <a href="/shop" class="sf-with-ul">Shop</a>
 
-                                    
+
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                    <a href="#" class="sf-with-ul">Product</a>
 
-                                    
+
                                 </li>
                                 <li>
                                     <a href="#" class="sf-with-ul">Pages</a>
 
                                 </li>
                                 <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                    <a href="#" class="sf-with-ul">Blog</a>
 
-                                   
+
                                 </li>
                                 <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                    <a href="#" class="sf-with-ul">Elements</a>
 
-                                    
+
                                 </li>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
 
-                    <div class="header-right">
+                    <!-- <div class="header-right">
                         <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
-                            
-                        </div><!-- End .header-search -->
+                            <a href="#" class="search-toggle" role="button" title="Search"><i
+                                    class="icon-search"></i></a>
+
+                        </div>
                         <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" data-display="static"
+                                title="Compare Products" aria-label="Compare Products">
                                 <i class="icon-random"></i>
                             </a>
 
-                            
-                        </div><!-- End .compare-dropdown -->
+
+                        </div>
 
                         <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                               
+
                             </a>
 
-                            
-                        </div><!-- End .cart-dropdown -->
-                    </div><!-- End .header-right -->
+
+                        </div>
+                    </div> -->
 
 
                 </div><!-- End .container -->
@@ -204,7 +221,7 @@
         </header><!-- End .header -->
 
         <main class="main">
-        	
+
             <nav aria-label="breadcrumb" class="breadcrumb-nav">
                 <div class="container">
                     <ol class="breadcrumb">
@@ -215,7 +232,7 @@
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
 
-            
+
 
 
 
@@ -225,26 +242,39 @@
                         <h2>Order Summary</h2>
                         <span class="badge bg-light text-dark">#<%= order.orderId %></span>
                     </div>
-                    
+
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="address-section">
                                     <h4 class="mb-3 text-primary">Shipping Address</h4>
-                                    <p class="mb-1"><strong><%= address.addressName %></strong></p>
-                                    <p class="mb-1"><%= address.addressHouse %></p>
-                                    <p class="mb-1"><%= address.addressPost %>, <%= address.addressDistrict %></p>
-                                    <p class="mb-1"><%= address.addressState %> - <%= address.addressPin %></p>
-                                    <p class="mb-1">📞 <%= address.addressMobile %></p>
+                                    <p class="mb-1"><strong>
+                                            <%= address.addressName %>
+                                        </strong></p>
+                                    <p class="mb-1">
+                                        <%= address.addressHouse %>
+                                    </p>
+                                    <p class="mb-1">
+                                        <%= address.addressPost %>, <%= address.addressDistrict %>
+                                    </p>
+                                    <p class="mb-1">
+                                        <%= address.addressState %> - <%= address.addressPin %>
+                                    </p>
+                                    <p class="mb-1">📞 <%= address.addressMobile %>
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="address-section">
                                     <h4 class="mb-3 text-primary">Order Information</h4>
-                                    <p class="mb-1"><strong>Order Date:</strong> <%= order.createdAt.toLocaleDateString() %></p>
-                                    <p class="mb-1"><strong>Payment Method:</strong> <%= order.paymentMethod %></p>
+                                    <p class="mb-1"><strong>Order Date:</strong>
+                                        <%= order.createdAt.toLocaleDateString() %>
+                                    </p>
+                                    <p class="mb-1"><strong>Payment Method:</strong>
+                                        <%= order.paymentMethod %>
+                                    </p>
                                     <p class="mb-1">
-                                        <strong>Order Status:</strong> 
+                                        <strong>Order Status:</strong>
                                         <span class="badge status-badge <%= 
                                             order.order_status === 'Delivered' ? 'bg-success' :
                                             order.order_status === 'Processing' ? 'bg-warning' :
@@ -254,10 +284,20 @@
                                             <%= order.order_status %>
                                         </span>
                                     </p>
+
+                                    <!-- Add the Retry Payment button here -->
+                                    <% if (order.payment_status==='Pending' && order.paymentMethod==='Razor Pay' ) { %>
+                                        <div class="mt-3">
+                                            <button class="btn btn-success"
+                                                onclick="retryPayment('<%= order.orderId %>', '<%= order.totalPrice %>', '<%= order._id %>')">
+                                                Retry Payment
+                                            </button>
+                                        </div>
+                                        <% } %>
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="table-responsive table-order">
                             <table class="table table-hover">
                                 <thead>
@@ -268,7 +308,7 @@
                                         <th>Category</th>
                                         <th>Quantity</th>
                                         <th>Price</th>
-                                        <th>Subtotal</th>
+                                        <th>Coupon Discount</th>
                                         <th>Product Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -277,124 +317,159 @@
 
 
                                 <tbody>
-                                    <% items.forEach((item, index) => { %>
+                                    <% items.forEach((item, index)=> { %>
                                         <tr data-item-id="<%= item._id.toString() %>">
-                                            <td><%= index + 1 %></td>
                                             <td>
-                                                <img src="<%= item.productId.productImage[0] %>" 
-                                                     alt="<%= item.productId.productName %>" 
-                                                     class="product-thumbnail"
-                                                >
+                                                <%= index + 1 %>
                                             </td>
-                                            <td><%= item.productId.productName %></td>
-                                            <td><%= item.productId.category.name %></td>
-                                            <td><%= item.quantity %></td>
-                                            <td>₹<%= item.price.toFixed(2) %></td>
-                                            <td>₹<%= item.subtotal.toFixed(2) %></td>
                                             <td>
-                                                <% if (item.status === 'Cancelled') { %>
+                                                <img src="<%= item.productId.productImage[0] %>"
+                                                    alt="<%= item.productId.productName %>" class="product-thumbnail">
+                                            </td>
+                                            <td>
+                                                <%= item.productId.productName %>
+                                            </td>
+                                            <td>
+                                                <%= item.productId.category.name %>
+                                            </td>
+                                            <td>
+                                                <%= item.quantity %>
+                                            </td>
+                                            <td>₹<%= item.price.toFixed(2) %>
+                                            </td>
+                                            <td>₹<%= item.subtotal.toFixed(2) %>
+                                            </td>
+                                            <td>
+                                                <% if (item.status==='Cancelled' ) { %>
                                                     <span class="badge bg-danger">Cancelled</span>
-                                                <% } else if (item.status === 'Returned') { %>
-                                                    <span class="badge bg-secondary">Returned</span>
-                                                <% } else { %>
-                                                    <span class="badge bg-success">Active</span>
-                                                <% } %>
+                                                    <% } else if (item.status==='Returned' ) { %>
+                                                        <span class="badge bg-secondary">Returned</span>
+                                                        <% } else { %>
+                                                            <span class="badge bg-success">Active</span>
+                                                            <% } %>
                                             </td>
 
-                                             <td>
-                                                <% if (order.order_status === 'Delivered') { %>
-                                                    <% if (item.status === 'Returned') { %>
-                                                        <button class="btn btn-secondary btn-sm" disabled>Returned</button>
-                                                    <% } else { %>
-                                                        <button class="btn btn-danger btn-sm" onclick="returnOrderItem('<%= item._id %>', this)">
+                                            <td>
+                                                <% if (item.status==='Returned' ) { %>
+                                                    <!-- Disable button and change text to "Returned" -->
+                                                    <button class="btn btn-secondary btn-sm" disabled>Returned</button>
+                                                    <% } else if (order.order_status==='Delivered' ) { %>
+                                                        <!-- Show "Return Product" button for delivered orders -->
+                                                        <button class="btn btn-danger btn-sm"
+                                                            onclick="returnOrderItem('<%= item._id %>', this)">
                                                             Return Product
                                                         </button>
-                                                    <% } %>
-                                                <% } else if (item.status === 'Cancelled') { %>
-                                                    <button class="btn btn-danger btn-sm" disabled>Cancelled</button>
-                                                <% } else { %>
-                                                    <button 
-                                                        class="btn btn-outline-danger btn-sm" 
-                                                        onclick="cancelOrderItem('<%= item._id.toString() %>')"
-                                                    >
-                                                        Cancel Item
-                                                    </button>
-                                                <% } %>
+                                                        <% } else if (item.status==='Cancelled' ) { %>
+                                                            <!-- Disable button for cancelled items -->
+                                                            <button class="btn btn-danger btn-sm"
+                                                                disabled>Cancelled</button>
+                                                            <% } else { %>
+                                                                <!-- Show "Cancel Item" button for active items -->
+                                                                <button class="btn btn-outline-danger btn-sm"
+                                                                    onclick="cancelOrderItem('<%= item._id.toString() %>')">
+                                                                    Cancel Item
+                                                                </button>
+                                                                <% } %>
                                             </td>
-                                            
                                         </tr>
-                                    <% }); %>
-                                   
+                                        <% }); %>
                                 </tbody>
-
 
 
                                 <tfoot>
                                     <tr class="table-active">
                                         <td colspan="6" class="text-end"><strong>Total Price:</strong></td>
-                                        <td>₹<%= order.totalPrice.toFixed(2) %></td>
+                                        <td>₹<%= Math.round(order.totalPrice) %></td>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
-        
-                        <!-- <div class="order-actions">
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
-                                Cancel All Orders
-                            </button>
-                            <a href="/order" class="btn btn-outline-primary">Back to Orders</a>
-                        </div> -->
 
-                        <div class="order-actions">
+
+                        <!-- <div class="order-actions">
                             <% if (order.order_status==='Delivered' || order.order_status==='Cancelled' ) { %>
                                 <button type="button" class="btn btn-danger" disabled>
                                     Cancel All Orders
                                 </button>
                                 <% } else { %>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#cancelOrderModal">
                                         Cancel All Orders
                                     </button>
                                     <% } %>
                                         <a href="/order" class="btn btn-outline-primary">Back to Orders</a>
+                        </div> -->
+
+
+
+                        <div class="order-actions">
+                            <% 
+                                // Check if all items in the order are returned
+                                const allItemsReturned = order.items.every(item => item.status === 'Returned');
+                            %>
+                            
+                            <% if (order.order_status === 'Delivered' || order.order_status === 'Cancelled' || allItemsReturned) { %>
+                                <!-- Disable the "Cancel All Orders" button if the order is Delivered, Cancelled, or all items are returned -->
+                                <button type="button" class="btn btn-danger" disabled>
+                                    <%= allItemsReturned ? 'All Items Returned' : 'Cancel All Orders' %>
+                                </button>
+                            <% } else { %>
+                                <!-- Show the "Cancel All Orders" button with modal functionality -->
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+                                    Cancel All Orders
+                                </button>
+                            <% } %>
+                            
+                            <!-- Back to Orders button -->
+                            <a href="/order" class="btn btn-outline-primary">Back to Orders</a>
                         </div>
-        
-        
-        
-                        <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+
+
+                        <div class="modal fade" id="cancelOrderModal" tabindex="-1"
+                            aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
                                     <form id="cancelAllOrderForm" method="POST">
                                         <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="cancelReason" class="form-label">Reason for Cancellation</label>
-                                                <select class="form-select" id="cancelReason" name="cancelReason" required>
+                                                <label for="cancelReason" class="form-label">Reason for
+                                                    Cancellation</label>
+                                                <select class="form-select" id="cancelReason" name="cancelReason"
+                                                    required>
                                                     <option value="">Select a reason</option>
                                                     <option value="Changed mind">Changed mind</option>
                                                     <option value="Found better price">Found better price</option>
-                                                    <option value="Delivery takes too long">Delivery takes too long</option>
-                                                    <option value="Product no longer needed">Product no longer needed</option>
+                                                    <option value="Delivery takes too long">Delivery takes too long
+                                                    </option>
+                                                    <option value="Product no longer needed">Product no longer needed
+                                                    </option>
                                                     <option value="Other">Other</option>
                                                 </select>
                                             </div>
                                             <div id="otherReasonContainer" style="display:none;">
-                                                <label for="otherReason" class="form-label">Please specify other reason</label>
-                                                <textarea class="form-control" id="otherReason" name="otherCancelReason" rows="3"></textarea>
+                                                <label for="otherReason" class="form-label">Please specify other
+                                                    reason</label>
+                                                <textarea class="form-control" id="otherReason" name="otherCancelReason"
+                                                    rows="3"></textarea>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-danger" id="confirmCancelBtn">Confirm Cancel</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-danger" id="confirmCancelBtn">Confirm
+                                                Cancel</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-        
-        
+
+
                     </div>
                 </div>
             </div>
@@ -405,78 +480,85 @@
         </main><!-- End .main -->
 
         <footer class="footer">
-        	<div class="footer-middle">
-	            <div class="container">
-	            	<div class="row">
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget widget-about">
-	            				<h3>BOOKVERSE</h3>
-	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget widget-about">
+                                <h3>BOOKVERSE</h3>
+                                <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate
+                                    magna eros eu erat. </p>
 
-	            				<div class="social-icons">
-	            					<a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
-	            					<a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
-	            					<a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
-	            					<a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
-	            					<a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
-	            				</div><!-- End .soial-icons -->
-	            			</div><!-- End .widget about-widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
+                                <div class="social-icons">
+                                    <a href="#" class="social-icon" target="_blank" title="Facebook"><i
+                                            class="icon-facebook-f"></i></a>
+                                    <a href="#" class="social-icon" target="_blank" title="Twitter"><i
+                                            class="icon-twitter"></i></a>
+                                    <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                            class="icon-instagram"></i></a>
+                                    <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                            class="icon-youtube"></i></a>
+                                    <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                            class="icon-pinterest"></i></a>
+                                </div><!-- End .soial-icons -->
+                            </div><!-- End .widget about-widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
 
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget">
-	            				<h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
 
-	            				<ul class="widget-list">
-	            					<li><a href="about.html">About Molla</a></li>
-	            					<li><a href="#">How to shop on Molla</a></li>
-	            					<li><a href="#">FAQ</a></li>
-	            					<li><a href="contact.html">Contact us</a></li>
-	            					<li><a href="login.html">Log in</a></li>
-	            				</ul><!-- End .widget-list -->
-	            			</div><!-- End .widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
+                                <ul class="widget-list">
+                                    <li><a href="about.html">About Molla</a></li>
+                                    <li><a href="#">How to shop on Molla</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                    <li><a href="contact.html">Contact us</a></li>
+                                    <li><a href="login.html">Log in</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
 
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget">
-	            				<h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
 
-	            				<ul class="widget-list">
-	            					<li><a href="#">Payment Methods</a></li>
-	            					<li><a href="#">Money-back guarantee!</a></li>
-	            					<li><a href="#">Returns</a></li>
-	            					<li><a href="#">Shipping</a></li>
-	            					<li><a href="#">Terms and conditions</a></li>
-	            					<li><a href="#">Privacy Policy</a></li>
-	            				</ul><!-- End .widget-list -->
-	            			</div><!-- End .widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
+                                <ul class="widget-list">
+                                    <li><a href="#">Payment Methods</a></li>
+                                    <li><a href="#">Money-back guarantee!</a></li>
+                                    <li><a href="#">Returns</a></li>
+                                    <li><a href="#">Shipping</a></li>
+                                    <li><a href="#">Terms and conditions</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
 
-	            		<div class="col-sm-6 col-lg-3">
-	            			<div class="widget">
-	            				<h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget">
+                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
 
-	            				<ul class="widget-list">
-	            					<li><a href="#">Sign In</a></li>
-	            					<li><a href="cart.html">View Cart</a></li>
-	            					<li><a href="#">My Wishlist</a></li>
-	            					<li><a href="#">Track My Order</a></li>
-	            					<li><a href="#">Help</a></li>
-	            				</ul><!-- End .widget-list -->
-	            			</div><!-- End .widget -->
-	            		</div><!-- End .col-sm-6 col-lg-3 -->
-	            	</div><!-- End .row -->
-	            </div><!-- End .container -->
-	        </div><!-- End .footer-middle -->
+                                <ul class="widget-list">
+                                    <li><a href="#">Sign In</a></li>
+                                    <li><a href="cart.html">View Cart</a></li>
+                                    <li><a href="#">My Wishlist</a></li>
+                                    <li><a href="#">Track My Order</a></li>
+                                    <li><a href="#">Help</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-6 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-middle -->
 
-	        <div class="footer-bottom">
-	        	<div class="container">
-	        		<p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
-	        		<figure class="footer-payments">
-	        			<img src="/assets/images/payments.png" alt="Payment methods" width="272" height="20">
-	        		</figure><!-- End .footer-payments -->
-	        	</div><!-- End .container -->
-	        </div><!-- End .footer-bottom -->
+            <div class="footer-bottom">
+                <div class="container">
+                    <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                    <!-- End .footer-copyright -->
+                    <figure class="footer-payments">
+                        <img src="/assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                    </figure><!-- End .footer-payments -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-bottom -->
         </footer><!-- End .footer -->
     </div><!-- End .page-wrapper -->
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
@@ -490,10 +572,11 @@
 
             <form action="#" method="get" class="mobile-search">
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                    placeholder="Search in..." required>
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
-            
+
             <nav class="mobile-nav">
                 <ul class="mobile-menu">
                     <li class="active">
@@ -533,10 +616,12 @@
                             <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
                             <li><a href="category.html">Shop Grid 3 Columns</a></li>
                             <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
-                            <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>
+                            <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span
+                                            class="tip tip-hot">Hot</span></span></a></li>
                             <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
                             <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
-                            <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
+                            <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span
+                                            class="tip tip-new">New</span></span></a></li>
                             <li><a href="cart.html">Cart</a></li>
                             <li><a href="checkout.html">Checkout</a></li>
                             <li><a href="wishlist.html">Wishlist</a></li>
@@ -548,7 +633,8 @@
                         <ul>
                             <li><a href="product.html">Default</a></li>
                             <li><a href="product-centered.html">Centered</a></li>
-                            <li><a href="product-extended.html"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
+                            <li><a href="product-extended.html"><span>Extended Info<span
+                                            class="tip tip-new">New</span></span></a></li>
                             <li><a href="product-gallery.html">Gallery</a></li>
                             <li><a href="product-sticky.html">Sticky Info</a></li>
                             <li><a href="product-sidebar.html">Boxed With Sidebar</a></li>
@@ -666,23 +752,28 @@
                         <div class="form-tab">
                             <ul class="nav nav-pills nav-fill" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
+                                    <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin"
+                                        role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+                                    <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab"
+                                        aria-controls="register" aria-selected="false">Register</a>
                                 </li>
                             </ul>
                             <div class="tab-content" id="tab-content-5">
-                                <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                                <div class="tab-pane fade show active" id="signin" role="tabpanel"
+                                    aria-labelledby="signin-tab">
                                     <form action="#">
                                         <div class="form-group">
                                             <label for="singin-email">Username or email address *</label>
-                                            <input type="text" class="form-control" id="singin-email" name="singin-email" required>
+                                            <input type="text" class="form-control" id="singin-email"
+                                                name="singin-email" required>
                                         </div><!-- End .form-group -->
 
                                         <div class="form-group">
                                             <label for="singin-password">Password *</label>
-                                            <input type="password" class="form-control" id="singin-password" name="singin-password" required>
+                                            <input type="password" class="form-control" id="singin-password"
+                                                name="singin-password" required>
                                         </div><!-- End .form-group -->
 
                                         <div class="form-footer">
@@ -692,8 +783,10 @@
                                             </button>
 
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="signin-remember">
-                                                <label class="custom-control-label" for="signin-remember">Remember Me</label>
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="signin-remember">
+                                                <label class="custom-control-label" for="signin-remember">Remember
+                                                    Me</label>
                                             </div><!-- End .custom-checkbox -->
 
                                             <a href="#" class="forgot-link">Forgot Your Password?</a>
@@ -721,12 +814,14 @@
                                     <form action="#">
                                         <div class="form-group">
                                             <label for="register-email">Your email address *</label>
-                                            <input type="email" class="form-control" id="register-email" name="register-email" required>
+                                            <input type="email" class="form-control" id="register-email"
+                                                name="register-email" required>
                                         </div><!-- End .form-group -->
 
                                         <div class="form-group">
                                             <label for="register-password">Password *</label>
-                                            <input type="password" class="form-control" id="register-password" name="register-password" required>
+                                            <input type="password" class="form-control" id="register-password"
+                                                name="register-password" required>
                                         </div><!-- End .form-group -->
 
                                         <div class="form-footer">
@@ -736,8 +831,10 @@
                                             </button>
 
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="register-policy" required>
-                                                <label class="custom-control-label" for="register-policy">I agree to the <a href="#">privacy policy</a> *</label>
+                                                <input type="checkbox" class="custom-control-input" id="register-policy"
+                                                    required>
+                                                <label class="custom-control-label" for="register-policy">I agree to the
+                                                    <a href="#">privacy policy</a> *</label>
                                             </div><!-- End .custom-checkbox -->
                                         </div><!-- End .form-footer -->
                                     </form>
@@ -781,89 +878,18 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
     <script>
-// function cancelOrderItem(itemId) {
-//     const orderId = '<%= order.orderId %>';
-    
-//     Swal.fire({
-//         title: 'Are you sure?',
-//         text: 'Do you want to cancel this item from your order?',
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonColor: '#3085d6',
-//         cancelButtonColor: '#d33',
-//         confirmButtonText: 'Yes, cancel it!'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             fetch(`/orders/cancel-item/${orderId}/${itemId}`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 }
-//             })
-//             .then(response => {
-//                 if (!response.ok) {
-//                     throw new Error('Network response was not ok');
-//                 }
-//                 return response.json();
-//             })
-//             .then(data => {
-//                 if(data.success) {
-//                     // Update the specific row
-//                     const row = document.querySelector(`tr[data-item-id="${itemId}"]`);
-//                     if (row) {
-//                         // Update the cancel button
-//                         const actionCell = row.querySelector('td:last-child');
-//                         actionCell.innerHTML = '<button class="btn btn-secondary btn-sm" disabled>Cancelled</button>';
-                        
-//                         // Update total price
-//                         const totalPriceElement = document.querySelector('tfoot td:last-child');
-//                         if (totalPriceElement) {
-//                             totalPriceElement.textContent = `₹${data.updatedTotalPrice.toFixed(2)}`;
-//                         }
-
-//                         // Update order status if all items are cancelled
-//                         if (data.orderStatus === 'Cancelled') {
-//                             const orderStatusBadge = document.querySelector('.status-badge');
-//                             if (orderStatusBadge) {
-//                                 orderStatusBadge.className = 'badge status-badge bg-danger';
-//                                 orderStatusBadge.textContent = 'Cancelled';
-//                             }
-//                         }
-//                     }
-                    
-//                     Swal.fire(
-//                         'Cancelled!',
-//                         'Your order item has been cancelled.',
-//                         'success'
-//                     ).then(() => {
-//                         window.location.reload(); // Added page reload after success message
-//                     });
-//                 } else {
-//                     Swal.fire(
-//                         'Error!',
-//                         data.message || 'Failed to cancel the item',
-//                         'error'
-//                     );
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//                 Swal.fire(
-//                     'Error!',
-//                     'An error occurred while canceling the item',
-//                     'error'
-//                 );
-//             });
-//         }
-//     });
-// }
 
 
-function cancelOrderItem(itemId) {
+
+
+
+        function cancelOrderItem(itemId) {
     const orderId = '<%= order.orderId %>';
-    
+
     Swal.fire({
         title: 'Are you sure?',
         text: 'Do you want to cancel this item from your order?',
@@ -880,194 +906,412 @@ function cancelOrderItem(itemId) {
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if(data.success) {
-                    Swal.fire(
-                        'Cancelled!',
-                        'Your order item has been cancelled.',
-                        'success'
-                    ).then(() => {
-                        window.location.reload(); // Simple window reload after success
-                    });
-                } else {
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Update the UI to reflect the changes
+                        const row = document.querySelector(`tr[data-item-id="${itemId}"]`);
+                        if (row) {
+                            // Update item status
+                            const statusCell = row.querySelector('td:nth-child(8)');
+                            if (statusCell) {
+                                statusCell.innerHTML = '<span class="badge bg-danger">Cancelled</span>';
+                            }
+                            
+                            // Update action button
+                            const actionCell = row.querySelector('td:nth-child(9)');
+                            if (actionCell) {
+                                actionCell.innerHTML = '<button class="btn btn-danger btn-sm" disabled>Cancelled</button>';
+                            }
+                        }
+                        
+                        // Update total price in the footer
+                        const totalPriceElement = document.querySelector('tfoot td:last-child');
+                        if (totalPriceElement) {
+                            totalPriceElement.textContent = `₹${Math.round(data.updatedTotalPrice)}`;
+                        }
+                        
+                        Swal.fire(
+                            'Cancelled!',
+                            'Your order item has been cancelled.',
+                            'success'
+                        );
+                        
+                        // If order status has changed to Cancelled (all items cancelled)
+                        if (data.orderStatus === 'Cancelled') {
+                            // Update order status badge if it exists
+                            const statusBadge = document.querySelector('.status-badge');
+                            if (statusBadge) {
+                                statusBadge.className = 'badge status-badge bg-danger';
+                                statusBadge.textContent = 'Cancelled';
+                            }
+                            
+                            // Disable Cancel All Orders button if it exists
+                            const cancelAllBtn = document.querySelector('[data-bs-target="#cancelOrderModal"]');
+                            if (cancelAllBtn) {
+                                cancelAllBtn.disabled = true;
+                            }
+                        }
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            data.message || 'Failed to cancel the item',
+                            'error'
+                        );
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                     Swal.fire(
                         'Error!',
-                        data.message || 'Failed to cancel the item',
+                        'An error occurred while canceling the item',
                         'error'
                     );
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire(
-                    'Error!',
-                    'An error occurred while canceling the item',
-                    'error'
-                );
-            });
+                });
         }
     });
 }
- 
- 
- 
- 
-//  //cancell all orders
-// Frontend JavaScript
-document.getElementById('cancelReason').addEventListener('change', function() {
-    const otherReasonContainer = document.getElementById('otherReasonContainer');
-    otherReasonContainer.style.display = this.value === 'Other' ? 'block' : 'none';
-});
 
-document.getElementById('cancelAllOrderForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const orderId = '<%= order.orderId %>';
-    const cancelReason = document.getElementById('cancelReason').value;
-    const otherReason = document.getElementById('otherReason').value;
 
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'Do you want to cancel the entire order?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, cancel order'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            fetch(`/orders/cancel-all-orders/${orderId}`, {
+
+        //  //cancell all orders
+        // Frontend JavaScript
+        document.getElementById('cancelReason').addEventListener('change', function () {
+            const otherReasonContainer = document.getElementById('otherReasonContainer');
+            otherReasonContainer.style.display = this.value === 'Other' ? 'block' : 'none';
+        });
+
+        document.getElementById('cancelAllOrderForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const orderId = '<%= order.orderId %>';
+            const cancelReason = document.getElementById('cancelReason').value;
+            const otherReason = document.getElementById('otherReason').value;
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Do you want to cancel the entire order?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, cancel order'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/orders/cancel-all-orders/${orderId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            cancelReason: cancelReason === 'Other' ? otherReason : cancelReason
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Update all cancel buttons to "Cancelled"
+                                const itemButtons = document.querySelectorAll('.btn-outline-danger');
+                                itemButtons.forEach(button => {
+                                    button.className = 'btn btn-danger btn-sm';
+                                    button.disabled = true;
+                                    button.textContent = 'Cancelled';
+                                });
+
+                                // Update order status badge
+                                const statusBadge = document.querySelector('.status-badge');
+                                if (statusBadge) {
+                                    statusBadge.className = 'badge status-badge bg-danger';
+                                    statusBadge.textContent = 'Cancelled';
+                                }
+
+                                // Disable Cancel All Orders button
+                                const cancelAllBtn = document.querySelector('[data-bs-target="#cancelOrderModal"]');
+                                if (cancelAllBtn) {
+                                    cancelAllBtn.disabled = true;
+                                }
+
+                                // Update total price
+                                const totalPriceElement = document.querySelector('tfoot td:last-child');
+                                if (totalPriceElement) {
+                                    totalPriceElement.textContent = '₹0.00';
+                                }
+
+                                // Close modal
+                                const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
+                                modal.hide();
+
+                                Swal.fire(
+                                    'Cancelled!',
+                                    'Your order has been cancelled.',
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    'Error!',
+                                    data.message || 'Failed to cancel the order',
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire(
+                                'Error!',
+                                'An error occurred while canceling the order',
+                                'error'
+                            );
+                        });
+                }
+            });
+        });
+
+
+
+
+
+
+        // User side: Function to request a return
+        function returnOrderItem(itemId, buttonElement) {
+            // Check if parent row has a cancelled status
+            const row = buttonElement.closest('tr');
+            const statusBadge = row.querySelector('.badge');
+            const itemStatus = statusBadge ? statusBadge.textContent.trim() : '';
+
+            if (itemStatus === 'Cancelled') {
+                Swal.fire({
+                    title: 'Cannot Return',
+                    text: 'Cancelled items cannot be returned',
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6'
+                });
+                return;
+            }
+
+            // Create a dropdown with return reasons
+            Swal.fire({
+                title: 'Return Item',
+                html: `
+            <div class="form-group">
+                <label for="returnReason">Please select a reason for return:</label>
+                <select id="returnReason" class="form-control">
+                    <option value="">Select a reason</option>
+                    <option value="Damaged Product">Damaged Product</option>
+                    <option value="Wrong Product">Wrong Product</option>
+                    <option value="Not as Described">Not as Described</option>
+                    <option value="Quality Issues">Quality Issues</option>
+                    <option value="Size/Fit Issues">Size/Fit Issues</option>
+                    <option value="Other">Other</option>
+                </select>
+                <div id="otherReasonContainer" style="display:none; margin-top: 10px;">
+                    <textarea id="otherReason" class="form-control" placeholder="Please specify your reason"></textarea>
+                </div>
+            </div>
+        `,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Submit Return Request',
+                didOpen: () => {
+                    // Show "Other" text area when "Other" is selected
+                    const reasonSelect = document.getElementById('returnReason');
+                    const otherContainer = document.getElementById('otherReasonContainer');
+
+                    reasonSelect.addEventListener('change', function () {
+                        if (this.value === 'Other') {
+                            otherContainer.style.display = 'block';
+                        } else {
+                            otherContainer.style.display = 'none';
+                        }
+                    });
+                },
+                preConfirm: () => {
+                    const reason = document.getElementById('returnReason').value;
+                    let returnReason = reason;
+
+                    if (!reason) {
+                        Swal.showValidationMessage('Please select a reason for return');
+                        return false;
+                    }
+
+                    if (reason === 'Other') {
+                        const otherReason = document.getElementById('otherReason').value.trim();
+                        if (!otherReason) {
+                            Swal.showValidationMessage('Please specify your reason');
+                            return false;
+                        }
+                        returnReason = `Other: ${otherReason}`;
+                    }
+
+                    return returnReason;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const returnReason = result.value;
+
+                    fetch(`/return-item/${itemId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ returnReason })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Update button state
+                                buttonElement.textContent = 'Return Requested';
+                                buttonElement.disabled = true;
+                                buttonElement.classList.remove('btn-warning');
+                                buttonElement.classList.add('btn-secondary');
+
+                                // Update status badge if it exists
+                                if (statusBadge) {
+                                    statusBadge.className = 'badge status-badge bg-warning';
+                                    statusBadge.textContent = 'Return Requested';
+                                }
+
+                                Swal.fire(
+                                    'Request Submitted!',
+                                    'Your return request has been submitted and is pending approval.',
+                                    'success'
+                                );
+                            } else {
+                                throw new Error(data.message || 'Failed to submit return request');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire(
+                                'Error!',
+                                error.message || 'Failed to submit return request',
+                                'error'
+                            );
+                        });
+                }
+            });
+        }
+
+
+
+        function retryPayment(orderId, amount, _id) {
+            fetch(`/retry-payment/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const options = {
+                            key: data.key_id,
+                            amount: data.order.amount,
+                            currency: "INR",
+                            name: "BOOKVERSE",  // Your actual store name
+                            description: "Payment Retry",
+                            order_id: data.order.id,
+                            handler: function (response) {
+                                verifyPayment(response, orderId);
+                            },
+                            prefill: {
+                                name: "Customer Name",
+                                email: "customer@example.com",
+                                contact: "9999999999"
+                            },
+                            notes: {
+                                orderId: orderId
+                            },
+                            theme: {
+                                color: "#3399cc"
+                            }
+                        };
+
+                        const rzp1 = new Razorpay(options);
+                        rzp1.on('payment.failed', function (response) {
+                            console.error('Payment failed:', response.error);
+                            Swal.fire(
+                                'Payment Failed!',
+                                'The payment process failed. Please try again.',
+                                'error'
+                            );
+                        });
+                        rzp1.open();
+
+                        rzp1.on('payment.failed', function (response) {
+                            Swal.fire(
+                                'Payment Failed!',
+                                'The payment process failed. Please try again.',
+                                'error'
+                            );
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            data.message || 'Could not initiate payment',
+                            'error'
+                        );
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire(
+                        'Error!',
+                        'An error occurred while processing your request',
+                        'error'
+                    );
+                });
+        }
+
+        function verifyPayment(response, orderId) {
+            fetch('/verify-retry-payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    cancelReason: cancelReason === 'Other' ? otherReason : cancelReason
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_signature: response.razorpay_signature,
+                    order_id: orderId
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update all cancel buttons to "Cancelled"
-                    const itemButtons = document.querySelectorAll('.btn-outline-danger');
-                    itemButtons.forEach(button => {
-                        button.className = 'btn btn-danger btn-sm';
-                        button.disabled = true;
-                        button.textContent = 'Cancelled';
-                    });
-
-                    // Update order status badge
-                    const statusBadge = document.querySelector('.status-badge');
-                    if (statusBadge) {
-                        statusBadge.className = 'badge status-badge bg-danger';
-                        statusBadge.textContent = 'Cancelled';
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Payment Successful!',
+                            text: 'Your payment has been processed successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            data.message || 'Payment verification failed',
+                            'error'
+                        );
                     }
-
-                    // Disable Cancel All Orders button
-                    const cancelAllBtn = document.querySelector('[data-bs-target="#cancelOrderModal"]');
-                    if (cancelAllBtn) {
-                        cancelAllBtn.disabled = true;
-                    }
-
-                    // Update total price
-                    const totalPriceElement = document.querySelector('tfoot td:last-child');
-                    if (totalPriceElement) {
-                        totalPriceElement.textContent = '₹0.00';
-                    }
-
-                    // Close modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('cancelOrderModal'));
-                    modal.hide();
-
-                    Swal.fire(
-                        'Cancelled!',
-                        'Your order has been cancelled.',
-                        'success'
-                    );
-                } else {
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                     Swal.fire(
                         'Error!',
-                        data.message || 'Failed to cancel the order',
+                        'An error occurred while verifying the payment',
                         'error'
                     );
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire(
-                    'Error!',
-                    'An error occurred while canceling the order',
-                    'error'
-                );
-            });
+                });
         }
-    });
-});
-
-
-
-
-//return order
-
-function returnOrderItem(itemId, buttonElement) {
-    Swal.fire({
-        title: 'Return Item?',
-        text: 'Do you want to return this item?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, return it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            fetch(`/return-item/${itemId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    // Update button state
-                    buttonElement.textContent = 'Returned';
-                    buttonElement.disabled = true;
-                    buttonElement.classList.remove('btn-success');
-                    buttonElement.classList.add('btn-secondary');
-
-                    // Update the product status badge
-                    const row = buttonElement.closest('tr');
-                    const statusCell = row.querySelector('td:nth-child(8)'); // 8th column is product status
-                    statusCell.innerHTML = '<span class="badge bg-secondary">Returned</span>';
-
-                    Swal.fire(
-                        'Returned!',
-                        'Item has been returned successfully.',
-                        'success'
-                    );
-                } else {
-                    throw new Error(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire(
-                    'Error!',
-                    'Failed to return the item',
-                    'error'
-                );
-            });
-        }
-    });
-}
-     </script>
+    </script>
 </body>
 
 
 <!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
+
 </html>

@@ -74,7 +74,7 @@
                                 <i class="icon-bars"></i>
                             </button>
 
-                            <a href="index.html" class="logo">
+                            <a href="/" class="logo">
                                 <h3>BOOKVERSE</h3>      
                             </a>
                         </div><!-- End .header-left -->
@@ -90,7 +90,7 @@
 
                             <div class="header-dropdown-link">
                                 <div class="account">
-                                    <a href="dashboard.html" title="My account">
+                                    <a href="/profile" title="My account">
                                         <div class="icon">
                                             <i class="icon-user"></i>
                                         </div>
@@ -132,23 +132,7 @@
                                         Browse Categories
                                     </a>
 
-                                    <div class="dropdown-menu">
-                                        <nav class="side-nav">
-                                            <ul class="menu-vertical sf-arrows">
-                                                <li class="item-lead"><a href="#">Best Books of 2018</a></li>
-                                                <li class="item-lead"><a href="#">New for 2019</a></li>
-                                                <li><a href="#">Art & Photography</a></li>
-                                                <li><a href="#">Biography</a></li>
-                                                <li><a href="#">Children's Books</a></li>
-                                                <li><a href="#">Crafts & Hobbies</a></li>
-                                                <li><a href="#">Fiction</a></li>
-                                                <li><a href="#">Food & Drink</a></li>
-                                                <li><a href="#">Graphic Novels, Anime & Manga</a></li>
-                                                <li><a href="#">Health & Fitness Books</a></li>
-                                                <li><a href="#">Young Adult</a></li>
-                                            </ul><!-- End .menu-vertical -->
-                                        </nav><!-- End .side-nav -->
-                                    </div><!-- End .dropdown-menu -->
+                                    
                                 </div><!-- End .category-dropdown -->
                             </div><!-- End .header-left -->
 
@@ -163,18 +147,18 @@
                                             <a href="/shop" class="sf-with-ul">Shop</a>
 
                                         <li>
-                                            <a href="product.html" class="sf-with-ul">Product</a>
+                                            <a href="/shop" class="sf-with-ul">Product</a>
 
                                         <li>
                                             <a href="#" class="sf-with-ul">Pages</a>
 
                                         </li>
                                         <li>
-                                            <a href="blog.html" class="sf-with-ul">Blog</a>
+                                            <a href="#" class="sf-with-ul">Blog</a>
 
                                         </li>
                                         <li>
-                                            <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                            <a href="#" class="sf-with-ul">Elements</a>
 
                                         </li>
                                     </ul><!-- End .menu -->
@@ -331,13 +315,13 @@
                                         <h2 class="title">Products</h2><!-- End .title -->
                                     </div><!-- End .heading-left -->
 
-                                    <div class="heading-right">
+                                    <!-- <div class="heading-right">
                                         <a href="category.html" class="title-link">View more Products <i
                                                 class="icon-long-arrow-right"></i></a>
-                                    </div><!-- End .heading-right -->
+                                    </div> -->
                                 </div><!-- End .header-flex -->
 
-                                <div class="owl-carousel carousel-equal-height owl-simple" data-toggle="owl"
+                                <!-- <div class="owl-carousel carousel-equal-height owl-simple" data-toggle="owl"
                                     data-owl-options='{
                                     "nav": false, 
                                     "dots": true,
@@ -367,18 +351,16 @@
                                             <a href="/productDetails/<%= product._id %>">
                                                 <img src="<%= product.productImage[0] %>" alt="Product image" class="product-image">
                                             </a>
-                                        </figure><!-- End .product-media -->
+                                        </figure>
                         
                                         <div class="product-body">
                                             <div class="product-cat" style="margin-left: 20px;">
                                              <p style="color: black; font: bold; margin-left: 15px;"><%= product.productName %></p>
                                             </div>
-                                            <!-- <h3 class="product-title">
-                                                <a href="/product-details/<%= product._id %>"><%= product.title %></a>
-                                            </h3> -->
+                                           
                                             <div class="product-price" style="margin-left: 60px;">
-                                                ₹<%= product.salePrice %>
-                                            </div><!-- End .product-price -->
+                                                ₹<%= product.regularPrice%>
+                                            </div>
                         
                                             <div class="product-footer">
                                                  <div class="ratings-container">
@@ -401,10 +383,92 @@
                                                     </a>                                            
                                                 </div>
                                             </div>
-                                        </div><!-- End .product-body -->
-                                    </div><!-- End .product -->
+                                        </div>
+                                    </div>
                                 <% }) %>            
-                                    </div><!-- End .product -->
+                                    </div> -->
+
+
+
+
+                                    <div class="owl-carousel carousel-equal-height owl-simple" data-toggle="owl" data-owl-options='{
+                                            "nav": false, 
+                                            "dots": true,
+                                            "margin": 20,
+                                            "loop": false,
+                                            "responsive": {
+                                                "0": { "items":2 },
+                                                "480": { "items":2 },
+                                                "768": { "items":3 },
+                                                "992": { "items":4 },
+                                                "1440": { "items":5 }
+                                            }
+                                        }'>
+                                        <% products.forEach(product=> { %>
+                                            <div class="product">
+                                                <figure class="product-media">
+                                                    <!-- Show offer badge if there's a discount -->
+                                                    <% if (product.bestDiscount> 0) { %>
+                                                        <span class="product-label label-sale"
+                                                            style="background-color: #f56342; color: white; padding: 5px 10px; border-radius: 3px; position: absolute; top: 10px; right: 10px;">
+                                                            <%= product.bestDiscount %>% OFF
+                                                        </span>
+                                                        <% } %>
+                                    
+                                                            <a href="/productDetails/<%= product._id %>">
+                                                                <img src="<%= product.productImage[0] %>" alt="Product image" class="product-image">
+                                                            </a>
+                                                </figure>
+                                    
+                                                <div class="product-body">
+                                                    <div class="product-cat" style="margin-left: 20px;">
+                                                        <p style="color: black; font: bold; margin-left: 15px;">
+                                                            <%= product.productName %>
+                                                        </p>
+                                                    </div>
+                                    
+                                                    <div class="product-price" style="margin-left: 60px;">
+                                                        <% if (product.bestDiscount> 0) { %>
+                                                            <span class="new-price">₹<%= product.discountedPrice.toFixed(2) %></span>
+                                                            <span class="old-price" style="text-decoration: line-through; color: #999; margin-left: 10px;">
+                                                                ₹<%= product.regularPrice %>
+                                                            </span>
+                                                            <% } else { %>
+                                                                ₹<%= product.regularPrice %>
+                                                                    <% } %>
+                                                    </div>
+                                    
+                                                    <div class="product-footer">
+                                                        <div class="ratings-container">
+                                                            <div class="ratings">
+                                                                <div class="ratings-val"></div>
+                                                            </div>
+                                                            <span class="ratings-text">( <%= product.reviews %> Reviews )</span>
+                                                        </div>
+                                    
+                                                        <% if (product.quantity> 0) { %>
+                                                            <a href="" class="btn-product btn-cart add-to-cart-btn" data-product-id="<%= product._id %>"
+                                                                data-quantity="1">
+                                                                <span>Add to cart</span>
+                                                            </a>
+                                                            <% } else { %>
+                                                                <span class="btn-product btn-cart disabled">Out of Stock</span>
+                                                                <% } %>
+                                    
+                                                                    <div class="product-action">
+                                                                        <a href="#" class="btn-product btn-wishlist" title="Wishlist"
+                                                                            data-product-id="<%= product._id %>">
+                                                                            <span>Add to Wishlist</span>
+                                                                        </a>
+                                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+
+
+                                    
                                 </div><!-- End .owl-carousel -->
                             </div><!-- End .container -->
                         </div><!-- End .block-wrapper -->

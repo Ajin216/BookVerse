@@ -13,21 +13,21 @@
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
-    <link rel="manifest" href="assets/images/icons/site.html">
-    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="/assets/images/icons/site.html">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
     <meta name="apple-mobile-web-app-title" content="Molla">
     <meta name="application-name" content="Molla">
     <meta name="msapplication-TileColor" content="#cc9966">
-    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <!-- Plugins CSS File -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 
 
     <!-- Add in your header -->
@@ -79,7 +79,7 @@
                             <i class="icon-bars"></i>
                         </button>
 
-                        <a href="index.html" class="logo">
+                        <a href="/" class="logo">
                             <h3>BOOKVERSE</h3>
                         </a>
 
@@ -95,7 +95,7 @@
 
                                 </li>
                                 <li>
-                                    <a href="product.html" class="sf-with-ul">Product</a>
+                                    <a href="#" class="sf-with-ul">Product</a>
 
                                 </li>
                                 <li>
@@ -103,58 +103,25 @@
 
                                 </li>
                                 <li>
-                                    <a href="blog.html" class="sf-with-ul">Blog</a>
+                                    <a href="#" class="sf-with-ul">Blog</a>
 
 
                                 </li>
                                 <li>
-                                    <a href="elements-list.html" class="sf-with-ul">Elements</a>
+                                    <a href="#" class="sf-with-ul">Elements</a>
                                 </li>
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
 
-                    <div class="header-right">
-                        <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i
-                                    class="icon-search"></i></a>
-                            <form action="#" method="get">
-                                <div class="header-search-wrapper">
-                                    <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..."
-                                        required>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static"
-                                title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-
-                        </div><!-- End .compare-dropdown -->
-
-                        <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <i class="icon-shopping-cart"></i>
-
-                            </a>
-
-
-                        </div><!-- End .cart-dropdown -->
-                    </div><!-- End .header-right -->
+                    
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
 
         <main class="main">
-            <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
-                <div class="container">
-                    <h1 class="page-title">My Account<span>Shop</span></h1>
-                </div><!-- End .container -->
+            <div class="page-header text-center" style="background-image: url('/assets/images/page-header-bg.jpg')">
+               
             </div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
                 <div class="container">
@@ -168,30 +135,52 @@
 
 
 
-
-
             <div class="container py-5">
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-md-10">
-                        <div class="card border-success shadow-lg">
+                        <div class="card border-<%= payment_status === 'Pending' ? 'danger' : 'success' %> shadow-lg">
                             <div class="card-body text-center p-5">
-                                <i class="fas fa-check-circle text-success mb-4" style="font-size: 80px;"></i>
-                                <h2 class="card-title text-success fw-bold">Order Successful!</h2>
-                                <p class="card-text text-muted mt-3">
-                                    Your order has been placed and is now being processed.
-                                </p>
+                                <% if (paymentMethod === 'Razor Pay') { %>
+                                    <% if (payment_status === 'Paid') { %>
+                                        <i class="fas fa-check-circle text-success mb-4" style="font-size: 80px;"></i>
+                                        <h2 class="card-title text-success fw-bold">Payment Successful!</h2>
+                                        <p class="card-text text-muted mt-3">
+                                            Your payment has been processed successfully.
+                                        </p>
+                                    <% } else if (payment_status === 'Pending') { %>
+                                        <i class="fas fa-times-circle text-danger mb-4" style="font-size: 80px;"></i>
+                                        <h2 class="card-title text-danger fw-bold">Payment Failed!</h2>
+                                        <p class="card-text text-muted mt-3">
+                                            Your order has been placed but payment is not complete.
+                                            Please complete the payment to process your order.
+                                        </p>
+                                    <% }  %>
+                                <% } else { %>
+                                    <i class="fas fa-check-circle text-success mb-4" style="font-size: 80px;"></i>
+                                    <h2 class="card-title text-success fw-bold">Order Successful!</h2>
+                                    <p class="card-text text-muted mt-3">
+                                        Your order has been placed and will be processed for delivery.
+                                    </p>
+                                <% } %>
+            
                                 <p class="card-text fs-5 mt-4">
                                     Order Number: <strong>#<%= orderId %></strong>
                                 </p>
+            
                                 <div class="d-flex justify-content-center gap-3 mt-4">
-                                    <a href="/" class="btn btn-outline-success btn-lg px-4">Continue Shopping</a>
-                                    <a href="/orderDetails/<%= orderId%>" class="btn btn-success btn-lg px-4">View Order Details</a>
+                                    <a href="/" class="btn btn-outline-<%= payment_status === 'Pending' ? 'danger' : 'success' %> btn-lg px-4">Continue Shopping</a>
+                                    <a href="/orderDetails/<%= orderId %>" class="btn btn-<%= payment_status === 'Pending' ? 'danger' : 'success' %> btn-lg px-4">View Order Details</a>
+                                    <!-- <% if (paymentMethod === 'Razor Pay' && payment_status === 'Pending') { %>
+                                        <button onclick="retryPayment()" class="btn btn-primary btn-lg px-4">Complete Payment</button>
+                                    <% } %> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            
 
 
 
@@ -273,7 +262,7 @@
                     <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
                     <!-- End .footer-copyright -->
                     <figure class="footer-payments">
-                        <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                        <img src="/assets/images/payments.png" alt="Payment methods" width="272" height="20">
                     </figure><!-- End .footer-payments -->
                 </div><!-- End .container -->
             </div><!-- End .footer-bottom -->
@@ -448,7 +437,7 @@
                 </ul>
             </nav><!-- End .mobile-nav -->
 
-            <div class="social-icons">router.post("/profile/edit", userAuth, profileController.updateProfile);
+            <div class="social-icons">
                 <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
                 <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
                 <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
@@ -459,14 +448,14 @@
 
 
     <!-- Plugins JS File -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery.hoverIntent.min.js"></script>
-    <script src="assets/js/jquery.waypoints.min.js"></script>
-    <script src="assets/js/superfish.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="/assets/js/jquery.waypoints.min.js"></script>
+    <script src="/assets/js/superfish.min.js"></script>
+    <script src="/assets/js/owl.carousel.min.js"></script>
     <!-- Main JS File -->
-    <script src="assets/js/main.js"></script>
+    <script src="/assets/js/main.js"></script>
 
 
 

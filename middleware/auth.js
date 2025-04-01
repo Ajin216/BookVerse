@@ -53,7 +53,7 @@ const userAuthOut = (req, res, next) => {
 
 
 
-
+//Middleware to Check if Admin is Logged In
 const adminAuth = (req, res, next) => {
     if(req.session.admin){
         User.findOne({ isAdmin: true })

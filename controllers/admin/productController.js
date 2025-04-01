@@ -199,132 +199,9 @@ const getEditProduct = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.redirect("/pageerror");
+    res.render("admin-error")
   }
 };
-
-
-
-// const updateProduct = async (req, res) => {
-//   try {
-//     const productId = req.params.id;
-//     const existingProduct = await Product.findById(productId);
-    
-//     if (!existingProduct) {
-//       return res.redirect('/admin/products?error=' + encodeURIComponent('Product not found'));
-//     }
-
-//     // Prepare update object with basic fields
-//     const updateData = {
-//       productName: req.body.productTitle,
-//       author: req.body.author,
-//       description: req.body.description || '',
-//       quantity: parseInt(req.body.productSku),
-//       regularPrice: parseFloat(req.body.productPrice),
-//       salePrice: parseFloat(req.body.productDiscountedPrice) || null,
-//       status: parseInt(req.body.productSku) > 0 ? "Available" : "Out Of Stock"
-//     };
-
-//     // Add category to update data if provided
-//     if (req.body.category) {
-//       updateData.category = req.body.category;
-//     }
-
-//     // Handle image updates if new files are uploaded
-//     const files = req.files;
-//     if (files) {
-//       console.log(files);
-//       const existingImages = [...existingProduct.productImage];
-//       const processedImages = [];
-
-//       // Process each file if uploaded
-//       for (let i = 1; i <= 3; i++) {
-//         const fileKey = `file${i}`;
-//         if (files[fileKey] && files[fileKey][0]) {
-//           const file = files[fileKey][0];
-
-//           // Generate a unique filename and path for each image
-//           const filename = `product-${Date.now()}-${i}.jpg`;
-//           const uploadDir = path.join("public", "uploads", "products");
-//           const filepath = path.join(uploadDir, filename);
-
-//           // Ensure the directory exists
-//           await fs.promises.mkdir(uploadDir, { recursive: true });
-
-//           // Process the image using sharp
-//           await sharp(file.buffer)
-//             .resize(800, 800, { fit: "contain", background: { r: 255, g: 255, b: 255, alpha: 1 } })
-//             .jpeg({ quality: 90 })
-//             .toFile(filepath);
-
-//           // Add new image path to the array
-//           processedImages[i - 1] = `/uploads/products/${filename}`;
-
-//           // Delete old image file if it exists
-//           if (existingImages[i - 1]) {
-//             try {
-//               const oldImagePath = path.join(__dirname, '..', 'public', existingImages[i - 1].replace(/^\//, ''));
-//               if (fs.existsSync(oldImagePath)) {
-//                 await fs.promises.unlink(oldImagePath);
-//               }
-//             } catch (error) {
-//               console.error(`Error deleting old image ${i}:`, error);
-//             }
-//           }
-//         } else {
-//           // Keep existing image if no new file is uploaded
-//           processedImages[i - 1] = existingImages[i - 1];
-//         }
-//       }
-
-//       // Only update images if there were files processed
-//       if (processedImages.length > 0) {
-//         updateData.productImage = processedImages;
-//       }
-//     }
-
-//     // Update the product in the database
-//     const updatedProduct = await Product.findByIdAndUpdate(
-//       productId, 
-//       updateData, 
-//       { new: true, runValidators: true }
-//     );
-
-//     if (!updatedProduct) {
-//       throw new Error('Product update failed');
-//     }
-
-//     res.redirect('/admin/products?success=true');
-
-//   } catch (error) {
-//     console.error("Error updating product:", error);
-//     res.redirect(`/admin/editProduct?id=${req.params.id}&error=` + encodeURIComponent('Failed to update product. Please try again.'));
-//   }
-// };
-
-
-
-
-
-// const getEditProduct = async (req, res) => {
-//   try {
-//     const productId = req.query.id;
-//     const product = await Product.findById(productId).populate('category');
-//     const categories = await Category.find({ isBlocked: false });
-
-//     if (!product) {
-//       return res.redirect('/admin/products?error=' + encodeURIComponent('Product not found'));
-//     }
-
-//     res.render('admin/editProduct', {
-//       product,
-//       cat: categories
-//     });
-//   } catch (error) {
-//     console.error("Error fetching product:", error);
-//     res.redirect('/admin/products?error=' + encodeURIComponent('Failed to fetch product details'));
-//   }
-// };
 
 
 
@@ -395,11 +272,11 @@ const updateProduct = async (req, res) => {
       productSku: quantity,
       category,
       productPrice: regularPrice,
-      productDiscountedPrice: salePrice,
       productOffer = 0,
     } = req.body;
 
-    if (!productName || !author || !description || !category || !regularPrice || !salePrice) {
+    // Remove sale price validation and checks
+    if (!productName || !author || !description || !category || !regularPrice) {
       return res.status(400).json({
         success: false,
         message: 'All required fields must be filled',
@@ -407,15 +284,6 @@ const updateProduct = async (req, res) => {
     }
 
     const regularPriceNum = parseFloat(regularPrice);
-    const salePriceNum = parseFloat(salePrice);
-
-    if (salePriceNum >= regularPriceNum) {
-      return res.status(400).json({
-        success: false,
-        message: 'Sale price must be less than regular price',
-      });
-    }
-
     const quantityNum = parseInt(quantity);
     const status = quantityNum > 0 ? 'Available' : 'Out Of Stock';
 
@@ -426,7 +294,6 @@ const updateProduct = async (req, res) => {
       description,
       category,
       regularPrice: regularPriceNum,
-      salePrice: salePriceNum,
       productOffer: parseFloat(productOffer),
       quantity: quantityNum,
       productImage: processedImages,
@@ -443,7 +310,7 @@ const updateProduct = async (req, res) => {
     console.error('Error updating product:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to update product backen',
+      message: 'Failed to update product',
       error: error.message,
     });
   }
@@ -452,8 +319,6 @@ const updateProduct = async (req, res) => {
 
 
 
-
-// Update delete product function as well
 const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
@@ -467,20 +332,32 @@ const deleteProduct = async (req, res) => {
     }
 
     // Delete associated images
-    for (const imagePath of product.productImage) {
-      if (imagePath) {
+    const imageDeletePromises = product.productImage.map(async (imagePath) => {
+      if (imagePath && imagePath.trim() !== '') {
         try {
-          const fullPath = path.join(__dirname, "..", "public", imagePath);
+          // Normalize path to handle both absolute and relative paths
+          const fullPath = path.isAbsolute(imagePath) 
+            ? imagePath 
+            : path.join(__dirname, "..", "public", imagePath);
+          
+          // Check if file exists before attempting to delete
           if (fs.existsSync(fullPath)) {
             await fs.promises.unlink(fullPath);
+            console.log(`Successfully deleted image: ${fullPath}`);
+          } else {
+            console.log(`Image file not found: ${fullPath}`);
           }
         } catch (err) {
-          console.error("Error deleting image:", err);
+          console.error(`Error deleting image ${imagePath}:`, err);
           // Continue execution even if image deletion fails
         }
       }
-    }
+    });
 
+    // Wait for all image deletions to complete (or fail)
+    await Promise.all(imageDeletePromises);
+
+    // Delete the product from database
     await Product.findByIdAndDelete(productId);
 
     res.status(200).json({

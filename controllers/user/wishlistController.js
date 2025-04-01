@@ -1,7 +1,7 @@
 const Wishlist = require('../../models/wishlistSchema');
 const mongoose = require('mongoose');
 const Cart = require('../../models/cartSchema');
-// const Offer = require('../../models/offerModel');
+const Offer = require('../../models/offerSchema');
 const User=require("../../models/userScheme");
 const Product=require("../../models/productSchema");
 
@@ -10,34 +10,82 @@ const Product=require("../../models/productSchema");
 const getWishlistpage = async (req, res) => {
     try {
         const userId = req.session.user;
-        // console.log("Current userId from session:", userId); // Debug log
         
         if (!userId) {
-            console.log("No user found in session");
             return res.render("wishlist", { wishlist: null });
         }
 
-        // Check if wishlist exists for this user
-        const wishlistExists = await Wishlist.exists({ userId: userId });
-        // console.log("Does wishlist exist?", wishlistExists); // Debug log
+        // Get current date for offer validation
+        const currentDate = new Date();
+
+        // Fetch active offers
+        const activeOffers = await Offer.find({
+            status: 'active',
+            validTill: { $gt: currentDate }
+        });
 
         // Find wishlist and populate product details
-        const wishlistData = await Wishlist.findOne({ userId: userId })
+        let wishlistData = await Wishlist.findOne({ userId: userId })
             .populate({
                 path: 'products.productId',
                 model: 'Product',
-                select: 'productName productImage salePrice regularPrice productOffer quantity status'
+                populate: {
+                    path: 'category',
+                    select: '_id'
+                },
+                select: 'productName productImage regularPrice quantity status category'
             });
 
-        // console.log("Raw wishlist data:", wishlistData); // Debug log
+        if (wishlistData) {
+            // Filter out products that no longer exist
+            wishlistData.products = wishlistData.products.filter(item => item.productId !== null);
+            
+            // Save the filtered wishlist if any products were removed
+            await wishlistData.save();
 
-        // If no wishlist exists, create an empty structure
+            // Process remaining products for discounts
+            wishlistData.products = wishlistData.products.map(item => {
+                // Ensure regularPrice exists and is a number
+                item.productId.regularPrice = Number(item.productId.regularPrice) || 0;
+                let bestDiscount = 0;
+
+                // Check category offers
+                const categoryOffers = activeOffers.filter(offer => 
+                    offer.type === 'category' && 
+                    offer.category.some(cat => cat.toString() === item.productId.category._id.toString())
+                );
+
+                if (categoryOffers.length > 0) {
+                    const maxCategoryDiscount = Math.max(...categoryOffers.map(o => Number(o.discount) || 0));
+                    bestDiscount = maxCategoryDiscount;
+                }
+
+                // Check product-specific offers
+                const productOffers = activeOffers.filter(offer => 
+                    offer.type === 'product' && 
+                    offer.products.some(p => p.toString() === item.productId._id.toString())
+                );
+
+                if (productOffers.length > 0) {
+                    const maxProductDiscount = Math.max(...productOffers.map(o => Number(o.discount) || 0));
+                    bestDiscount = Math.max(bestDiscount, maxProductDiscount);
+                }
+
+                // Calculate discounted price if there's an active discount
+                if (bestDiscount > 0) {
+                    const discountAmount = (item.productId.regularPrice * (bestDiscount/100));
+                    item.productId.discountedPrice = Math.round(item.productId.regularPrice - discountAmount);
+                    item.productId.bestDiscount = bestDiscount;
+                }
+
+                return item;
+            });
+        }
+
         const wishlistToRender = wishlistData || {
             userId: userId,
             products: []
         };
-
-        console.log("Data being sent to render:", JSON.stringify(wishlistToRender, null, 2)); // Debug log
 
         res.render("wishlist", {
             wishlist: wishlistToRender,

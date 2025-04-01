@@ -203,11 +203,11 @@
                 return;
             }
 
-            if (!discountPercentage || discountPercentage < 1 || discountPercentage > 99) {
+            if (!discountPercentage || discountPercentage < 1 || discountPercentage > 50) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Validation Error',
-                    text: 'Discount percentage must be between 1 and 99'
+                    text: 'Discount percentage must be between 1 and 50'
                 });
                 return;
             }

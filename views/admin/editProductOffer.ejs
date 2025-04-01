@@ -13,10 +13,7 @@
         <div class="container mx-auto">
             <div class="flex justify-between items-center mb-6 px-4">
                 <h1 class="text-3xl font-extrabold text-gray-900">Edit Product Offer</h1>
-                <a 
-                    href="/admin/offers" 
-                    class="text-violet-600 font-medium hover:underline flex items-center"
-                >
+                <a href="/admin/offers" class="text-violet-600 font-medium hover:underline">
                     View All Offers
                 </a>
             </div>
@@ -24,8 +21,9 @@
             <div class="bg-white rounded-xl shadow-xl p-8">
                 <form id="editOfferForm" class="space-y-8" data-offer-id="<%= offer._id %>">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Basic Info -->
                         <div>
-                            <label for="offerName" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Offer Name
                             </label>
                             <input 
@@ -34,69 +32,58 @@
                                 name="offerName" 
                                 required
                                 value="<%= offer.title %>"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 shadow-sm"
-                                placeholder="Enter offer name"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                             >
                         </div>
 
                         <div>
-                            <label for="discountPercentage" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Discount Percentage
                             </label>
                             <input 
                                 type="number" 
                                 id="discountPercentage" 
                                 name="discountPercentage" 
-                                min="0" 
-                                max="100" 
+                                min="1"
+                                max="99"
                                 required
                                 value="<%= offer.discount %>"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 shadow-sm"
-                                placeholder="Enter discount percentage"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                             >
                         </div>
 
-                        
-
+                        <!-- Product Selection -->
                         <div>
-                            <label for="product" class="block text-sm font-semibold text-gray-700 mb-2">
-                                Add More Products
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Add Products
                             </label>
                             <select 
-                                id="product" 
-                                name="product"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 shadow-sm"
+                                id="productSelect"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                             >
-                                <option value="">Choose products</option>
-                                <% data.forEach(function(product) { %>
-                                    <option value="<%= product._id %>" data-name="<%= product.productName %>">
+                                <option value="">Select a product</option>
+                                <% availableProducts.forEach(function(product) { %>
+                                    <option value="<%= product._id %>" 
+                                            data-name="<%= product.productName %>">
                                         <%= product.productName %>
                                     </option>
                                 <% }); %>
                             </select>
                         </div>
 
-                        <!-- Selected Products Display Box -->
+                        <!-- Selected Products Box -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Selected Products
                             </label>
-                            <div id="selectedProductsBox" class="min-h-[120px] w-full p-4 border border-gray-300 rounded-lg bg-gray-50 overflow-y-auto space-y-2">
-                                <% offer.products.forEach(function(product) { %>
-                                    <div class="flex items-center justify-between bg-white p-2 rounded border border-gray-200" data-product-id="<%= product._id %>">
-                                        <span class="text-sm text-gray-700"><%= product.productName %></span>
-                                        <button type="button" onclick="removeProduct('<%= product._id %>')" class="text-red-500 hover:text-red-700">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                <% }); %>
+                            <div id="selectedProductsBox" 
+                                 class="min-h-[200px] w-full p-4 border border-gray-300 rounded-lg bg-gray-50 overflow-y-auto space-y-2">
                             </div>
                         </div>
 
+                        <!-- Date and Status -->
                         <div>
-                            <label for="expiryDate" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Expiry Date
                             </label>
                             <input 
@@ -105,18 +92,18 @@
                                 name="expiryDate" 
                                 required
                                 value="<%= new Date(offer.validTill).toISOString().split('T')[0] %>"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 shadow-sm"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                             >
                         </div>
 
                         <div>
-                            <label for="status" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Status
                             </label>
                             <select 
                                 id="status" 
                                 name="status"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500 shadow-sm"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                             >
                                 <option value="active" <%= offer.status === 'active' ? 'selected' : '' %>>Active</option>
                                 <option value="inactive" <%= offer.status === 'inactive' ? 'selected' : '' %>>Inactive</option>
@@ -124,18 +111,15 @@
                         </div>
                     </div>
 
+                    <!-- Form Actions -->
                     <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                        <a 
-                            href="/admin/offers"
-                            class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium focus:outline-none focus:ring-2 focus:ring-gray-500"
-                        >
+                        <a href="/admin/offers" 
+                           class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
                             Cancel
                         </a>
-                        <button 
-                            type="submit"
-                            class="px-6 py-3 bg-violet-600 text-white rounded-lg font-medium hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 shadow-sm"
-                        >
-                            Update Product Offer
+                        <button type="submit"
+                                class="px-6 py-3 bg-violet-600 text-white rounded-lg hover:bg-violet-700">
+                            Update Offer
                         </button>
                     </div>
                 </form>
@@ -143,114 +127,180 @@
         </div>
     </div>
 
-
     <%- include("../../views/partials/admin/footer") %>
 
-
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Initialize selectedProducts with existing products 
-const initialProducts = new Set(JSON.parse('<%= JSON.stringify(offer.products.map(p => p._id)) %>'));
-let selectedProducts = new Set(initialProducts);
+        // Store selected products
+        const selectedProducts = new Map();
+        
+        // Initialize with existing products
+        "<% offer.products.forEach(function(product) { %>"
+            selectedProducts.set('<%= product._id %>', '<%= product.productName %>');
+        "<% }); %>"
 
-// Handle adding new products
-document.getElementById('product').addEventListener('change', function(e) {
-    const productId = this.value;
-    if (!productId) return;
-    
-    const productName = this.options[this.selectedIndex].dataset.name;
-    addProduct(productId, productName);
-    this.value = ''; // Reset select
-});
-
-// Function to add a product to selection
-function addProduct(productId, productName) {
-    if (selectedProducts.has(productId)) return;
-    
-    selectedProducts.add(productId);
-    const productElement = document.createElement('div');
-    productElement.className = 'flex items-center justify-between bg-white p-2 rounded border border-gray-200';
-    productElement.dataset.productId = productId;
-    productElement.innerHTML = `
-        <span class="text-sm text-gray-700">${productName}</span>
-        <button type="button" onclick="removeProduct('${productId}')" class="text-red-500 hover:text-red-700">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
-    `;
-    document.getElementById('selectedProductsBox').appendChild(productElement);
-}
-
-// Function to remove a product from selection
-function removeProduct(productId) {
-    selectedProducts.delete(productId);
-    const element = document.querySelector(`[data-product-id="${productId}"]`);
-    if (element) element.remove();
-}
-
-// Handle form submission
-document.getElementById('editOfferForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // Basic validation
-    const offerName = document.getElementById('offerName').value.trim();
-    const discountPercentage = document.getElementById('discountPercentage').value;
-    const expiryDate = document.getElementById('expiryDate').value;
-    const status = document.getElementById('status').value;
-    
-    if (!offerName || !discountPercentage || !expiryDate) {
-        alert('Please fill in all required fields');
-        return;
-    }
-    
-    if (selectedProducts.size === 0) {
-        alert('Please select at least one product');
-        return;
-    }
-    
-    const formData = {
-        offerId: this.dataset.offerId,
-        offerName,
-        discountPercentage,
-        productIds: Array.from(selectedProducts),
-        expiryDate,
-        status
-    };
-
-    try {
-        const response = await fetch('/admin/updateProductOffer', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
+        // Update display on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProductDisplay();
         });
 
-        const result = await response.json();
-        
-        if (result.success) {
-            window.location.href = '/admin/offers';
-        } else {
-            alert(result.message || 'Error updating offer');
+        // Handle new product selection
+        document.getElementById('productSelect').addEventListener('change', function() {
+            const productId = this.value;
+            if (!productId) return;
+            
+            const productName = this.options[this.selectedIndex].dataset.name;
+            selectedProducts.set(productId, productName);
+            updateProductDisplay();
+            this.value = '';
+        });
+
+        // Remove product
+        function removeProduct(productId) {
+            selectedProducts.delete(productId);
+            updateProductDisplay();
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while updating the offer');
-    }
-});
 
-// Initialize existing products
-document.addEventListener('DOMContentLoaded', () => {
-    const selectedProductsBox = document.getElementById('selectedProductsBox');
-    selectedProductsBox.querySelectorAll('[data-product-id]').forEach(element => {
-        const productId = element.dataset.productId;
-        const productName = element.querySelector('span').textContent;
-        selectedProducts.add(productId);
-    });
-});
+        // Update products display
+        function updateProductDisplay() {
+            const container = document.getElementById('selectedProductsBox');
+            container.innerHTML = '';
+
+            if (selectedProducts.size === 0) {
+                container.innerHTML = '<p class="text-gray-500 italic">No products selected</p>';
+                return;
+            }
+
+            selectedProducts.forEach((name, id) => {
+                const div = document.createElement('div');
+                div.className = 'flex justify-between items-center p-3 bg-white rounded-lg border border-gray-200';
+                div.innerHTML = `
+                    <span class="text-gray-700">${name}</span>
+                    <button type="button" 
+                            onclick="removeProduct('${id}')"
+                            class="text-red-500 hover:text-red-700">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+
+
+        // Form submission
+        document.getElementById('editOfferForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const offerName = document.getElementById('offerName').value;
+            const discountPercentage = parseInt(document.getElementById('discountPercentage').value);
+            const productIds = Array.from(selectedProducts.keys());
+            const expiryDate = document.getElementById('expiryDate').value;
+            const status = document.getElementById('status').value;
+
+            // Validation
+            if (!offerName.trim()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please enter offer name'
+                });
+                return;
+            }
+
+            if (/^[\d\s]/.test(offerName)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Offer name cannot start with spaces or numbers'
+                });
+                return;
+            }
+
+            if (!discountPercentage || discountPercentage < 1 || discountPercentage > 50) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Discount percentage must be between 1 and 50'
+                });
+                return;
+            }
+
+            if (productIds.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please select at least one product'
+                });
+                return;
+            }
+
+            if (!expiryDate || new Date(expiryDate) <= new Date()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: 'Please select a future expiry date'
+                });
+                return;
+            }
+
+            // Show loading state
+            Swal.fire({
+                title: 'Updating offer...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            const formData = {
+                offerId: this.dataset.offerId,
+                offerName,
+                discountPercentage,
+                productIds,
+                expiryDate,
+                status
+            };
+
+            try {
+                const response = await fetch('/admin/updateProductOffer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Offer updated successfully',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = '/admin/offers';
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: result.message || 'Failed to update offer'
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to update offer. Please try again.'
+                });
+            }
+        });
+
+        
     </script>
-
-    
 </body>
 </html>

@@ -11,6 +11,7 @@ const addressController=require("../controllers/user/addressController");
 const checkoutController=require("../controllers/user/checkoutController");
 const orderController=require("../controllers/user/orderController");
 const wishlistController=require("../controllers/user/wishlistController");
+const walletController = require('../controllers/user/walletController')
 const {userAuth,userAuthOut}=require("../middleware/auth")
 
 
@@ -37,11 +38,38 @@ router.post("/signup",userAuthOut,userController.signup)
 router.post("/verify-otp",userAuthOut,userController.verifyOtp)
 router.post("/resend-otp",userAuthOut,userController.resendOtp)
 
-router.get('/auth/google',userAuthOut,passport.authenticate('google',{scope:['profile','email']}));
+// router.get('/auth/google',userAuthOut,passport.authenticate('google',{scope:['profile','email']}));
 
-router.get('/auth/google/callback',userAuthOut,passport.authenticate('google',{failureRedirect:'/signin'}),(req,res)=>{
-    res.redirect("/")
-})
+// router.get('/auth/google/callback',userAuthOut,passport.authenticate('google',{failureRedirect:'/signin'}),(req,res)=>{
+//     res.redirect("/")
+// })
+
+
+// In your routes/userRouter.js
+router.get('/auth/google', 
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+router.get('/auth/google/callback',
+  userAuthOut, // Your middleware to prevent logged-in users from accessing login page
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Set session.user to match your regular login flow
+    req.session.user = req.user._id;
+    res.redirect('/');
+  }
+);
+
+
+// In your routes/userRouter.js file
+router.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    // This is crucial: manually set req.session.user to match your custom auth
+    req.session.user = req.user._id;
+    res.redirect('/');
+  }
+);
 
 router.post("/login_user",userAuthOut,userController.login)
 
@@ -86,6 +114,15 @@ router.delete("/api/address/:addressId",userAuth, addressController.deleteAddres
 router.get("/checkout", userAuth, checkoutController.getCheckoutPage);
 router.post('/placeorder', userAuth,checkoutController.placeOrder);
 router.get('/orderDetails/:orderId', userAuth, checkoutController.getOrderDetails);
+router.get('/order/:orderId/invoice',userAuth, checkoutController.generateInvoicePDF);
+router.post('/apply-coupon', userAuth, checkoutController.applyCoupon);
+router.post('/create-razorpay-order', userAuth, checkoutController.createRazorpayOrder);
+router.post('/verify-payment', userAuth, checkoutController.verifyPayment);
+router.get('/orderConfirmation/:orderId', userAuth, checkoutController.showOrderConfirmation);
+
+router.get('/check-wallet-balance', userAuth,checkoutController.checkWalletBalance);
+router.post('/process-wallet-payment', userAuth,checkoutController.processWalletPayment);
+
 
 
 // router.post("/api/address",userAuth, checkoutController.addnewAddress);
@@ -98,11 +135,19 @@ router.get('/order',userAuth,orderController.getOrderPage)
 router.get('/orderSummary/:orderId',userAuth,orderController.getOrderSummary)
 router.post('/orders/cancel-item/:orderId/:itemId', orderController.cancelOrderItem);
 router.post('/orders/cancel-all-orders/:orderId', userAuth, orderController.cancelAllOrders);
-router.post('/return-item/:itemId', userAuth, orderController.returnOrderItem);
+// router.post('/return-item/:itemId', userAuth, orderController.returnOrderItem);
+router.post('/return-item/:itemId', userAuth, orderController.requestReturnOrder);
+router.post('/retry-payment/:orderId', userAuth, orderController.retryPayment);
+router.post('/verify-retry-payment', userAuth, orderController.verifyRetryPayment);
 
 //Wishlist Management
 router.get('/wishlist',userAuth,wishlistController.getWishlistpage)
 router.post('/wishlist/add', userAuth, wishlistController.addToWishlist);
 router.delete('/remove-from-wishlist/:productId', userAuth, wishlistController.removeFromWishlist);
+
+
+//Wallet Management
+router.get('/wallet',userAuth,walletController.getWalletPage)
+
 
 module.exports=router;
