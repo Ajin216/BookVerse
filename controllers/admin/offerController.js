@@ -458,6 +458,35 @@ const updateCategoryOffer = async (req, res) => {
 
 
 
+// Controller function for deleting offers
+const deleteOffer = async (req, res) => {
+    try {
+        const offerId = req.params.id;
+        
+        // Delete the offer from database
+        const result = await Offer.findByIdAndDelete(offerId);
+        
+        if (!result) {
+            return res.status(404).json({
+                success: false,
+                message: "Offer not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Offer deleted successfully"
+        });
+
+    } catch (error) {
+        console.error("Error deleting offer:", error);
+        res.status(500).json({
+            success: false,
+            message: "Failed to delete offer"
+        });
+    }
+};
+
 
 
 module.exports={
@@ -469,5 +498,6 @@ module.exports={
     updateProductOffer,
     getEditProductOfferPage,
     getEditCategoryOfferPage,
-    updateCategoryOffer
+    updateCategoryOffer,
+    deleteOffer 
 }

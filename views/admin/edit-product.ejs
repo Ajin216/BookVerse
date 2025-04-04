@@ -410,37 +410,6 @@
 
 
 
-  <!-- Footer -->
-  <footer class="content-footer footer bg-footer-theme">
-    <div class="container-xxl">
-      <div class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
-        <div class="text-body mb-2 mb-md-0">
-          ©
-          <script>
-            document.write(new Date().getFullYear())
-
-          </script>, made with <span class="text-danger"><i class="tf-icons ri-heart-fill"></i></span> by <a
-            href="https://themeselection.com/" target="_blank" class="footer-link">ThemeSelection</a>
-        </div>
-        <div class="d-none d-lg-inline-block">
-
-          <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-          <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-          <a href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/"
-            target="_blank" class="footer-link me-4">Documentation</a>
-
-
-          <a href="https://themeselection.com/support/" target="_blank"
-            class="footer-link d-none d-sm-inline-block">Support</a>
-
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- / Footer -->
-
-
   <div class="content-backdrop fade"></div>
   </div>
   <!-- Content wrapper -->
@@ -715,37 +684,95 @@ function deleteProduct(productId) {
 
 
 
-
-
-
 // Form validation and submission
 function validateForm() {
   const form = document.querySelector('form');
   const formData = new FormData(form);
 
-  // Validate required fields based on schema
-  const requiredFields = {
-    productTitle: 'Product name',
-    author: 'Author',
-    description: 'Description',
-    category: 'Category',
-    productPrice: 'Regular price'
-    // Removed productDiscountedPrice: 'Sale price'
-  };
+  // Get form field values
+  const productTitle = formData.get('productTitle')?.trim();
+  const author = formData.get('author')?.trim();
+  const productSku = formData.get('productSku');
+  const category = formData.get('category');
+  const productPrice = formData.get('productPrice');
+  const description = formData.get('description')?.trim();
 
-  for (const [field, label] of Object.entries(requiredFields)) {
-    if (!formData.get(field)?.trim()) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Validation Error',
-        text: `${label} is required`,
-        confirmButtonColor: '#3085d6'
-      });
-      return false;
-    }
+  // Check if product title is empty
+  if (!productTitle) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Product name is required',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
   }
 
-  // Remove price validation comparing regular and sale price
+  // Check if product title starts with a number
+  if (/^\d/.test(productTitle)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Product name cannot start with a number',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
+  }
+
+  // Check if author is empty
+  if (!author) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Author is required',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
+  }
+
+  // Check if product quantity is valid
+  if (!productSku || parseInt(productSku) < 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Please enter a valid number of units',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
+  }
+
+  // Check if category is selected
+  if (!category) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Please select a category',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
+  }
+
+  // Check if price is valid
+  if (!productPrice || parseFloat(productPrice) <= 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Please enter a valid price',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
+  }
+
+  // Check if description is empty
+  if (!description) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Validation Error',
+      text: 'Description is required',
+      confirmButtonColor: '#3085d6'
+    });
+    return false;
+  }
 
   // Submit form via AJAX
   fetch(form.action, {
@@ -784,7 +811,6 @@ function validateForm() {
 
   return false;
 }
-
 
 
 </script>

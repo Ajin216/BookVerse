@@ -22,6 +22,7 @@ const getProductAddPage = async (req, res) => {
 
 
 
+
 const addProducts = async (req, res) => {
   try {
     const processedImages = [];
@@ -61,19 +62,11 @@ const addProducts = async (req, res) => {
     }
 
     // Validate other required fields
-    const requiredFields = ['productTitle', 'productSku', 'category', 'productPrice','author'];
+    const requiredFields = ['productTitle', 'productSku', 'category', 'productPrice', 'author', 'description'];
     for (const field of requiredFields) {
       if (!req.body[field]) {
         return res.redirect('/admin/addProducts?error=' + encodeURIComponent(`${field} is required`));
       }
-    }
-
-    // Validate prices
-    const regularPrice = parseFloat(req.body.productPrice);
-    const salePrice = parseFloat(req.body.productDiscountedPrice) || 0;
-
-    if (salePrice >= regularPrice) {
-      return res.redirect('/admin/addProducts?error=' + encodeURIComponent('Discounted price must be less than regular price'));
     }
 
     // Get category
@@ -85,11 +78,10 @@ const addProducts = async (req, res) => {
     // Create new product
     const product = new Product({
       productName: req.body.productTitle,
-      author:req.body.author,
-      description: req.body.description || '',
+      author: req.body.author,
+      description: req.body.description,
       category: category._id,
-      regularPrice: regularPrice,
-      salePrice: salePrice || null,
+      regularPrice: parseFloat(req.body.productPrice),
       quantity: parseInt(req.body.productSku),
       productImage: processedImages,
       status: parseInt(req.body.productSku) > 0 ? "Available" : "Out Of Stock",
@@ -106,7 +98,6 @@ const addProducts = async (req, res) => {
     res.redirect('/admin/addProducts?error=' + encodeURIComponent('Failed to add product. Please try again.'));
   }
 };
-
 
 
 

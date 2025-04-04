@@ -529,43 +529,47 @@
                 
                 </div>
               </div>
+
+              
               <!-- Edit Category Modal -->
-              <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="editCategoryForm" method="post" action="/admin/editCategory">
-                                <input type="hidden" id="edit-category-id" name="id">
-                                <div class="mb-3">
-                                    <label for="edit-category-name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="edit-category-name" name="name">
-                                    <div id="name-error" class="fv-plugins-message-container" style="display:none; color:red;"></div> <!-- Error message for name -->
-                                </div>
-                                <div class="mb-3">
-                                    <label for="edit-category-description" class="form-label">Description</label>
-                                    <textarea class="form-control" id="edit-category-description" name="description"></textarea>
-                                    <div id="description-error" class="fv-plugins-message-container" style="display:none; color:red;"></div> <!-- Error message for description -->
-                                </div>
-                                <div class="mb-3">
-                                    <label for="edit-category-status" class="form-label">Status</label>
-                                    <select class="form-select" id="edit-category-status" name="status">
-                                        <option value="active">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+              <!-- Edit Category Modal -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="editCategoryForm" method="post" action="/admin/editCategory">
+                  <input type="hidden" id="edit-category-id" name="id">
+                  <div class="mb-3">
+                      <label for="edit-category-name" class="form-label">Name</label>
+                      <input type="text" class="form-control" id="edit-category-name" name="name">
+                      <div id="name-error" class="fv-plugins-message-container invalid-feedback"></div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="edit-category-description" class="form-label">Description</label>
+                      <textarea class="form-control" id="edit-category-description" name="description"></textarea>
+                      <div id="description-error" class="fv-plugins-message-container invalid-feedback"></div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="edit-category-status" class="form-label">Status</label>
+                      <select class="form-select" id="edit-category-status" name="status">
+                          <option value="active">Active</option>
+                          <option value="inactive">Inactive</option>
+                      </select>
+                      <div id="status-error" class="fv-plugins-message-container invalid-feedback"></div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Save changes</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
             
               <!-- / Content -->
               <!-- Footer -->
@@ -581,39 +585,6 @@
             </div>
             <!-- / Content -->
 
-
-
-
-            <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-              <div class="container-xxl">
-                <div
-                  class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
-                  <div class="text-body mb-2 mb-md-0">
-                    ©
-                    <script>
-                      document.write(new Date().getFullYear())
-
-                    </script>, made with <span class="text-danger"><i class="tf-icons ri-heart-fill"></i></span> by <a
-                      href="https://themeselection.com/" target="_blank" class="footer-link">ThemeSelection</a>
-                  </div>
-                  <div class="d-none d-lg-inline-block">
-
-                    <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                    <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-                    <a href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/"
-                      target="_blank" class="footer-link me-4">Documentation</a>
-
-
-                    <a href="https://themeselection.com/support/" target="_blank"
-                      class="footer-link d-none d-sm-inline-block">Support</a>
-
-                  </div>
-                </div>
-              </div>
-            </footer>
-            <!-- / Footer -->
 
 
             <div class="content-backdrop fade"></div>
@@ -679,6 +650,7 @@
 <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
 <script>
+
 // Initialize Quill with minimal toolbar options
 const quill = new Quill('#descriptionId', {
     theme: 'snow',
@@ -704,19 +676,28 @@ function handleFormSubmit(event) {
     // Validate form
     let isValid = true;
     
+    // Name validation
     if (!name) {
         displayErrorMessage("name-error", "Please enter a name");
         isValid = false;
     } else if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
         displayErrorMessage("name-error", "Category name should contain only letters, numbers and spaces");
         isValid = false;
-    }
-    
-    if (!description) {
-        displayErrorMessage("description-error", "Please enter a description");
+    } else if (name.length < 3 || name.length > 50) {
+        displayErrorMessage("name-error", "Category name must be between 3 and 50 characters");
         isValid = false;
     }
     
+    // Description validation
+    if (!description) {
+        displayErrorMessage("description-error", "Please enter a description");
+        isValid = false;
+    } else if (description.length < 5 || description.length > 500) {
+        displayErrorMessage("description-error", "Description must be between 5 and 500 characters");
+        isValid = false;
+    }
+    
+    // Status validation
     if (!status) {
         displayErrorMessage("status-error", "Please select a status");
         isValid = false;
@@ -762,11 +743,28 @@ function handleFormSubmit(event) {
         }, { once: true });
     })
     .catch(error => {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error.message || 'Failed to add category'
-        });
+        // If offcanvas is closed, show the error
+        if (!offcanvas.classList.contains('show')) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'Failed to add category'
+            });
+        } else {
+            // If offcanvas is still open, reopen it and display the error
+            bsOffcanvas.show();
+            setTimeout(() => {
+                if (error.message.includes("already exists")) {
+                    displayErrorMessage("name-error", "Category with this name already exists");
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'Failed to add category'
+                    });
+                }
+            }, 500);
+        }
     });
 }
 
@@ -787,8 +785,9 @@ function displayErrorMessage(elementId, message) {
 
 function clearErrorMessages() {
     // Remove all error messages
-    document.querySelectorAll('.invalid-feedback').forEach(element => {
+    document.querySelectorAll('.invalid-feedback, .fv-plugins-message-container').forEach(element => {
         element.style.display = 'none';
+        element.textContent = '';
     });
     
     // Remove error classes from inputs
@@ -817,125 +816,180 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+// Function to open the modal and populate it with data
+function openEditModal(id, name, description, status) {
+    // Populate modal fields with category data
+    document.getElementById("edit-category-id").value = id;
+    document.getElementById("edit-category-name").value = name;
+    document.getElementById("edit-category-description").value = description;
+    document.getElementById("edit-category-status").value = status;
 
-  // <!-- Script to Handle Edit Modal -->
+    // Clear any previous error messages
+    clearEditErrorMessages();
 
-    // Function to open the modal and populate it with data
-    function openEditModal(id, name, description, status) {
-        // Populate modal fields with category data
-        document.getElementById("edit-category-id").value = id;
-        document.getElementById("edit-category-name").value = name;
-        document.getElementById("edit-category-description").value = description;
-        document.getElementById("edit-category-status").value = status;
+    // Open the modal
+    var editModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+    editModal.show();
+}
 
-        // Open the modal
-        var editModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
-        editModal.show();
+// Clear error messages in the edit form
+function clearEditErrorMessages() {
+    document.querySelectorAll("#editCategoryForm .fv-plugins-message-container").forEach(element => {
+        element.textContent = "";
+        element.style.display = "none";
+    });
+
+    // Remove error classes from inputs
+    document.querySelectorAll("#editCategoryForm .form-control, #editCategoryForm .form-select").forEach(input => {
+        input.classList.remove('is-invalid');
+    });
+}
+
+// Handle form submission for edit
+document.getElementById('editCategoryForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Validate the form
+    if (!validateEditForm()) {
+        return; // Stop further execution if validation fails
     }
 
-    // Handle form submission
-    document.getElementById('editCategoryForm').addEventListener('submit', async function (event) {
-        event.preventDefault(); // Prevent form submission
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
 
-        // Validate the form
-        if (!validateForm()) {
-            return; // Stop further execution if validation fails
-        }
+    try {
+        const response = await fetch('/admin/editCategory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
 
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData);
+        const result = await response.json(); // Get the response data
 
-        try {
-            const response = await fetch('/admin/editCategory', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-
-            // Check response and handle errors
-            if (!response.ok) {
-                const result = await response.json(); // Get the error response
+        // Check if there was an error
+        if (!response.ok) {
+            // Display the error from the server
+            if (result.error) {
+                if (result.error.includes("name already exists")) {
+                    displayEditErrorMessage("name-error", "Another category with this name already exists");
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: result.error,
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                    });
+                }
+            } else {
                 Swal.fire({
                     title: 'Error!',
-                    text: result.error, // Use the error message from the backend
+                    text: 'An error occurred while updating the category',
                     icon: 'error',
                     confirmButtonText: 'OK',
                 });
-                return; // Stop further execution on error
             }
-
-            const result = await response.json();
-            // Close the modal before showing SweetAlert
-            var editModal = bootstrap.Modal.getInstance(document.getElementById('editCategoryModal'));
-            if (editModal) {
-                editModal.hide(); // Hide the modal
-            }
-
-            // Show success alert
-            Swal.fire({
-                title: 'Success!',
-                text: result.message,
-                icon: 'success',
-                confirmButtonText: 'OK',
-            }).then(() => {
-                window.location.href = '/admin/category'; // Redirect to category page
-            });
-        } catch (error) {
-            console.error('Error:', error);
-            Swal.fire({
-                title: 'Error!',
-                text: 'An unexpected error occurred. Please try again later.',
-                icon: 'error',
-                confirmButtonText: 'OK',
-            });
-        }
-    });
-
-    // Validation function
-    function validateForm() {
-        clearErrorMessages(); // Clear previous error messages
-        const name = document.querySelector("#edit-category-name").value.trim();
-        const description = document.querySelector("#edit-category-description").value.trim();
-        const status = document.querySelector("#edit-category-status").value;
-        let isValid = true;
-
-        if (!name) {
-            displayErrorMessage("name-error", "Please enter a name");
-            isValid = false;
-        } else if (!/^[a-zA-Z\s]+$/.test(name)) {
-            displayErrorMessage("name-error", "Category name should contain only alphabetic characters");
-            isValid = false;
+            return;
         }
 
-        if (!description) {
-            displayErrorMessage("description-error", "Please enter a description");
-            isValid = false;
+        // Close the modal before showing SweetAlert
+        var editModal = bootstrap.Modal.getInstance(document.getElementById('editCategoryModal'));
+        if (editModal) {
+            editModal.hide(); // Hide the modal
         }
 
-        if (!status) {
-            displayErrorMessage("status-error", "Please select a status");
-            isValid = false;
-        }
-
-        return isValid;
-    }
-
-    function displayErrorMessage(elementId, message) {
-        const errorElement = document.getElementById(elementId);
-        errorElement.innerText = message;
-        errorElement.style.display = "block"; // Show the error message
-    }
-
-    function clearErrorMessages() {
-        document.querySelectorAll(".fv-plugins-message-container").forEach(element => {
-            element.innerText = "";
-            element.style.display = "none"; // Hide previous error messages
+        // Show success alert
+        Swal.fire({
+            title: 'Success!',
+            text: result.message,
+            icon: 'success',
+            confirmButtonText: 'OK',
+        }).then(() => {
+            window.location.href = '/admin/category'; // Redirect to category page
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'An unexpected error occurred. Please try again later.',
+            icon: 'error',
+            confirmButtonText: 'OK',
         });
     }
+});
 
+// Enhanced validation function for edit form
+function validateEditForm() {
+    clearEditErrorMessages();
+    
+    const name = document.querySelector("#edit-category-name").value.trim();
+    const description = document.querySelector("#edit-category-description").value.trim();
+    const status = document.querySelector("#edit-category-status").value;
+    let isValid = true;
 
+    // Name validation
+    if (!name) {
+        displayEditErrorMessage("name-error", "Please enter a name");
+        isValid = false;
+    } else if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
+        displayEditErrorMessage("name-error", "Category name should contain only letters, numbers and spaces");
+        isValid = false;
+    } else if (name.length < 3 || name.length > 50) {
+        displayEditErrorMessage("name-error", "Category name must be between 3 and 50 characters");
+        isValid = false;
+    }
+
+    // Description validation
+    if (!description) {
+        displayEditErrorMessage("description-error", "Please enter a description");
+        isValid = false;
+    } else if (description.length < 5 || description.length > 500) {
+        displayEditErrorMessage("description-error", "Description must be between 5 and 500 characters");
+        isValid = false;
+    }
+
+    // Status validation
+    if (!status) {
+        displayEditErrorMessage("status-error", "Please select a status");
+        isValid = false;
+    }
+
+    return isValid;
+}
+
+function displayEditErrorMessage(elementId, message) {
+    // Get the error container from the edit form
+    const errorElement = document.querySelector(`#editCategoryForm #${elementId}`);
+    
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = "block";
+        
+        // Find the related input and mark it as invalid
+        let inputElement;
+        
+        if (elementId === "name-error") {
+            inputElement = document.getElementById("edit-category-name");
+        } else if (elementId === "description-error") {
+            inputElement = document.getElementById("edit-category-description");
+        } else if (elementId === "status-error") {
+            inputElement = document.getElementById("edit-category-status");
+        }
+        
+        if (inputElement) {
+            inputElement.classList.add('is-invalid');
+        }
+    } else {
+        // Fallback to SweetAlert if the error container isn't found
+        Swal.fire({
+            title: 'Validation Error',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'OK',
+        });
+    }
+}
     </script>
 
 

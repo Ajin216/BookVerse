@@ -106,7 +106,7 @@ router.post("/addCategoryOffer", adminAuth, offerController.addCategoryOffer);
 router.get("/editCategoryOffer/:id", adminAuth, offerController.getEditCategoryOfferPage);
 router.post("/updateCategoryOffer", adminAuth, offerController.updateCategoryOffer);
 
-
+router.delete("/delete-offer/:id", adminAuth, offerController.deleteOffer);
 
 
 //coupon management

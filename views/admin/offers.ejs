@@ -75,9 +75,7 @@
               <div class="me-3">
                 <div id="DataTables_Table_0_filter" class="dataTables_filter">
                   <label class="d-flex justify-content-start align-items-center gap-2">
-                    <!-- <span>Search:</span>
-                    <input type="search" class="form-control form-control-sm" placeholder="Search Offers"
-                      aria-controls="DataTables_Table_0"> -->
+      
                   </label>
                 </div>
               </div>
@@ -148,7 +146,7 @@
                                       <% } %>
                                     </li>
                                     <li>
-                                      <a class="dropdown-item" href="#" onclick="deleteOffer('offerId')">Delete</a>
+                                      <a class="dropdown-item" href="#" onclick="deleteOffer('<%= offer._id %>')">Delete</a>
                                     </li>
                                   </ul>
                               </div>
@@ -199,11 +197,60 @@
   </div>
 </div>
 
-
-
-
-
 <%- include("../../views/partials/admin/footer") %>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  // Frontend JavaScript function to delete an offer
+function deleteOffer(offerId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Make DELETE request to the server
+            fetch(`/admin/delete-offer/${offerId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire(
+                        'Deleted!',
+                        'The offer has been deleted.',
+                        'success'
+                    ).then(() => {
+                        // Refresh the page to show updated offers list
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire(
+                        'Error!',
+                        data.message || 'Failed to delete offer',
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                Swal.fire(
+                    'Error!',
+                    'Something went wrong!',
+                    'error'
+                );
+            });
+        }
+    });
+}
+</script>
 
 
 
