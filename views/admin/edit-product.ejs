@@ -560,72 +560,72 @@ document.getElementById('cropButton').addEventListener('click', function() {
 
 
 // Modified validateForm function to handle image uploads
-function validateForm() {
-  const form = document.querySelector('form');
-  const formData = new FormData(form);
+// function validateForm() {
+//   const form = document.querySelector('form');
+//   const formData = new FormData(form);
 
-  // Validate required fields
-  const requiredFields = {
-    productTitle: 'Product name',
-    author: 'Author',
-    description: 'Description',
-    category: 'Category',
-    productPrice: 'Regular price'
-    // Removed productDiscountedPrice: 'Sale price'
-  };
+//   // Validate required fields
+//   const requiredFields = {
+//     productTitle: 'Product name',
+//     author: 'Author',
+//     description: 'Description',
+//     category: 'Category',
+//     productPrice: 'Regular price'
+//     // Removed productDiscountedPrice: 'Sale price'
+//   };
 
-  for (const [field, label] of Object.entries(requiredFields)) {
-    if (!formData.get(field)?.trim()) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Validation Error',
-        text: `${label} is required`,
-        confirmButtonColor: '#3085d6'
-      });
-      return false;
-    }
-  }
+//   for (const [field, label] of Object.entries(requiredFields)) {
+//     if (!formData.get(field)?.trim()) {
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Validation Error',
+//         text: `${label} is required`,
+//         confirmButtonColor: '#3085d6'
+//       });
+//       return false;
+//     }
+//   }
 
-  // Remove the price comparison validation
-  // since we no longer have sale price
+//   // Remove the price comparison validation
+//   // since we no longer have sale price
 
-  // Submit form
-  fetch(form.action, {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Success!',
-        text: 'Product has been updated successfully',
-        confirmButtonColor: '#3085d6'
-      }).then(() => {
-        window.location.href = '/admin/products';
-      });
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: data.message || 'Failed to update product',
-        confirmButtonColor: '#3085d6'
-      });
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error!',
-      text: error.message || 'Failed to update product',
-      confirmButtonColor: '#3085d6'
-    });
-  });
+//   // Submit form
+//   fetch(form.action, {
+//     method: 'POST',
+//     body: formData
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     if (data.success) {
+//       Swal.fire({
+//         icon: 'success',
+//         title: 'Success!',
+//         text: 'Product has been updated successfully',
+//         confirmButtonColor: '#3085d6'
+//       }).then(() => {
+//         window.location.href = '/admin/products';
+//       });
+//     } else {
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Error!',
+//         text: data.message || 'Failed to update product',
+//         confirmButtonColor: '#3085d6'
+//       });
+//     }
+//   })
+//   .catch(error => {
+//     console.error('Error:', error);
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Error!',
+//       text: error.message || 'Failed to update product',
+//       confirmButtonColor: '#3085d6'
+//     });
+//   });
 
-  return false;
-}
+//   return false;
+// }
 
 
 

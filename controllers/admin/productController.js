@@ -200,6 +200,7 @@ const getEditProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
+    
     const productId = req.params.id;
     const existingProduct = await Product.findById(productId);
 
@@ -223,9 +224,9 @@ const updateProduct = async (req, res) => {
         const imageBuffer = Buffer.from(base64Image, 'base64');
         const filename = `product-${Date.now()}-${i}.jpg`;
 
-        const uploadDir = path.join(__dirname, '..', 'public', 'uploads', 'products');
+        const uploadDir = path.join("public", "uploads", "products");
         const filepath = path.join(uploadDir, filename);
-
+        
         // Ensure upload directory exists
         await fs.promises.mkdir(uploadDir, { recursive: true });
 

@@ -34,82 +34,335 @@
 
 
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+/* Professional Order Summary Styling with Variety */
 
-        .order-summary-container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 15px;
-        }
+/* Main container styling */
+.container.order-summary-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  font-family: 'Poppins', 'Segoe UI', Roboto, sans-serif;
+}
 
-        .order-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+/* Card styling with distinct look */
+.order-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+}
 
-        .order-header {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* Custom header styling (different from previous) */
+.order-header {
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+  color: white;
+  padding: 1.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-        .order-header h2 {
-            margin: 0;
-            font-weight: 600;
-        }
+.order-header h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.6rem;
+  letter-spacing: 0.5px;
+  color: white; /* Ensuring header text is white */
+}
 
-        .address-section {
-            background-color: #f1f5f9;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-        }
+.order-header .badge {
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #1e3c72; /* Darker text for contrast on light badge */
+}
 
-        .table-order {
-            margin-top: 1.5rem;
-        }
+.card-body {
+  padding: 2rem;
+}
 
-        .table-order thead {
-            background-color: #e9ecef;
-        }
+/* Address and order information sections */
+.address-section {
+  background-color: #f8fafc;
+  border-radius: 10px;
+  padding: 1.75rem;
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border-left: 4px solid #1e3c72;
+  margin-bottom: 1.5rem;
+}
 
-        .product-thumbnail {
-            max-width: 80px;
-            max-height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
+.address-section h4 {
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1e3c72;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 0.8rem;
+}
 
-        .order-actions {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
+.address-section p {
+  color: #2d3748; /* Darker text color for better readability */
+  line-height: 1.6;
+  font-weight: 400;
+}
 
-        .status-badge {
-            font-size: 0.9em;
-            padding: 0.4em 0.7em;
-        }
+.address-section p strong {
+  color: #1a202c; /* Even darker for strong elements */
+  font-weight: 600;
+}
 
-        @media (max-width: 768px) {
-            .order-header {
-                flex-direction: column;
-                text-align: center;
-            }
+/* Status badges */
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-            .order-header .badge {
-                margin-top: 0.5rem;
-            }
-        }
+/* Table styling */
+.table-responsive.table-order {
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 2rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead {
+  background-color: #1e3c72;
+  color: white;
+}
+
+.table thead th {
+  font-weight: 500;
+  padding: 1rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  color: white; /* Ensuring white text on dark background */
+}
+
+.table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-color: #e2e8f0;
+  color: #1a202c; /* Darker text for better readability */
+  font-weight: 400;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(30, 60, 114, 0.03);
+}
+
+.table tfoot {
+  background-color: #f8fafc;
+  font-weight: 600;
+}
+
+.table tfoot td {
+  padding: 1.2rem 1rem;
+  color: #1a202c; /* Darker text for better readability */
+}
+
+.table-active {
+  background-color: #edf2f7 !important;
+}
+
+/* Product thumbnail */
+.product-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Button styling with better width */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 0.7rem 1.5rem;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.btn-sm {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  min-width: 100px;
+}
+
+.btn-primary {
+  background-color: #1e3c72;
+  border-color: #1e3c72;
+  color: white; /* Ensuring text is white */
+}
+
+.btn-primary:hover {
+  background-color: #15294d;
+  border-color: #15294d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-outline-primary {
+  color: #1e3c72;
+  border-color: #1e3c72;
+}
+
+.btn-outline-primary:hover {
+  background-color: #1e3c72;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-danger {
+  background-color: #e53e3e;
+  border-color: #e53e3e;
+  color: white; /* Ensuring text is white */
+}
+
+.btn-danger:hover {
+  background-color: #c53030;
+  border-color: #c53030;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-outline-danger {
+  color: #e53e3e;
+  border-color: #e53e3e;
+}
+
+.btn-outline-danger:hover {
+  background-color: #e53e3e;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-success {
+  background-color: #38a169;
+  border-color: #38a169;
+  color: white; /* Ensuring text is white */
+}
+
+.btn-success:hover {
+  background-color: #2f855a;
+  border-color: #2f855a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+  background-color: #718096;
+  border-color: #718096;
+  color: white; /* Ensuring text is white */
+}
+
+.btn-secondary:hover {
+  background-color: #4a5568;
+  border-color: #4a5568;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Order actions section */
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Modal styling */
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.modal-header {
+  background-color: #1e3c72;
+  color: white;
+  border-bottom: none;
+  padding: 1.5rem;
+}
+
+.modal-title {
+  font-weight: 600;
+  color: white; /* Ensuring text is white */
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-footer {
+  border-top: 1px solid #e2e8f0;
+  padding: 1.5rem;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #1a202c; /* Darker text for better readability */
+  margin-bottom: 0.5rem;
+}
+
+.form-select, .form-control {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border-color: #cbd5e0;
+  color: #1a202c; /* Darker text for better readability */
+}
+
+.form-select:focus, .form-control:focus {
+  border-color: #1e3c72;
+  box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .order-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.8rem;
+    padding: 1.5rem;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .order-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .table-responsive {
+    font-size: 0.9rem;
+  }
+}
     </style>
 
 
@@ -165,55 +418,12 @@
 
 
                                 </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Product</a>
-
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Pages</a>
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Blog</a>
-
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Elements</a>
-
-
-                                </li>
+                                
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
 
-                    <!-- <div class="header-right">
-                        <div class="header-search">
-                            <a href="#" class="search-toggle" role="button" title="Search"><i
-                                    class="icon-search"></i></a>
-
-                        </div>
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static"
-                                title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-
-                        </div>
-
-                        <div class="dropdown cart-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false" data-display="static">
-                                <i class="icon-shopping-cart"></i>
-
-                            </a>
-
-
-                        </div>
-                    </div> -->
+                   
 
 
                 </div><!-- End .container -->
@@ -384,21 +594,6 @@
                                 </tfoot>
                             </table>
                         </div>
-
-
-                        <!-- <div class="order-actions">
-                            <% if (order.order_status==='Delivered' || order.order_status==='Cancelled' ) { %>
-                                <button type="button" class="btn btn-danger" disabled>
-                                    Cancel All Orders
-                                </button>
-                                <% } else { %>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#cancelOrderModal">
-                                        Cancel All Orders
-                                    </button>
-                                    <% } %>
-                                        <a href="/order" class="btn btn-outline-primary">Back to Orders</a>
-                        </div> -->
 
 
 

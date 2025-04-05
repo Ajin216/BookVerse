@@ -36,6 +36,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+
 
 
     <style>
@@ -255,6 +258,62 @@ body {
     display: block;
     text-align: center;
 }
+
+
+
+
+
+
+.payment-options .payment-option {
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.payment-options .payment-option:hover {
+    background-color: #e2e6ea;
+}
+
+.payment-options .form-check-input:checked + .form-check-label {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.payment-options .form-check-input:checked + .form-check-label .bi {
+    transform: scale(1.1);
+}
+
+.payment-options .form-check-input:checked ~ .form-check-label {
+    border-color: #007bff;
+}
+
+.payment-options .form-check-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.bi {
+    transition: transform 0.3s ease;
+}
+.payment-options .form-check-input:checked + .form-check-label {
+    border: 2px solid #007bff;
+    background-color: #e9f5ff; /* optional soft highlight */
+    border-radius: 10px; /* optional */
+}
+
+
+
+.selected-address-box {
+    background-color: #f8f9fa; /* soft gray or use #ffffff for white */
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 15px;
+    color: #333;
+    font-size: 0.95rem;
+}
     </style>
 
 
@@ -314,26 +373,7 @@ body {
 
 
                                 </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Product</a>
-
-                                   
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Pages</a>
-
-                                   
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Blog</a>
-
-                                   
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Elements</a>
-
-                                   
-                                </li>
+                               
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
@@ -377,12 +417,13 @@ body {
                                     <div class="col-lg-8">
                                         <!-- Saved Addresses Section -->
                                         <div class="card mb-4">
-                                            <div class="card-header d-flex justify-content-between align-items-center">
-                                                <h2 class="mb-0">Saved Addresses</h2>
-                                                <a href="/address" class="btn btn-primary">
-                                                    Add New Address
+                                            <div class="card-header d-flex justify-content-between align-items-center bg-light border-bottom shadow-sm rounded-top px-4 py-3">
+                                                <h2 class="mb-0 fs-4 fw-semibold text-dark">Saved Addresses</h2>
+                                                <a href="/address" class="btn btn-outline-primary d-flex align-items-center gap-2">
+                                                    <i class="bi bi-plus-circle"></i> Add New Address
                                                 </a>
                                             </div>
+                                            
                                             <div class="card-body">
                                                 <div class="form-group">
                                                     <label for="addressSelect" class="form-label">Select Shipping Address</label>
@@ -410,39 +451,49 @@ body {
                                                 <!-- Selected Address Details -->
                                                 <div id="selectedAddressDetails" class="mt-3" style="display:none;">
                                                     <h6>Selected Address Details:</h6>
-                                                    <div id="addressDetailsContent" class="alert alert-info"></div>
+                                                    <div id="addressDetailsContent" class="selected-address-box"></div>
+
                                                 </div>
                                             </div>
                                         </div>
                         
-                                        <!-- Payment Methods Section -->
-                                        <div class="card mb-4">
-                                            <div class="card-header">
-                                                <h2 class="mb-0">Select Payment Method</h2>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="payment-options">
-                                                    <div class="form-check mb-3">
-                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="cashOnDelivery" value="Cash on Delivery" required>
-                                                        <label class="form-check-label" for="cashOnDelivery">
-                                                            Cash on Delivery
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check mb-3">
-                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="razorPay" value="Razorpay">
-                                                        <label class="form-check-label" for="razorPay">
-                                                            Razor Pay
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="paymentMethod" id="wallet" value="Wallet">
-                                                        <label class="form-check-label" for="wallet">
-                                                            Wallet
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+<!-- Payment Methods Section -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 class="mb-0">Select Payment Method</h2>
+    </div>
+    <div class="card-body">
+        <div class="payment-options row">
+            <div class="col-md-4 col-sm-6 mb-3">
+                <div class="payment-option form-check p-3 border rounded text-center h-100">
+                    <input class="form-check-input d-none" type="radio" name="paymentMethod" id="cashOnDelivery" value="Cash on Delivery" required>
+                    <label class="form-check-label d-block" for="cashOnDelivery">
+                        <i class="bi bi-cash-stack fs-3 text-success mb-2"></i>
+                        <div class="fw-bold">Cash on Delivery</div>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-3">
+                <div class="payment-option form-check p-3 border rounded text-center h-100">
+                    <input class="form-check-input d-none" type="radio" name="paymentMethod" id="razorPay" value="Razorpay">
+                    <label class="form-check-label d-block" for="razorPay">
+                        <i class="bi bi-credit-card fs-3 text-primary mb-2"></i>
+                        <div class="fw-bold">Razor Pay</div>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 mb-3">
+                <div class="payment-option form-check p-3 border rounded text-center h-100">
+                    <input class="form-check-input d-none" type="radio" name="paymentMethod" id="wallet" value="Wallet">
+                    <label class="form-check-label d-block" for="wallet">
+                        <i class="bi bi-wallet2 fs-3 text-warning mb-2"></i>
+                        <div class="fw-bold">Wallet</div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
                                         
                                         <!-- Coupon Section -->
@@ -565,8 +616,9 @@ body {
                                                 </table>
                                             </div>
                                             <div class="card-footer">
-                                                <button type="submit" class="checkout-submit-btn">
-                                                    <span class="btn-text">Place Order</span>
+                                                <button type="submit" class="btn btn-primary w-100">
+                                                    <i class="bi bi-cart-check me-2"></i>
+                                                    Place Order
                                                 </button>
                                             </div>
                                         </div>

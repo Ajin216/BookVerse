@@ -137,29 +137,16 @@
                             </div><!-- End .header-left -->
 
                             <div class="header-center">
-
                                 <nav class="main-nav">
                                     <ul class="menu sf-arrows">
                                         <li class="megamenu-container active">
-                                            <a href="index.html" class="sf-with-ul">Home</a>
-
+                                            <a href="/" class="sf-with-ul">Home</a>
+                                        </li>
                                         <li>
                                             <a href="/shop" class="sf-with-ul">Shop</a>
-
+                                        </li>
                                         <li>
                                             <a href="/shop" class="sf-with-ul">Product</a>
-
-                                        <li>
-                                            <a href="#" class="sf-with-ul">Pages</a>
-
-                                        </li>
-                                        <li>
-                                            <a href="#" class="sf-with-ul">Blog</a>
-
-                                        </li>
-                                        <li>
-                                            <a href="#" class="sf-with-ul">Elements</a>
-
                                         </li>
                                     </ul><!-- End .menu -->
                                 </nav><!-- End .main-nav -->
@@ -180,16 +167,16 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-6">
                                 <div class="banner banner-big banner-overlay">
-                                    <a href="#">
+                                    <a href="/shop">
                                         <img src="assets/images/demos/demo-20/banners/banner-1.jpg" alt="Banner">
                                     </a>
 
                                     <div class="banner-content">
-                                        <h4 class="banner-subtitle text-white"><a href="#">Your Guide To The World</a>
+                                        <h4 class="banner-subtitle text-white"><a href="/shop">Mystery & Crime Collection</a>
                                         </h4><!-- End .banner-subtitle -->
-                                        <h2 class="banner-title text-white"><a href="#">Must-Read <br>Travel Books</a>
+                                        <h2 class="banner-title text-white"><a href="/shop">Must-Read <br>Investigation <br> Books</a>
                                         </h2><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white-3 banner-link">Find out more<i
+                                        <a href="/shop" class="btn btn-outline-white-3 banner-link">Discover Now<i
                                                 class="icon-long-arrow-right"></i></a>
                                     </div><!-- End .banner-content -->
                                 </div><!-- End .banner -->
@@ -206,7 +193,7 @@
                                         <!-- End .banner-subtitle -->
                                         <h3 class="banner-title text-white"><a href="#">Discover Our <br>Best Romance
                                                 <br>Books</a></h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white-3 banner-link">Discover Now<i
+                                        <a href="/shop" class="btn btn-outline-white-3 banner-link">Discover Now<i
                                                 class="icon-long-arrow-right"></i></a>
                                     </div><!-- End .banner-content -->
                                 </div><!-- End .banner -->
@@ -223,7 +210,7 @@
                                                 The Day</a></h4><!-- End .banner-subtitle -->
                                         <h3 class="banner-title text-white"><a href="#">20% Off Use <br>Code:
                                                 <span>mybook</span></a></h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white-3 banner-link">Shop Now<i
+                                        <a href="/shop" class="btn btn-outline-white-3 banner-link">Shop Now<i
                                                 class="icon-long-arrow-right"></i></a>
                                     </div><!-- End .banner-content -->
                                 </div><!-- End .banner -->
@@ -232,13 +219,13 @@
                                     <a href="#">
                                         <img src="assets/images/demos/demo-20/banners/banner-4.jpg" alt="Banner">
                                     </a>
-
+                                
                                     <div class="banner-content">
                                         <h4 class="banner-subtitle text-white d-lg-none d-xl-block"><a href="#">New
                                                 Arrivals</a></h4><!-- End .banner-subtitle -->
-                                        <h3 class="banner-title text-white"><a href="#">Business <br>& Economics</a>
+                                        <h3 class="banner-title text-white"><a href="#">Science <br>& Fiction</a>
                                         </h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white-3 banner-link">Discover Now<i
+                                        <a href="/shop" class="btn btn-outline-white-3 banner-link">Discover Now<i
                                                 class="icon-long-arrow-right"></i></a>
                                     </div><!-- End .banner-content -->
                                 </div><!-- End .banner -->
@@ -321,72 +308,7 @@
                                     </div> -->
                                 </div><!-- End .header-flex -->
 
-                                <!-- <div class="owl-carousel carousel-equal-height owl-simple" data-toggle="owl"
-                                    data-owl-options='{
-                                    "nav": false, 
-                                    "dots": true,
-                                    "margin": 20,
-                                    "loop": false,
-                                    "responsive": {
-                                        "0": {
-                                            "items":2
-                                        },
-                                        "480": {
-                                            "items":2
-                                        },
-                                        "768": {
-                                            "items":3
-                                        },
-                                        "992": {
-                                            "items":4
-                                        },
-                                        "1440": {
-                                            "items":5
-                                        }
-                                    }
-                                }'>
-                                <% products.forEach(product => { %>
-                                    <div class="product">
-                                        <figure class="product-media">
-                                            <a href="/productDetails/<%= product._id %>">
-                                                <img src="<%= product.productImage[0] %>" alt="Product image" class="product-image">
-                                            </a>
-                                        </figure>
-                        
-                                        <div class="product-body">
-                                            <div class="product-cat" style="margin-left: 20px;">
-                                             <p style="color: black; font: bold; margin-left: 15px;"><%= product.productName %></p>
-                                            </div>
-                                           
-                                            <div class="product-price" style="margin-left: 60px;">
-                                                ₹<%= product.regularPrice%>
-                                            </div>
-                        
-                                            <div class="product-footer">
-                                                 <div class="ratings-container">
-                                                    <div class="ratings">
-                                                        <div class="ratings-val" ></div>
-                                                    </div>
-                                                    <span class="ratings-text">( <%= product.reviews %> Reviews )</span>
-                                                </div> 
-                                                <% if (product.quantity > 0) { %>
-                                                    <a href="" class="btn-product btn-cart add-to-cart-btn" data-product-id="<%= product._id %>" data-quantity="1">
-                                                        <span>Add to cart</span>
-                                                    </a>
-                                                <% } else { %>
-                                                    <span class="btn-product btn-cart disabled">Out of Stock</span>
-                                                <% } %>
-                                                <div class="product-action">
-                                                            
-                                                    <a href="#" class="btn-product btn-wishlist" title="Wishlist" data-product-id="<%= product._id %>">
-                                                        <span>Add to Wishlist</span>
-                                                    </a>                                            
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% }) %>            
-                                    </div> -->
+                               
 
 
 
@@ -446,21 +368,15 @@
                                                             <span class="ratings-text">( <%= product.reviews %> Reviews )</span>
                                                         </div>
                                     
-                                                        <% if (product.quantity> 0) { %>
-                                                            <a href="" class="btn-product btn-cart add-to-cart-btn" data-product-id="<%= product._id %>"
-                                                                data-quantity="1">
-                                                                <span>Add to cart</span>
-                                                            </a>
-                                                            <% } else { %>
-                                                                <span class="btn-product btn-cart disabled">Out of Stock</span>
-                                                                <% } %>
+                                                        <% if (product.quantity > 0) { %>
+                                                            <span class="btn-product btn-cart">
+                                                                <span>IN STOCK</span>
+                                                            </span>
+                                                        <% } else { %>
+                                                            <span class="btn-product btn-cart disabled">Out of Stock</span>
+                                                        <% } %>
                                     
-                                                                    <div class="product-action">
-                                                                        <a href="#" class="btn-product btn-wishlist" title="Wishlist"
-                                                                            data-product-id="<%= product._id %>">
-                                                                            <span>Add to Wishlist</span>
-                                                                        </a>
-                                                                    </div>
+                                                                    
                                                     </div>
                                                 </div>
                                             </div>

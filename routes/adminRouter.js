@@ -72,7 +72,7 @@ router.post('/editProduct/:id',
     { name: 'file2', maxCount: 1 },
     { name: 'file3', maxCount: 1 }
   ]),
-  adminAuth,
+  // adminAuth,  
   productController.updateProduct
 );
 router.delete("/deleteProduct/:id", adminAuth, productController.deleteProduct);
@@ -115,6 +115,13 @@ router.post("/add-coupon", adminAuth, couponController.addCoupon);
 router.get("/get-coupon/:id", adminAuth, couponController.getCoupon);
 router.put("/update-coupon", adminAuth, couponController.updateCoupon);
 router.delete("/delete-coupon/:id", adminAuth, couponController.deleteCoupon);
+
+
+
+
+
+
+
 
 
 module.exports=router;

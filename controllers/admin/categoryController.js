@@ -26,6 +26,8 @@ const categoryInfo = async (req, res) => {
     }
 };
 
+
+
 const addCategory = async (req, res) => {
     const { name, description, status } = req.body;
 
@@ -99,6 +101,11 @@ const addCategory = async (req, res) => {
         });
     }
 };
+
+
+
+
+
 
 const editCategory = async (req, res) => {
     const { id, name, description, status } = req.body;

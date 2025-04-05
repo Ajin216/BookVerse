@@ -80,6 +80,9 @@ router.get("/shop",userController.getShopPage)
 
 router.get("/productDetails/:productId", userController.getProductDetails)
 
+// to show related product details
+router.get("/product/:productId", userController.getProductDetails);
+
 
 //Forgot Password
 router.get("/forgotPassword", userAuthOut, userController.forgotPassword);
@@ -148,6 +151,10 @@ router.delete('/remove-from-wishlist/:productId', userAuth, wishlistController.r
 
 //Wallet Management
 router.get('/wallet',userAuth,walletController.getWalletPage)
+
+
+
+
 
 
 module.exports=router;

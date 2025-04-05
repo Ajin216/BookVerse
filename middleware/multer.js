@@ -5,7 +5,7 @@ const path = require('path');
 // Configure multer for handling file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/products'); // Final storage location for product images
+    cb(null, './public/uploads/products'); // Final storage location for product images
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname);

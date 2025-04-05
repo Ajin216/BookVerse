@@ -97,25 +97,7 @@
 
 
                                 </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Product</a>
-
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Pages</a>
-
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Blog</a>
-
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Elements</a>
-
-                                </li>
+                                
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
@@ -310,21 +292,20 @@
                                                             <a href="#" class="btn-product-icon btn-wishlist btn-expandable" data-product-id="<%= product._id %>">
                                                                 <span>add to wishlist</span>
                                                             </a>
-                                                            <a href="#" class="btn-product-icon btn-quickview" title="Quick view">
-                                                                <span>Quick view</span>
-                                                            </a>
-                                                            <a href="#" class="btn-product-icon btn-compare" title="Compare">
-                                                                <span>Compare</span>
-                                                            </a>
+                                                            
                                                         </div><!-- End .product-action-vertical -->
                                     
                                                         <div class="product-action">
                                                             <% if (product.quantity > 0) { %>
-                                                                <a href="#" class="btn-product btn-cart add-to-cart-btn" data-product-id="<%= product._id %>" data-quantity="1">
+                                                                <button class="btn-product btn-cart add-to-cart-btn"
+                                                                        data-product-id="<%= product._id %>"
+                                                                        data-quantity="1">
                                                                     <span>add to cart</span>
-                                                                </a>
+                                                                </button>
                                                             <% } else { %>
-                                                                <span class="btn-product btn-cart disabled">Out of Stock</span>
+                                                                <button class="btn-product btn-cart disabled" disabled>
+                                                                    Out of Stock
+                                                                </button>
                                                             <% } %>
                                                         </div><!-- End .product-action -->
                                                     </figure><!-- End .product-media -->
@@ -868,6 +849,8 @@
     <!-- Main JS File -->
     <script src="assets/js/main.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
     <script>
@@ -986,6 +969,150 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+
+
+
+//addtocart
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle Add to Cart from shop page
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const productId = this.getAttribute('data-product-id');
+            const quantity = parseInt(this.getAttribute('data-quantity')) || 1;
+            
+            fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: productId,
+                    quantity: quantity
+                })
+            })
+            .then(response => {
+                // Check if response redirects to login page (unauthorized)
+                if (response.redirected || response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Only process data if it exists (we didn't redirect)
+                if (data) {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: 'Product added to cart successfully',
+                            confirmButtonColor: '#3085d6',
+                            showCancelButton: true,
+                            confirmButtonText: 'View Cart',
+                            cancelButtonText: 'Continue Shopping'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '/cart';
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: data.message || 'Error adding item to cart',
+                            confirmButtonColor: '#3085d6'
+                        });
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Error adding item to cart',
+                    confirmButtonColor: '#3085d6'
+                });
+            });
+        });
+    });
+
+    // Handle Add to Wishlist from shop page
+    const wishlistButtons = document.querySelectorAll('.btn-wishlist');
+    
+    wishlistButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const productId = this.getAttribute('data-product-id');
+            
+            // Define the addToWishlist function
+            function addToWishlist(productId) {
+                fetch('/wishlist/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        productId: productId
+                    })
+                })
+                .then(response => {
+                    // Check if response redirects to login page (unauthorized)
+                    if (response.redirected || response.status === 401) {
+                        window.location.href = '/login';
+                        return;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Only process data if it exists (we didn't redirect)
+                    if (data) {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'Product added to wishlist successfully',
+                                confirmButtonColor: '#3085d6',
+                                showCancelButton: true,
+                                confirmButtonText: 'View Wishlist',
+                                cancelButtonText: 'Continue Shopping'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = '/wishlist';
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: data.message || 'Error adding item to wishlist',
+                                confirmButtonColor: '#3085d6'
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Error adding item to wishlist',
+                        confirmButtonColor: '#3085d6'
+                    });
+                });
+            }
+            
+            addToWishlist(productId);
+        });
+    });
+});
 
     </script>
     

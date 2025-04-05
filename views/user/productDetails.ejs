@@ -183,26 +183,7 @@
 
 
                                 </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Product</a>
-
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Pages</a>
-
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Blog</a>
-
-
-                                </li>
-                                <li>
-                                    <a href="#" class="sf-with-ul">Elements</a>
-
-
-                                </li>
+                                
                             </ul><!-- End .menu -->
                         </nav><!-- End .main-nav -->
                     </div><!-- End .header-left -->
@@ -546,29 +527,10 @@
                                         </a>
                     
                                         <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"
-                                                onclick="addToWishlist('<%= relatedProduct._id %>', event)">
-                                                <span>add to wishlist</span>
-                                            </a>
-                                            <a href="#" class="btn-product-icon btn-quickview"
-                                                onclick="quickView('<%= relatedProduct._id %>', event)"
-                                                title="Quick view">
-                                                <span>Quick view</span>
-                                            </a>
+                                            
                                         </div>
                     
-                                        <div class="product-action">
-                                            <% if (relatedProduct.quantity > 0) { %>
-                                                <a href="#" class="btn-product btn-cart"
-                                                    onclick="addToCart('<%= relatedProduct._id %>', event)">
-                                                    <span>add to cart</span>
-                                                </a>
-                                            <% } else { %>
-                                                <button class="btn-product btn-cart" disabled>
-                                                    <span>Out of Stock</span>
-                                                </button>
-                                            <% } %>
-                                        </div>
+                                        
                                     </figure>
                     
                                     <div class="product-body">

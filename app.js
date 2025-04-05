@@ -44,6 +44,18 @@ app.use("/admin",adminRouter)
 
 
 
+
+// This handles 404 errors for admin routes
+app.use('/admin/*', (req, res) => {
+    res.status(404).render("admin-error"); // Your admin 404 page
+  });
+  
+  // This handles 404 errors for all other routes
+  app.use('*', (req, res) => {
+    res.status(404).render("page-404"); // Your user 404 page
+  });
+
+
 app.listen(port,()=>{
     console.log(`Server is Running at http://localhost:${port}`);
 })
