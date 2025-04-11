@@ -6,9 +6,11 @@ const path=require("path");
 const passport=require("./config/passport")
 let port=process.env.PORT 
 const db=require("./config/db");
+const mongoose = require("mongoose"); // Add this import if it's not already in your db.js
 const userRouter=require("./routes/userRouter");
 const adminRouter=require("./routes/adminRouter")
 db()
+
 
 
 app.use(express.json());

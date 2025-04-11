@@ -209,7 +209,8 @@ const verifyOtp=async(req,res)=>{
                 name:user.name,
                 email:user.email,
                 phone:user.phone,
-                password:passwordHash
+                password:passwordHash,
+                
             })
             console.log(saveUserData);
 
