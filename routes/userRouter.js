@@ -85,7 +85,7 @@ router.get("/product/:productId", userController.getProductDetails);
 
 
 //Forgot Password
-router.get("/forgotPassword", userAuthOut, userController.forgotPassword);
+router.get("/forgotPassword", userAuthOut, userController.forgotPasswordPage);
 router.post("/forgotPassword", userAuthOut, userController.forgotPassword);
 router.post("/verifyResetOtp", userAuthOut, userController.verifyResetOtp);
 router.post("/resetPassword", userAuthOut, userController.resetPassword);

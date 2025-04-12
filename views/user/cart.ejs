@@ -247,7 +247,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <a href="/checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                    <% if (cartItems && cartItems.length > 0) { %>
+                                        <a href="/checkout" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                                    <% } else { %>
+                                        <button class="btn btn-outline-primary-2 btn-order btn-block" disabled>PROCEED TO CHECKOUT</button>
+                                    <% } %>
                                 </div>
                                 <a href="/shop" class="btn btn-outline-dark-2 btn-block mb-3">
                                     <span>CONTINUE SHOPPING</span><i class="icon-refresh"></i>

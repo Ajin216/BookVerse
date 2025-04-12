@@ -18,6 +18,7 @@
             margin: 0;
             font-family: "Nunito Sans", sans-serif;
             background-color: #f8f9fa;
+            background-image: linear-gradient(120deg, #f0f2f5, #e9ecef);
         }
         .container {
             display: flex;
@@ -28,22 +29,39 @@
         }
         .login_wrap {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             padding: 40px;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #fff;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
         .login_wrap:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            transform: translateY(-5px);
+        }
+        .heading_s1 {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .heading_s1:after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: #007bff;
+            margin: 15px auto 0;
+            border-radius: 3px;
         }
         .heading_s1 h3 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 700;
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 0;
         }
         .form-group {
             margin-bottom: 25px;
@@ -53,78 +71,141 @@
             font-weight: 600;
             font-size: 14px;
             color: #555;
+            margin-bottom: 8px;
+            display: block;
         }
         .form-control {
             border-radius: 8px;
-            padding: 12px;
-            font-size: 14px;
-            border: 1px solid #ced4da;
-            transition: border-color 0.3s ease;
+            padding: 14px;
+            font-size: 15px;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            letter-spacing: 2px;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
         .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+            background-color: #fff;
         }
         .otp-timer {
-            margin-top: 10px;
-            font-size: 14px;
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            line-height: 60px;
-            text-align: center;
+            margin: 15px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: #e9ecef;
+            background: #f0f4f8;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         #timerValue {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: bold;
-            color: #333;
+            color: #1e40af;
+            transition: all 0.3s ease;
         }
         #timerValue.expired {
-            color: red;
-            font-size: 14px;
+            color: #ef4444;
         }
-        .btn-primary, .btn-secondary {
-            padding: 12px;
+        .btn {
+            padding: 14px;
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             width: 100%;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            border: none;
+            position: relative;
         }
         .btn-primary {
-            background-color: #007bff;
-            border: none;
+            background-color: #0d6efd;
+            color: white;
             margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(13, 110, 253, 0.12);
         }
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #0b5ed7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(13, 110, 253, 0.25);
+        }
+        .btn-primary:disabled {
+            background-color: #84b7ff;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         .btn-secondary {
             background-color: #6c757d;
-            border: none;
+            color: white;
+            box-shadow: 0 4px 6px rgba(108, 117, 125, 0.12);
+            opacity: 0.8;
+            transition: all 0.3s ease;
         }
-        .btn-secondary:hover {
+        .btn-secondary:not(:disabled):hover {
             background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(108, 117, 125, 0.25);
+            opacity: 1;
+        }
+        .btn-secondary:disabled {
+            background-color: #adb5bd;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
         .alert-danger {
             margin-top: 15px;
             text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .text-muted {
+            margin-top: 20px;
+            font-size: 14px;
         }
         .text-muted a {
-            color: #007bff;
+            color: #0d6efd;
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
         .text-muted a:hover {
             text-decoration: underline;
+            color: #0a58ca;
         }
         .form-group.text-center {
-            margin-top: 20px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+        /* Pulse animation for timer */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .status-active {
+            background-color: #d1fae5;
+            color: #047857;
+        }
+        .status-expired {
+            background-color: #fee2e2;
+            color: #b91c1c;
         }
     </style>
 </head>
@@ -132,19 +213,26 @@
 <div class="container">
     <div class="login_wrap">
         <div class="heading_s1">
-            <h3>Email Verification - BookVerse</h3>
+            <h3>Email Verification</h3>
         </div>
         <form id="otpForm" action="/verify-otp" method="post" onsubmit="validateOTPForm">
             <div class="form-group">
-                <label for="otp">Enter OTP:</label>
-                <input type="text" id="otp" name="otp" class="form-control" required maxlength="6" pattern="\d*" />
+                <label for="otp">Enter OTP Code:</label>
+                <input type="text" id="otp" name="otp" class="form-control" required maxlength="6" pattern="\d*" autocomplete="off" />
+                <div id="otpStatus" class="text-center mt-2">
+                    <span class="status-badge status-active">OTP Active</span>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Verify Email</button>
+            <button type="submit" id="verifyBtn" class="btn btn-primary">
+                <i class="fas fa-check-circle mr-2"></i> Verify Email
+            </button>
             <div class="form-group text-center">
                 <div id="otpTimer" class="otp-timer">
                     <span id="timerValue">60</span>
                 </div>
-                <button type="button" class="btn btn-secondary" onclick="resendOTP()">Resend OTP</button>
+                <button type="button" id="resendBtn" class="btn btn-secondary" onclick="resendOTP()" disabled>
+                    <i class="fas fa-sync-alt mr-2"></i> Resend OTP
+                </button>
             </div>
             <% if (locals.message && message.length > 0) { %>
             <div class="alert alert-danger"><%= message %></div>
@@ -162,16 +250,47 @@
 
     let timer = 60;
     let timerInterval;
+    let otpExpired = false;
+    const resendBtn = document.getElementById("resendBtn");
+    const verifyBtn = document.getElementById("verifyBtn");
+    const timerValue = document.getElementById("timerValue");
+    const otpTimer = document.getElementById("otpTimer");
+    const otpStatus = document.getElementById("otpStatus");
+    const otpInput = document.getElementById("otp");
 
     function startTimer() {
+        // Reset state
+        resendBtn.disabled = true;
+        otpExpired = false;
+        timer = 60;
+        timerValue.textContent = timer;
+        timerValue.classList.remove("expired");
+        timerValue.classList.remove("pulse");
+        otpInput.disabled = false;
+        verifyBtn.disabled = false;
+        
+        // Update the status badge
+        otpStatus.innerHTML = '<span class="status-badge status-active">OTP Active</span>';
+        
         timerInterval = setInterval(() => {
             timer--;
-            document.getElementById("timerValue").textContent = timer;
+            timerValue.textContent = timer;
+            
+            if (timer <= 10) {
+                timerValue.style.color = "#ef4444";
+            }
+            
             if (timer <= 0) {
                 clearInterval(timerInterval);
-                document.getElementById("timerValue").classList.add("expired");
-                document.getElementById("timerValue").textContent = "Expired";
-                document.getElementById("otp").disabled = true;
+                otpExpired = true;
+                timerValue.classList.add("expired");
+                timerValue.classList.add("pulse");
+                timerValue.textContent = "0";
+                resendBtn.disabled = false;
+                resendBtn.style.opacity = "1";
+                
+                // Update the status badge
+                otpStatus.innerHTML = '<span class="status-badge status-expired">OTP Expired</span>';
             }
         }, 1000);
     }
@@ -180,70 +299,115 @@
     $("#otpForm").on("submit", function(event) {
         event.preventDefault();  
 
-        const otpInput = document.getElementById("otp").value;
+        if (otpExpired) {
+            Swal.fire({
+                icon: "error",
+                title: "OTP Expired",
+                text: "Your OTP has expired. Please request a new one by clicking 'Resend OTP'."
+            });
+            return false;
+        }
+
+        const otpValue = otpInput.value;
+
+        // Show loading state
+        verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Verifying...';
+        verifyBtn.disabled = true;
 
         $.ajax({
             type: "POST",
             url: "/verify-otp",
-            data: { otp: otpInput },
+            data: { otp: otpValue },
             success: function(response) {
                 if (response.success) {
                     Swal.fire({
                         icon: "success",
                         title: "OTP Verified Successfully",
+                        text: "Redirecting to your account...",
                         showConfirmButton: false,
                         timer: 1500,
                     }).then(() => {
                         window.location.href = response.redirectUrl;
                     });
                 } else {
+                    verifyBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Verify Email';
+                    verifyBtn.disabled = false;
+                    
                     Swal.fire({
                         icon: "error",
-                        title: "Error",
-                        text: response.message
+                        title: "Verification Failed",
+                        text: response.message || "Invalid OTP code"
                     });
                 }
             },
-            error: function() {
+            error: function(xhr) {
+                verifyBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Verify Email';
+                verifyBtn.disabled = false;
+                
+                let errorMessage = "Please check your code and try again";
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+                
                 Swal.fire({
                     icon: "error",
-                    title: "Invalid OTP",
-                    text: "Please try again"
+                    title: "Verification Failed",
+                    text: errorMessage
                 });
             }
         });
         return false;
     });
 
-    function resendOTP(){
+    function resendOTP() {
         clearInterval(timerInterval);
-        timer=60;
-        document.getElementById("otp").disabled=false;
-        document.getElementById("timerValue").classList.remove("expired");
-        startTimer();
+        otpInput.value = "";
+        otpInput.focus();
+        
+        // Visual feedback that resend was clicked
+        resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+        resendBtn.disabled = true;
+        
         $.ajax({
-            type:"POST",
-            url:"/resend-otp",
-            success:function(response){
-                if(response.success){
+            type: "POST",
+            url: "/resend-otp",
+            success: function(response) {
+                setTimeout(() => {
+                    resendBtn.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Resend OTP';
+                    
+                    if(response.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "OTP Resent Successfully",
+                            text: "Please check your email for the new code",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        startTimer();
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "An error occurred while resending OTP. Please try again."
+                        });
+                        resendBtn.disabled = false;
+                    }
+                }, 1000);
+            },
+            error: function() {
+                setTimeout(() => {
+                    resendBtn.innerHTML = '<i class="fas fa-sync-alt mr-2"></i> Resend OTP';
                     Swal.fire({
-                        icon:"success",
-                        title:"OTP Resend Successfully",
-                        showConfirmButton:false,
-                        timer:1500
-                    })
-                }else{
-                    Swal.fire({
-                        icon:"error",
-                        title:"Error",
-                        text:"An error occured while resending OTP.Please try again"
-                    })
-                }
+                        icon: "error",
+                        title: "Server Error",
+                        text: "An error occurred while resending OTP. Please try again later."
+                    });
+                    resendBtn.disabled = false;
+                }, 1000);
             }
-        })
+        });
         return false;
     }
-
 </script>
 </body>
 </html>
