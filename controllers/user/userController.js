@@ -153,8 +153,18 @@ async function sendVerificationEmail(email,otp){
     }
 }
 
+// Add this new method to handle GET requests
+const getOtpPage = (req, res) => {
+    try {
+        res.render("verify-otp");
+    } catch (error) {
+        res.send("error")
+    }
+};
+
 const signup= async (req,res)=>{
     try {
+        
         const {name,email,phone,password,cPassword}=req.body;
         if(password !== cPassword){
             return res.render("userSignup",{message:"Password not match"});
@@ -181,7 +191,7 @@ const signup= async (req,res)=>{
         req.session.otpExpiry = expiryTime;
         req.session.userData = {name, email, phone, password};
 
-        res.render("verify-otp");
+        res.redirect("verify-otp");
         console.log("OTP Send", otp, "Expires at:", expiryTime);
 
     } catch (error) {
@@ -765,6 +775,7 @@ module.exports={
     pageNotFound,
     loadRegister,
     signup,
+    getOtpPage,
     verifyOtp,
     resendOtp,
     login,

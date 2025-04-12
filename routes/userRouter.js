@@ -34,7 +34,7 @@ router.get('/login',userAuthOut,userController.loadLogin)
 router.get("/register",userAuthOut,userController.loadRegister)
 
 router.post("/signup",userAuthOut,userController.signup)
-
+router.get("/verify-otp",userAuthOut,userController.getOtpPage)
 router.post("/verify-otp",userAuthOut,userController.verifyOtp)
 router.post("/resend-otp",userAuthOut,userController.resendOtp)
 
