@@ -54,6 +54,33 @@ const loadDashboard = async (req, res) => {
         let startDate = req.query.startDate;
         let endDate = req.query.endDate;
 
+
+        // Current date for validation
+const currentDate = new Date();
+currentDate.setHours(23, 59, 59, 999); // Set to end of today
+
+// Date validation for future dates
+let dateError = null;
+if (startDate || endDate) {
+    const selectedStartDate = startDate ? new Date(startDate) : null;
+    const selectedEndDate = endDate ? new Date(endDate) : null;
+    
+    // Check if either date is in the future
+    if (selectedStartDate && selectedStartDate > currentDate) {
+        dateError = "Start date cannot be in the future";
+    } 
+    // Add this check for start date after end date
+    else if (selectedStartDate && selectedEndDate && selectedStartDate > selectedEndDate) {
+        dateError = "End date must be after start date";
+    }
+    
+    // If there's a date error, clear the date filter
+    if (dateError) {
+        startDate = null;
+        endDate = null;
+    }
+}
+
         // Date-based filtering logic
         if (filterType) {
             // current date and time.
@@ -93,6 +120,14 @@ const loadDashboard = async (req, res) => {
             }
         }
 
+        // Custom date range filtering (only if no date error)
+if (startDate && endDate && !dateError) {
+    filterConditions.createdAt = {
+        $gte: new Date(startDate),
+        $lt: new Date(new Date(endDate).setDate(new Date(endDate).getDate() + 1))
+    };
+}
+
         // Custom date range filtering
         if (startDate && endDate) {
             filterConditions.createdAt = {
@@ -103,6 +138,7 @@ const loadDashboard = async (req, res) => {
                 $lt: new Date(new Date(endDate).setDate(new Date(endDate).getDate() + 1))
             };
         }
+        
 
         // Aggregate stats with filter conditions
         const stats = await Order.aggregate([
@@ -341,6 +377,7 @@ const loadDashboard = async (req, res) => {
             filter: filterType,
             startDate,
             endDate,
+            dateError: dateError, // Add this line
             // Fix chart data stringification - fix for the quotes and space issue in the script
             salesChartData: JSON.stringify(formattedSalesChartData),
             categoryChartData: JSON.stringify(formattedCategoryChartData),
