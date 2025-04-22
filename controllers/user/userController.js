@@ -342,6 +342,160 @@ const logout = async (req, res) => {
 
 
 
+// const getShopPage = async (req, res) => {
+//     try {
+//         const user = req.session.user;
+        
+//         // Pagination parameters
+//         const page = parseInt(req.query.page) || 1;
+//         const limit = 6;
+//         const skip = (page - 1) * limit;
+        
+//         const { 
+//             category = '', 
+//             sortBy = 'createdAt-desc', 
+//             minPrice = 0, 
+//             maxPrice = 1000000,
+//             q = ''
+//         } = req.query;
+
+//         // Get current date for offer validation
+//         const currentDate = new Date();
+
+//         // Fetch active offers
+//         const activeOffers = await Offer.find({
+//             status: 'active',
+//             validTill: { $gt: currentDate }
+//         });
+
+//         // Build base query
+//         const query = {
+//             isBlocked: false,
+//             regularPrice: { 
+//                 $gte: parseFloat(minPrice || 0), 
+//                 $lte: parseFloat(maxPrice || 1000000) 
+//             }
+//         };
+
+//         // Fetch categories
+//         const categories = await Category.find({ isListed: true });
+
+//         // Enhanced ordered search logic
+//         if (q.trim()) {
+//             const searchTerm = q.trim();
+//             const orderedPattern = searchTerm.split('').map(char => {
+//                 const escapedChar = char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+//                 return `${escapedChar}.*?`;
+//             }).join('');
+            
+//             query.productName = new RegExp(orderedPattern, 'i');
+//         }
+
+//         // Category filter
+//         if (category) {
+//             const selectedCategory = await Category.findOne({ name: category, isListed: true });
+//             if (selectedCategory) {
+//                 query.category = selectedCategory._id;
+//             }
+//         }
+
+//         // Sorting configuration
+//         const sortMapping = {
+//             'createdAt-desc': { createdAt: -1 },
+//             'price-asc': { regularPrice: 1 },
+//             'price-desc': { regularPrice: -1 },
+//             'name-asc': { productName: 1 },
+//             'name-desc': { productName: -1 }
+//         };
+//         const sort = sortMapping[sortBy] || { createdAt: -1 };
+
+//         // Get total count for pagination
+//         const totalProducts = await Product.countDocuments(query);
+//         const totalPages = Math.ceil(totalProducts / limit);
+
+//         // Fetch products
+//         let products = await Product.find(query)
+//             .populate('category')
+//             .sort(sort)
+//             .skip(skip)
+//             .limit(limit)
+//             .lean(); // Using lean() for better performance
+
+//         // Calculate best offer for each product
+//         products = products.map(product => {
+//             let bestDiscount = 0;
+
+//             // Check category offers
+//             const categoryOffers = activeOffers.filter(offer => 
+//                 offer.type === 'category' && 
+//                 offer.category.some(cat => cat.toString() === product.category._id.toString())
+//             );
+
+//             if (categoryOffers.length > 0) {
+//                 const maxCategoryDiscount = Math.max(...categoryOffers.map(o => o.discount));
+//                 bestDiscount = maxCategoryDiscount;
+//             }
+
+//             // Check product-specific offers
+//             const productOffers = activeOffers.filter(offer => 
+//                 offer.type === 'product' && 
+//                 offer.products.some(p => p.toString() === product._id.toString())
+//             );
+
+//             if (productOffers.length > 0) {
+//                 const maxProductDiscount = Math.max(...productOffers.map(o => o.discount));
+//                 bestDiscount = Math.max(bestDiscount, maxProductDiscount);
+//             }
+
+//             // Calculate discounted price if there's an active discount
+//             if (bestDiscount > 0) {
+//                 const discountAmount = (product.regularPrice * (bestDiscount/100));
+//                 product.discountedPrice = Math.round(product.regularPrice - discountAmount);
+//                 product.bestDiscount = bestDiscount;
+//             }
+
+//             return product;
+//         });
+
+//         // Prepare view data
+//         const viewData = {
+//             products,
+//             categories,
+//             selectedCategory: category,
+//             sortBy,
+//             minPrice: parseFloat(minPrice || 0),
+//             maxPrice: parseFloat(maxPrice || 1000000),
+//             searchQuery: q,
+//             currentPage: page,
+//             totalPages,
+//             hasNextPage: page < totalPages,
+//             hasPrevPage: page > 1,
+//             nextPage: page + 1,
+//             prevPage: page - 1,
+//             paginationUrl: (pageNum) => {
+//                 const params = new URLSearchParams(req.query);
+//                 params.set('page', pageNum);
+//                 return `?${params.toString()}`;
+//             }
+//         };
+
+//         if (user) {
+//             const userData = await User.findById(user);
+//             viewData.user = userData;
+//         }
+
+//         res.render("shop", viewData);
+
+//     } catch (error) {
+//         console.error("Shop page error:", error);
+//         res.status(500).send("Server error");
+        
+//     }
+// };
+
+
+
+
 const getShopPage = async (req, res) => {
     try {
         const user = req.session.user;
@@ -399,27 +553,41 @@ const getShopPage = async (req, res) => {
             }
         }
 
-        // Sorting configuration
-        const sortMapping = {
-            'createdAt-desc': { createdAt: -1 },
-            'price-asc': { regularPrice: 1 },
-            'price-desc': { regularPrice: -1 },
-            'name-asc': { productName: 1 },
-            'name-desc': { productName: -1 }
-        };
-        const sort = sortMapping[sortBy] || { createdAt: -1 };
-
         // Get total count for pagination
         const totalProducts = await Product.countDocuments(query);
         const totalPages = Math.ceil(totalProducts / limit);
 
-        // Fetch products
-        let products = await Product.find(query)
-            .populate('category')
-            .sort(sort)
-            .skip(skip)
-            .limit(limit)
-            .lean(); // Using lean() for better performance
+        // When sorting by price, we need all products to apply discounts first
+        const isPriceSorting = sortBy === 'price-asc' || sortBy === 'price-desc';
+        
+        // For non-price sorting, use the database sort
+        const sortMapping = {
+            'createdAt-desc': { createdAt: -1 },
+            'name-asc': { productName: 1 },
+            'name-desc': { productName: -1 }
+        };
+        
+        // Apply database-level sorting only for non-price sorts
+        const sort = !isPriceSorting ? (sortMapping[sortBy] || { createdAt: -1 }) : { createdAt: -1 };
+
+        // For price sorting, we'll fetch all products that match the filter criteria
+        // Otherwise, apply pagination at database level
+        let products;
+        if (isPriceSorting) {
+            // Fetch all matching products without pagination
+            products = await Product.find(query)
+                .populate('category')
+                .sort(sort)
+                .lean();
+        } else {
+            // Use standard pagination for non-price sorts
+            products = await Product.find(query)
+                .populate('category')
+                .sort(sort)
+                .skip(skip)
+                .limit(limit)
+                .lean();
+        }
 
         // Calculate best offer for each product
         products = products.map(product => {
@@ -452,10 +620,30 @@ const getShopPage = async (req, res) => {
                 const discountAmount = (product.regularPrice * (bestDiscount/100));
                 product.discountedPrice = Math.round(product.regularPrice - discountAmount);
                 product.bestDiscount = bestDiscount;
+            } else {
+                product.discountedPrice = product.regularPrice;
             }
 
+            // Always set an effective price for sorting
+            product.effectivePrice = product.discountedPrice || product.regularPrice;
+            
             return product;
         });
+
+        // For price sorting, sort in memory after discount calculation and apply pagination
+        if (isPriceSorting) {
+            // Sort by effective price
+            products.sort((a, b) => {
+                if (sortBy === 'price-asc') {
+                    return a.effectivePrice - b.effectivePrice;
+                } else {
+                    return b.effectivePrice - a.effectivePrice;
+                }
+            });
+            
+            // Apply pagination in memory
+            products = products.slice(skip, skip + limit);
+        }
 
         // Prepare view data
         const viewData = {
@@ -489,7 +677,6 @@ const getShopPage = async (req, res) => {
     } catch (error) {
         console.error("Shop page error:", error);
         res.status(500).send("Server error");
-        
     }
 };
 

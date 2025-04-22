@@ -1229,6 +1229,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+// document.addEventListener('DOMContentLoaded', function() {
+//     const orderForm = document.getElementById('orderForm');
+//     const walletRadio = document.getElementById('wallet');
+//     const razorPayRadio = document.getElementById('razorPay');
+
+//     // Add wallet balance check when wallet payment is selected
+//     walletRadio.addEventListener('change', async function() {
+//         if (this.checked) {
+//             try {
+//                 const response = await fetch('/check-wallet-balance');
+//                 const data = await response.json();
+                
+//                 const subtotal = parseFloat(document.querySelector('.summary-total td:last-child')
+//                     .textContent.replace('₹', ''));
+
+//                 if (data.balance < subtotal) {
+//                     alert(`Insufficient wallet balance. Your current balance is ₹${data.balance}`);
+//                     this.checked = false;
+//                 }
+//             } catch (error) {
+//                 console.error('Error checking wallet balance:', error);
+//                 this.checked = false;
+//                 alert('Error checking wallet balance');
+//             }
+//         }
+//     });
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const orderForm = document.getElementById('orderForm');
     const walletRadio = document.getElementById('wallet');
@@ -1238,6 +1268,12 @@ document.addEventListener('DOMContentLoaded', function() {
     walletRadio.addEventListener('change', async function() {
         if (this.checked) {
             try {
+                // Remove any existing wallet message first
+                const existingMessage = document.querySelector('.wallet-message');
+                if (existingMessage) {
+                    existingMessage.remove();
+                }
+                
                 const response = await fetch('/check-wallet-balance');
                 const data = await response.json();
                 
@@ -1245,16 +1281,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     .textContent.replace('₹', ''));
 
                 if (data.balance < subtotal) {
-                    alert(`Insufficient wallet balance. Your current balance is ₹${data.balance}`);
+                    // Create an error message instead of alert
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'text-danger mt-1 small wallet-message';
+                    messageElement.innerHTML = `Insufficient wallet balance. Your current balance is ₹${data.balance}`;
+                    
+                    // Insert message after the wallet label
+                    const walletLabel = document.querySelector('label[for="wallet"]');
+                    walletLabel.parentNode.appendChild(messageElement);
+                    
                     this.checked = false;
                 }
             } catch (error) {
                 console.error('Error checking wallet balance:', error);
                 this.checked = false;
-                alert('Error checking wallet balance');
+                
+                // Create an error message for the exception
+                const messageElement = document.createElement('div');
+                messageElement.className = 'text-danger mt-1 small wallet-message';
+                messageElement.innerHTML = 'Error checking wallet balance';
+                
+                // Insert message after the wallet label
+                const walletLabel = document.querySelector('label[for="wallet"]');
+                walletLabel.parentNode.appendChild(messageElement);
+            }
+        } else {
+            // Remove the wallet message when unchecked
+            const existingMessage = document.querySelector('.wallet-message');
+            if (existingMessage) {
+                existingMessage.remove();
             }
         }
     });
+
+
 
     // Update the form submit handler to include wallet payment
     orderForm.addEventListener('submit', async function(event) {
