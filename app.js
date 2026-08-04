@@ -4,7 +4,7 @@ const session=require("express-session");
 const app=express();
 const path=require("path");
 const passport=require("./config/passport")
-let port=process.env.PORT 
+let port=process.env.PORT || 3000;
 const db=require("./config/db");
 const mongoose = require("mongoose"); // Add this import if it's not already in your db.js
 const userRouter=require("./routes/userRouter");
@@ -61,3 +61,5 @@ app.use('/admin/*', (req, res) => {
 app.listen(port,()=>{
     console.log(`Server is Running at http://localhost:${port}`);
 })
+
+module.exports = app;
